@@ -70,6 +70,14 @@ namespace Panda_Player.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
+
+        //[Required]
+        //[Display(Name = "User Name")]
+        //public string UserName { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
