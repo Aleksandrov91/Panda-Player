@@ -22,3 +22,27 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*Set social media icons opacity*/
+    .social-icon {
+        opacity: 0.7;
+        width: 30px;
+    }
+
+        .social-icon :hover {
+            opacity: 1 !important;
+            width: 35px !important;
+        }
+
+.menu {
+    opacity: 1;
+    list-style: none;
+}
+.menu.social-icon {
+    
+    list-style-type: none;
+    display: inline;
+    width: auto;
+    float: left;
+    display: flex;
+}
