@@ -16,7 +16,7 @@ namespace Panda_Player.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Song> Songs { get; set; }
-        public DbSet<Playlist> Playlists { get; set; }
+        public virtual DbSet<Song> Songs { get; set; }
+        public virtual DbSet<Playlist> Playlists { get; set; }
     }
 }

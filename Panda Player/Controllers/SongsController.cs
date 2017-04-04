@@ -20,7 +20,7 @@ namespace Panda_Player.Controllers
         public ActionResult Index()
         {
             var currentUser = this.User.Identity.GetUserId();
-            var userSongs = db.Songs.Where(s => s.UploaderId == currentUser).ToList();
+            var userSongs = db.Songs.Where(s => s.Uploader.Id == currentUser).Include(u => u.Uploader).ToList();
 
             return View(userSongs);
         }
@@ -54,31 +54,44 @@ namespace Panda_Player.Controllers
         {
             if (ModelState.IsValid && file != null)
             {
-                if (file.ContentType == "audio/mpeg" || file.ContentType == "audio/wav")
+                var validMimeTypes = new[]
                 {
-                    var curentUser = this.User.Identity.GetUserId();
+                    "audio/mpeg",
+                    "audio/mp3",
+                    "audio/wav",
+                    "audio/flac",
+                    "audio/wv"
+                };
+
+                if (validMimeTypes.Contains(file.ContentType))
+                {
+                    var currentUser = this.User.Identity.GetUserId();
                     var songsPath = "~/Uploads/";
                     var mappedPath = HttpContext.Server.MapPath(songsPath);
-                    var fileName = Path.GetFileName(file.FileName);
-                    var hash = curentUser.Substring(0, 6);
+                    var uploadFilename = Path.GetFileName(file.FileName);
+                    var hash = currentUser.Substring(0, 6);
+
+                    var filename = hash + "_" + uploadFilename;
+
+                    var absoluteFilePath = mappedPath + filename;
 
                     var currentSong = new Song
                     {
-                        Author = song.Author,
-                        Name = song.Name,
+                        Artist = song.Artist,
+                        Title = song.Title,
                         Description = song.Description,
-                        UploaderId = curentUser,
-                        SongPath = mappedPath + hash + "_" + fileName,
+                        UploaderId = currentUser,
+                        SongPath = $"/Uploads/{filename}",
                         UploadDate = DateTime.Now
                     };
 
-                    file.SaveAs(mappedPath + fileName);
+                    file.SaveAs(absoluteFilePath);
 
                     db.Songs.Add(currentSong);
                     db.SaveChanges();
 
                     return RedirectToAction("Index");
-                }                
+                }
 
                 ViewBag.Error = "The File must be only mp3 or wav";
                 return View(song);
@@ -138,9 +151,25 @@ namespace Panda_Player.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            string uploadDir = Server.MapPath("~/");
             Song song = db.Songs.Find(id);
+
+            string songPath = song.SongPath;
+
+            if (songPath == null)
+            {
+                ViewBag.Error = "Error";
+                return View(song);
+            }
+
+            var filename = songPath;
+
+            var absolutePath = uploadDir + filename;
+
+            System.IO.File.Delete(absolutePath);
             db.Songs.Remove(song);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

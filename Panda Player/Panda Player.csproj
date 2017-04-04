@@ -195,9 +195,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Identity\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="Models\Identity\ExternalLoginListViewModel.cs" />
+    <Compile Include="Models\Identity\ForgotPasswordViewModel.cs" />
+    <Compile Include="Models\Identity\ForgotViewModel.cs" />
+    <Compile Include="Models\Identity\LoginViewModel.cs" />
+    <Compile Include="Models\Identity\RegisterViewModel.cs" />
+    <Compile Include="Models\Identity\ResetPasswordViewModel.cs" />
+    <Compile Include="Models\Identity\SendCodeViewModel.cs" />
+    <Compile Include="Models\Identity\VerifyCodeViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PandaPlayer\Playlist.cs" />
     <Compile Include="Models\PandaPlayer\Song.cs" />

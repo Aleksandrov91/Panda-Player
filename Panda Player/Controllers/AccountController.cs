@@ -6,8 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Panda_Player.Models;
-using System.Collections.Generic;
-using Panda_Player.Models.PandaPlayer;
+using Panda_Player.Models.Identity;
 
 namespace Panda_Player.Controllers
 {

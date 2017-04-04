@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Panda_Player.Models.PandaPlayer
 {
@@ -10,7 +7,8 @@ namespace Panda_Player.Models.PandaPlayer
     {
         public Playlist()
         {
-            Users = new HashSet<ApplicationUser>();
+            this.Listeners = new HashSet<ApplicationUser>();
+            this.Songs = new List<Song>();
         }
         
         [Key]
@@ -22,6 +20,10 @@ namespace Panda_Player.Models.PandaPlayer
         [Required]
         public bool IsPublic { get; set; }
 
-        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public ApplicationUser Author { get; set; }
+
+        public virtual ICollection<ApplicationUser> Listeners { get; set; }
+
+        public virtual ICollection<Song> Songs { get; set; }
     }
 }
