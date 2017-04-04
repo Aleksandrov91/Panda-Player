@@ -94,11 +94,6 @@ hr {
        box-sizing: content-box;
 }
 
-mark {
-  color: #000;
-  background: #ff0;
-}
-
 code,
 kbd,
 pre,
@@ -6813,4 +6808,23 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+
+    /*Set social media icons opacity*/
+    .social-icon {
+        opacity: 0.7;
+    }
+
+        .social-icon :hover {
+            opacity: 1 !important;
+        }
+
+.menu {
+    opacity: 1;
+    list-style-type: none;
+    display: inline;
+    width: auto;
+    float: left;
+    display: flex;
+    list-style: none;
 }
