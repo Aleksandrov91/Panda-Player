@@ -1,11 +1,8 @@
 ﻿@model Panda_Player.Models.PandaPlayer.Song
 
 @{
-    ViewBag.Title = "Upload Song";
+    ViewBag.Title = "Upload a song";
 }
-
-<h2>Upload</h2>
-
 
 @using (Html.BeginForm("Upload", "Songs", null, FormMethod.Post,
                             new { enctype = "multipart/form-data" }))
@@ -14,7 +11,7 @@
     @Html.ValidationSummary(true)
 
     <div class="form-horizontal">
-        <h4>Song</h4>
+        <h2>Upload a song</h2>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

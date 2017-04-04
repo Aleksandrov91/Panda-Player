@@ -94,11 +94,6 @@ hr {
        box-sizing: content-box;
 }
 
-mark {
-  color: #000;
-  background: #ff0;
-}
-
 code,
 kbd,
 pre,
@@ -6814,3 +6809,5 @@ td.visible-print {
     display: none !important;
   }
 }
+
+    
