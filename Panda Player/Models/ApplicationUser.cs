@@ -14,12 +14,15 @@ namespace Panda_Player.Models
         public ApplicationUser()
         {
             UploadedSongs = new HashSet<Song>();
+            Playlists = new HashSet<Playlist>();
         }
 
         [Required]
         public string FullName { get; set; }
 
         public virtual ICollection<Song> UploadedSongs { get; set; }
+
+        public virtual ICollection<Playlist> Playlists { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

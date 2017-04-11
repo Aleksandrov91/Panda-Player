@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Panda_Player.Models.PandaPlayer
 {
     public class Song
     {
+        public Song()
+        {
+            this.Playlists = new HashSet<Playlist>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -21,7 +27,7 @@ namespace Panda_Player.Models.PandaPlayer
 
         public string SongPath { get; set; }
 
-        public Playlist Playlist { get; set; }
+        public ICollection<Playlist> Playlists { get; set; }
 
         [Required]
         public DateTime UploadDate { get; set; }

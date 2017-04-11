@@ -6,8 +6,8 @@ using Panda_Player.Models;
 using Panda_Player.Models.PandaPlayer;
 using System.Web;
 using System;
-using System.IO;
 using Microsoft.AspNet.Identity;
+using Panda_Player.Extensions;
 
 namespace Panda_Player.Controllers
 {
@@ -17,10 +17,14 @@ namespace Panda_Player.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Songs
-        public ActionResult Index()
+        public ActionResult MySongs()
         {
             var currentUser = this.User.Identity.GetUserId();
             var userSongs = db.Songs.Where(s => s.Uploader.Id == currentUser).Include(u => u.Uploader).ToList();
+
+            var playlists = db.Playlists.Where(a => a.Author.Id == currentUser).ToList();
+
+            ViewBag.Playlists = playlists;
 
             return View(userSongs);
         }
@@ -54,7 +58,7 @@ namespace Panda_Player.Controllers
         {
             if (ModelState.IsValid && file != null)
             {
-                var validMimeTypes = new[]
+                var validTypes = new[]
                 {
                     "audio/mpeg",
                     "audio/mp3",
@@ -63,15 +67,15 @@ namespace Panda_Player.Controllers
                     "audio/wv"
                 };
 
-                if (validMimeTypes.Contains(file.ContentType))
+                if (validTypes.Contains(file.ContentType))
                 {
                     var currentUser = this.User.Identity.GetUserId();
                     var songsPath = "~/Uploads/";
                     var mappedPath = HttpContext.Server.MapPath(songsPath);
-                    var uploadFilename = Path.GetFileName(file.FileName);
+                    //var uploadFilename = Path.GetFileName(file.FileName);
                     var hash = currentUser.Substring(0, 6);
 
-                    var filename = hash + "_" + uploadFilename;
+                    var filename = hash + "_" + file.FileName;
 
                     var absoluteFilePath = mappedPath + filename;
 
@@ -90,10 +94,11 @@ namespace Panda_Player.Controllers
                     db.Songs.Add(currentSong);
                     db.SaveChanges();
 
-                    return RedirectToAction("Index");
+                    this.AddNotification("The song has been upload successfully.", NotificationType.SUCCESS);
+                    return RedirectToAction("Index", "Home");
                 }
 
-                ViewBag.Error = "The File must be only mp3 or wav";
+                this.AddNotification("The File must be only mp3 or wav.", NotificationType.ERROR);
                 return View(song);
             }
 
@@ -120,15 +125,21 @@ namespace Panda_Player.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,SongPath,Date")] Song song)
+        public ActionResult Edit(Song song)
         {
-            if (ModelState.IsValid)
+            var currentSong = db.Songs.FirstOrDefault(s => s.Id == song.Id);
+            if (currentSong == null)
             {
-                db.Entry(song).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return HttpNotFound();
             }
-            return View(song);
+
+            currentSong.Artist = song.Artist;
+            currentSong.Title = song.Title;
+            currentSong.Description = song.Description;
+
+            db.SaveChanges();
+
+            return RedirectToAction($"Details/{currentSong.Id}");
         }
 
         // GET: Songs/Delete/5
@@ -162,15 +173,25 @@ namespace Panda_Player.Controllers
                 return View(song);
             }
 
-            var filename = songPath;
-
-            var absolutePath = uploadDir + filename;
+            var absolutePath = uploadDir + songPath;
 
             System.IO.File.Delete(absolutePath);
             db.Songs.Remove(song);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult AddSongToPlaylist(int songId, int playlistId)
+        {
+            var playlist = db.Playlists.Find(playlistId);
+            var song = db.Songs.Find(songId);
+
+            playlist.Songs.Add(song);
+
+            db.SaveChanges();
+
+            return RedirectToAction("MySongs");
         }
 
         protected override void Dispose(bool disposing)

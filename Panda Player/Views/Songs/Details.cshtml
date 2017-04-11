@@ -39,15 +39,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UploadDate)
+            @Html.DisplayFor(model => model.UploadDate.Date)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UploaderId)
+            @Html.DisplayNameFor(model => model.Uploader)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UploaderId)
+            @Html.DisplayFor(model => model.Uploader.FullName)
         </dd>
 
     </dl>

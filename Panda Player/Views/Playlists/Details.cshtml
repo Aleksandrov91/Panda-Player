@@ -1,0 +1,45 @@
+﻿@model Panda_Player.Models.PandaPlayer.Playlist
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Playlist</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaylistName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaylistName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPublic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPublic)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Songs)
+        </dt>        
+    </dl>
+    <div>
+        <ul>
+            @foreach (var song in Model.Songs)
+            {
+                <li>@song.Artist - @song.Title</li>  @Html.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { song.Id })
+            }
+        </ul>
+    </div>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

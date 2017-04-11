@@ -11,7 +11,7 @@ namespace Panda_Player.Controllers
         public ActionResult Index()
         {
 
-            var lastSongs = db.Songs.OrderByDescending(s => s.UploadDate).Take(3);
+            var lastSongs = db.Songs.OrderByDescending(s => s.UploadDate).Take(3).ToList();
             return View(lastSongs);
         }
     }

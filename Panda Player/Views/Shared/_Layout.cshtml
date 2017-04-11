@@ -25,7 +25,8 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>
-                        <li>@Html.ActionLink("My Song", "Index", "Songs")</li>
+                        <li>@Html.ActionLink("My Song", "MySongs", "Songs")</li>
+                        <li>@Html.ActionLink("My Playlists", "Index", "Playlists")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -33,6 +34,7 @@
         </div>
     </div>
     <div class="container body-content">
+        @Html.Partial("_Notifications")
         @RenderBody()
         <hr />
         <footer>

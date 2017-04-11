@@ -2,12 +2,13 @@
 
 @{
     ViewBag.Title = "Index";
+    var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Upload")
 </p>
 <table class="table">
     <tr>
@@ -18,13 +19,16 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.SongPath)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.UploadDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Uploader.FullName)
+            @Html.DisplayNameFor(model => model.Uploader)
         </th>
         <th></th>
     </tr>
@@ -39,6 +43,9 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
                 @*@Html.DisplayFor(modelItem => item.SongPath)*@
                 <audio src="@item.SongPath" controls></audio>
             </td>
@@ -51,7 +58,21 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Add to playlist
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var playlist in playlists)
+                        {
+                            <li>@Html.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = item.Id, playlistId = playlist.Id }, null)</li>
+                        }
+                        <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
+                    </ul>
+
+                </div>
             </td>
         </tr>
     }

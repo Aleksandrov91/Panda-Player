@@ -7,8 +7,7 @@ namespace Panda_Player.Models.PandaPlayer
     {
         public Playlist()
         {
-            this.Listeners = new HashSet<ApplicationUser>();
-            this.Songs = new List<Song>();
+            this.Songs = new HashSet<Song>();
         }
         
         [Key]
@@ -20,10 +19,8 @@ namespace Panda_Player.Models.PandaPlayer
         [Required]
         public bool IsPublic { get; set; }
 
+        public ICollection<Song> Songs { get; set; }
+
         public ApplicationUser Author { get; set; }
-
-        public virtual ICollection<ApplicationUser> Listeners { get; set; }
-
-        public virtual ICollection<Song> Songs { get; set; }
     }
 }
