@@ -22,20 +22,11 @@
                     @Html.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </a>
             </div>
-<<<<<<< HEAD
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>
-                        <li>@Html.ActionLink("My Song", "MySongs", "Songs")</li>
-                        <li>@Html.ActionLink("My Playlists", "Index", "Playlists")</li>
-                    }
                 </ul>
-=======
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
->>>>>>> 74fc8b26c034e1cbf733c32c0c8366a2395bd3cc
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
