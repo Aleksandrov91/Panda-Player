@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Panda_Player.Models.PandaPlayer.Song>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "My Songs";
     var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
 }
 
-<h2>Index</h2>
+<h2>My Songs</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Upload")
+    @Html.ActionLink("Upload New Song", "Upload")
 </p>
 <table class="table">
     <tr>
@@ -58,7 +58,12 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                @Html.Hidden("item-to-delete", "", new { @id = item.Id })
+                @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.Id)">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                         Add to playlist
@@ -71,10 +76,58 @@
                         }
                         <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
                     </ul>
-
                 </div>
             </td>
         </tr>
     }
 
 </table>
+
+<input type="hidden" id="hiddenSongId" />
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Delete Song</h3>
+
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure? </h4>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-danger" onclick="DeleteSong()">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ConfirmDelete = function (id) {
+
+        $("#hiddenSongId").val(id);
+        $("#myModal").modal('show');
+    }
+
+    var DeleteSong = function () {
+
+        var sId = $("#hiddenSongId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Songs/DeleteConfirmed",
+            data: { id : sId },
+            success: function (result) {
+                $("#loaderDiv").hide();
+                $("#myModal").modal("hide");
+                if (result) {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+</script>

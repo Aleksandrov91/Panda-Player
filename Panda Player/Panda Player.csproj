@@ -233,6 +233,8 @@
     <Content Include="Content\Images\Logos\instagram_icon.png" />
     <Content Include="Content\Images\Logos\linkedin_icon.png" />
     <Content Include="Content\Images\Logos\twitter_icon.png" />
+    <Content Include="Content\Player\player.js" />
+    <Content Include="Content\Player\wavesurfer.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -295,7 +297,6 @@
     <Content Include="Views\Playlists\Details.cshtml" />
     <Content Include="Views\Playlists\Edit.cshtml" />
     <Content Include="Views\Playlists\Index.cshtml" />
-    <Content Include="Views\Playlists\AddSongs.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -34,12 +34,14 @@ namespace Panda_Player.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
             }
             Song song = db.Songs.Find(id);
             if (song == null)
             {
-                return HttpNotFound();
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
             }
             return View(song);
         }
@@ -102,6 +104,7 @@ namespace Panda_Player.Controllers
                 return View(song);
             }
 
+            this.AddNotification("The file cannot be null", NotificationType.ERROR);
             return View(song);
         }
 
@@ -110,12 +113,14 @@ namespace Panda_Player.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
             }
             Song song = db.Songs.Find(id);
             if (song == null)
             {
-                return HttpNotFound();
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
             }
             return View(song);
         }
@@ -130,7 +135,8 @@ namespace Panda_Player.Controllers
             var currentSong = db.Songs.FirstOrDefault(s => s.Id == song.Id);
             if (currentSong == null)
             {
-                return HttpNotFound();
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
             }
 
             currentSong.Artist = song.Artist;
@@ -139,6 +145,7 @@ namespace Panda_Player.Controllers
 
             db.SaveChanges();
 
+            this.AddNotification("The Song has been updated successfully.", NotificationType.SUCCESS);
             return RedirectToAction($"Details/{currentSong.Id}");
         }
 
@@ -147,39 +154,38 @@ namespace Panda_Player.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
             }
             Song song = db.Songs.Find(id);
             if (song == null)
             {
-                return HttpNotFound();
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
             }
             return View(song);
         }
 
         // POST: Songs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
         public ActionResult DeleteConfirmed(int id)
         {
+            var result = false;
+            
             string uploadDir = Server.MapPath("~/");
             Song song = db.Songs.Find(id);
 
             string songPath = song.SongPath;
-
-            if (songPath == null)
-            {
-                ViewBag.Error = "Error";
-                return View(song);
-            }
 
             var absolutePath = uploadDir + songPath;
 
             System.IO.File.Delete(absolutePath);
             db.Songs.Remove(song);
             db.SaveChanges();
+            result = true;
 
-            return RedirectToAction("Index", "Home");
+            this.AddNotification("Song has been deleted successfully.", NotificationType.SUCCESS);
+            return Json(new { Success = true });
         }
 
         public ActionResult AddSongToPlaylist(int songId, int playlistId)
@@ -191,6 +197,7 @@ namespace Panda_Player.Controllers
 
             db.SaveChanges();
 
+            this.AddNotification($"Song has been added to {playlist.PlaylistName} Playlist.", NotificationType.SUCCESS);
             return RedirectToAction("MySongs");
         }
 

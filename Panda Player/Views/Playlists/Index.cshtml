@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Panda_Player.Models.PandaPlayer.Playlist>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "My Playlists";
 }
 
-<h2>Index</h2>
+<h2>My Playlists</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -31,10 +31,61 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            @Html.ActionLink("Add Songs", "AddSongs", new { id=item.Id })
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.Id)">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>
         </td>
     </tr>
 }
 
 </table>
+
+<input type="hidden" id="hiddenPlaylistId" />
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Delete Playlist</h3>
+
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure? </h4>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-danger" onclick="DeletePlaylist()">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ConfirmDelete = function (playlistId) {
+
+        $("#hiddenPlaylistId").val(playlistId);
+        $("#myModal").modal('show');
+    }
+
+    var DeletePlaylist = function () {
+
+        var id = $("#hiddenPlaylistId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Playlists/DeleteConfirmed",
+            data: { id : id },
+            success: function (result) {
+                $("#loaderDiv").hide();
+                $("#myModal").modal("hide");
+                if (result) {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+</script>

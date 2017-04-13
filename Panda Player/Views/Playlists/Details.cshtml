@@ -33,7 +33,7 @@
         <ul>
             @foreach (var song in Model.Songs)
             {
-                <li>@song.Artist - @song.Title</li>  @Html.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { song.Id })
+                <li>@song.Artist - @song.Title</li>  @Html.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { songId = song.Id, playlistId = Model.Id })
             }
         </ul>
     </div>

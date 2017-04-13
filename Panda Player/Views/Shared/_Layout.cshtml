@@ -6,7 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-     
+    <script src="/Content/Player/wavesurfer.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default" style="margin-top:-50px">
@@ -30,9 +30,18 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </nav>
+    </nav>   
     <div class="container body-content">
         @Html.Partial("_Notifications")
+        <div id="waveform">
+            <button class="btn btn-primary" onclick="wavesurfer.playPause()">
+                <i class="fa fa-play"></i>
+                Play
+                /
+                <i class="fa fa-pause"></i>
+                Pause
+            </button>
+        </div>
         @RenderBody()
         <hr />
         <footer>
@@ -94,6 +103,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="/Content/Player/player.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

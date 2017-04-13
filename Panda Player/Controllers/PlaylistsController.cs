@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Panda_Player.Models;
 using Panda_Player.Models.PandaPlayer;
 using Microsoft.AspNet.Identity;
+using Panda_Player.Extensions;
 
 namespace Panda_Player.Controllers
 {
@@ -111,35 +112,27 @@ namespace Panda_Player.Controllers
         }
 
         // POST: Playlists/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
         public ActionResult DeleteConfirmed(int id)
         {
+            var result = false;
             Playlist playlist = db.Playlists.Find(id);
             db.Playlists.Remove(playlist);
             db.SaveChanges();
+            result = true;
+
+            this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
+            return Json(new { Success = true });
+        }
+
+        public ActionResult DeleteFromPlaylist(int songId, int playlistId)
+        {
+            var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);
+            var song = playlist.Songs.FirstOrDefault(s => s.Id == songId);
+            playlist.Songs.Remove(song);
+            db.SaveChanges();
+            
             return RedirectToAction("Index");
-        }
-
-        public ActionResult AddSongs(int? id)
-        {
-            var songs = db.Songs.OrderByDescending(s => s.UploadDate).ToList();
-            return View(songs);
-        }
-
-        [HttpPost]
-        public ActionResult AddSongs()
-        {
-            //int playlistId = playlist.Id;
-
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult DeleteFromPlaylist(int id)
-        {
-
-            return View();
         }
 
         protected override void Dispose(bool disposing)
