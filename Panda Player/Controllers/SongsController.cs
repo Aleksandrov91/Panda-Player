@@ -109,6 +109,7 @@ namespace Panda_Player.Controllers
         }
 
         // GET: Songs/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -116,7 +117,14 @@ namespace Panda_Player.Controllers
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
                 return RedirectToAction("MySongs");
             }
+
             Song song = db.Songs.Find(id);
+
+            if (!IsAuthorizedToOperate(song))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             if (song == null)
             {
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
@@ -158,6 +166,12 @@ namespace Panda_Player.Controllers
                 return RedirectToAction("MySongs");
             }
             Song song = db.Songs.Find(id);
+
+            if (!IsAuthorizedToOperate(song))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             if (song == null)
             {
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
@@ -208,6 +222,14 @@ namespace Panda_Player.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool IsAuthorizedToOperate(Song song)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isUploader = song.IsUploader(this.User.Identity.Name);
+
+            return isAdmin || isUploader;
         }
     }
 }

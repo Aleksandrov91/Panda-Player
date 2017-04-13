@@ -36,5 +36,9 @@ namespace Panda_Player.Models.PandaPlayer
 
         public virtual ApplicationUser Uploader { get; set; }
 
+        public bool IsUploader(string name)
+        {
+            return this.Uploader.UserName.Equals(name);
+        }
     }
 }

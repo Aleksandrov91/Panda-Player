@@ -11,6 +11,8 @@ namespace Panda_Player.Models
         {
         }
 
+        
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
