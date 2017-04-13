@@ -1,0 +1,38 @@
+﻿@model ICollection<Panda_Player.Models.Identity.UserDetailsViewModel>
+
+@{
+    ViewBag.Title = "User List";
+}
+
+<h2>User List</h2>
+
+<table class="table">
+    <tr>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        
+        <tr>
+            <td>
+                @Html.DisplayFor(u => user.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(u => user.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(u => user.Roles)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { Id = user.Id }) |
+                @Html.ActionLink("Details", "Details", new { Id = user.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = user.Id })
+            </td>
+        </tr>
+    }
+
+</table>
