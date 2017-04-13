@@ -45,6 +45,7 @@ namespace Panda_Player.Controllers
         }
 
         // GET: Songs/Upload
+        [Authorize]
         public ActionResult Upload()
         {
             return View();
@@ -54,6 +55,7 @@ namespace Panda_Player.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         public ActionResult Upload(Song song, HttpPostedFileBase file)
         {
             if (ModelState.IsValid && file != null)
@@ -106,13 +108,21 @@ namespace Panda_Player.Controllers
         }
 
         // GET: Songs/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Song song = db.Songs.Find(id);
+
+            if (!IsAuthorizedToOperate(song))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             if (song == null)
             {
                 return HttpNotFound();
@@ -124,6 +134,7 @@ namespace Panda_Player.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Song song)
         {
@@ -143,6 +154,7 @@ namespace Panda_Player.Controllers
         }
 
         // GET: Songs/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -150,6 +162,12 @@ namespace Panda_Player.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Song song = db.Songs.Find(id);
+
+            if (!IsAuthorizedToOperate(song))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             if (song == null)
             {
                 return HttpNotFound();
@@ -158,6 +176,7 @@ namespace Panda_Player.Controllers
         }
 
         // POST: Songs/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -182,6 +201,7 @@ namespace Panda_Player.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public ActionResult AddSongToPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Find(playlistId);
@@ -201,6 +221,14 @@ namespace Panda_Player.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool IsAuthorizedToOperate(Song song)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isUploader = song.IsUploader(this.User.Identity.Name);
+
+            return isAdmin || isUploader;
         }
     }
 }

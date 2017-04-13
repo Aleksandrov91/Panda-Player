@@ -189,6 +189,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PlaylistsController.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Models\Identity\RegisterViewModel.cs" />
     <Compile Include="Models\Identity\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Identity\SendCodeViewModel.cs" />
+    <Compile Include="Models\Identity\UserDetailsViewModel.cs" />
     <Compile Include="Models\Identity\VerifyCodeViewModel.cs" />
     <Compile Include="Models\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="Models\Manage\ChangePasswordViewModel.cs" />
@@ -297,6 +299,7 @@
     <Content Include="Views\Playlists\Index.cshtml" />
     <Content Include="Views\Playlists\AddSongs.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
