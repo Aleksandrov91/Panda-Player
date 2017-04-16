@@ -238,6 +238,7 @@
     <Content Include="Content\Player\player.js" />
     <Content Include="Content\Player\wavesurfer.min.js" />
     <Content Include="favicon.ico" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -290,17 +291,16 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Songs\Upload.cshtml" />
-    <Content Include="Views\Songs\Delete.cshtml" />
     <Content Include="Views\Songs\Details.cshtml" />
     <Content Include="Views\Songs\Edit.cshtml" />
     <Content Include="Views\Songs\MySongs.cshtml" />
     <Content Include="Views\Playlists\Create.cshtml" />
-    <Content Include="Views\Playlists\Delete.cshtml" />
     <Content Include="Views\Playlists\Details.cshtml" />
     <Content Include="Views\Playlists\Edit.cshtml" />
     <Content Include="Views\Playlists\Index.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
     <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\Shared\Player.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

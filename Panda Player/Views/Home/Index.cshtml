@@ -2,6 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
+@Html.Partial("Player")
 
 <h2 class="playlists">Playlists</h2>
 
@@ -12,6 +13,7 @@
         <div class="col-md-4">
             <a href="~/Playlists/Details/@playlist.Id">
                 <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;">
+                    <h4>@playlist.PlaylistName</h4>
             </a>
         </div>
     }
@@ -23,8 +25,9 @@
     {
 
         <div class="col-md-4">
-            <a href="~/Songs/Details/@song.Id">
+            <a href="#" onclick="wavesurfer.load('@song.SongPath')">
                 <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;">
+                <h4>@song.Artist - @song.Title</h4>
             </a>
         </div>
     }

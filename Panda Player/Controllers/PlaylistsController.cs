@@ -6,6 +6,7 @@ using Panda_Player.Models;
 using Panda_Player.Models.PandaPlayer;
 using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
+using System;
 
 namespace Panda_Player.Controllers
 {
@@ -56,6 +57,7 @@ namespace Panda_Player.Controllers
                 var author = db.Users.Find(authorId);
 
                 playlist.Author = author;
+                playlist.DateCreated = DateTime.Now;
 
                 db.Playlists.Add(playlist);
                 db.SaveChanges();

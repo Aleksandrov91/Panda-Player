@@ -8,6 +8,7 @@ using System.Web;
 using System;
 using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
+using System.IO;
 
 namespace Panda_Player.Controllers
 {
@@ -74,12 +75,13 @@ namespace Panda_Player.Controllers
                     var currentUser = this.User.Identity.GetUserId();
                     var songsPath = "~/Uploads/";
                     var mappedPath = HttpContext.Server.MapPath(songsPath);
-                    //var uploadFilename = Path.GetFileName(file.FileName);
-                    var hash = currentUser.Substring(0, 6);
+                    var uploadFilename = Path.GetFileName(file.FileName);
+                    var randomHash = Guid.NewGuid().ToString().Substring(0, 6);
 
-                    var filename = hash + "_" + file.FileName;
+                    var fileName = randomHash + "_" + uploadFilename;
 
-                    var absoluteFilePath = mappedPath + filename;
+
+                    var absoluteFilePath = mappedPath + fileName;
 
                     var currentSong = new Song
                     {
@@ -87,7 +89,7 @@ namespace Panda_Player.Controllers
                         Title = song.Title,
                         Description = song.Description,
                         UploaderId = currentUser,
-                        SongPath = $"/Uploads/{filename}",
+                        SongPath = $"/Uploads/{fileName}",
                         UploadDate = DateTime.Now
                     };
 

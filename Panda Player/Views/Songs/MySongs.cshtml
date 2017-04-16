@@ -5,6 +5,8 @@
     var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
 }
 
+@Html.Partial("Player")
+
 <h2>My Songs</h2>
 
 <p>
@@ -60,7 +62,7 @@
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.Hidden("item-to-delete", "", new { @id = item.Id })
                 @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
-                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.Id)">
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.Id)" data-item-description="@item.Title">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
 
@@ -78,7 +80,7 @@
                     </ul>
                 </div>
             </td>
-        </tr>
+        </tr>        
     }
 
 </table>
@@ -95,7 +97,7 @@
 
             </div>
             <div class="modal-body">
-                <h4>Are you sure? </h4>
+                Are you sure you want to delete:<span class="description"></span>-<span class="title"></span>
             </div>
 
             <div class="modal-footer">

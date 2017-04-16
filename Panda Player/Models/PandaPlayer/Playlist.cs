@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Panda_Player.Models.PandaPlayer
@@ -18,6 +19,9 @@ namespace Panda_Player.Models.PandaPlayer
 
         [Required]
         public bool IsPublic { get; set; }
+
+        [Required]
+        public DateTime DateCreated { get; set; }
 
         public ICollection<Song> Songs { get; set; }
 
