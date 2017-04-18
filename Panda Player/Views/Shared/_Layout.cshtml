@@ -23,15 +23,13 @@
                     @Html.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 @Html.Partial("_LoginPartial")
             </div>
-        </div>
-    </nav>   
+                
+
+            </div>
+            </nav>   
     <div class="container body-content">
         @Html.Partial("_Notifications")
         @RenderBody()
