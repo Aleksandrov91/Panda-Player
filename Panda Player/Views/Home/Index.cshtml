@@ -26,7 +26,6 @@
 <div class="row">
     @foreach (var song in ViewBag.Songs)
     {
-
         <div class="col-md-4">
             <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
                 <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;">
