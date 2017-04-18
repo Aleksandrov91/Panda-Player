@@ -125,14 +125,16 @@ namespace Panda_Player.Controllers
             return Json(new { Success = true });
         }
 
+        
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);
             var song = playlist.Songs.FirstOrDefault(s => s.Id == songId);
             playlist.Songs.Remove(song);
             db.SaveChanges();
+            this.AddNotification($"The Song Successfully deleted from {playlist.PlaylistName}", NotificationType.SUCCESS);
             
-            return RedirectToAction("Index");
+            return RedirectToAction($"Details/{playlistId}");
         }
 
         protected override void Dispose(bool disposing)
