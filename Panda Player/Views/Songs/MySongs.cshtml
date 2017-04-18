@@ -62,7 +62,7 @@
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.Hidden("item-to-delete", "", new { @id = item.Id })
                 @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
-                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.Id)" data-item-description="@item.Title">
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.Id, '@($"{item.Artist} - {item.Title}")')" data-item-description="@item.Title">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
 
@@ -88,7 +88,7 @@
 <input type="hidden" id="hiddenSongId" />
 
 <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog" >
         <div class="modal-content">
 
             <div class="modal-header">
@@ -96,8 +96,7 @@
                 <h3 class="modal-title">Delete Song</h3>
 
             </div>
-            <div class="modal-body">
-                Are you sure you want to delete:<span class="description"></span>-<span class="title"></span>
+            <div class="modal-body" id="songDiscription">                                        
             </div>
 
             <div class="modal-footer">
@@ -109,11 +108,12 @@
 </div>
 
 <script>
-    var ConfirmDelete = function (id) {
 
+    var ConfirmDelete = function (id, artistAndTitle) {
         $("#hiddenSongId").val(id);
-        $("#myModal").modal('show');
-    }
+        $("#songDiscription").text(`Are you sure you want to delete: ${artistAndTitle}`);
+        $("#myModal").modal('show').css({margin:0, padding:0, border:0});
+    };
 
     var DeleteSong = function () {
 
