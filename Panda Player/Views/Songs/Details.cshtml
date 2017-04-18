@@ -8,53 +8,64 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>Song</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Artist)
-        </dt>
+<body id="pp" onload="wavesurfer.load('@Model.SongPath'); setTimeout(play, delay);"></body>
+    <div>
+        <h4>Song</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Artist)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Artist)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Artist)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UploadDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.UploadDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UploadDate.Date)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UploadDate.Date)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Uploader)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Uploader)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Uploader.FullName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Uploader.FullName)
+            </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "MySongs")
-</p>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "MySongs")
+    </p>
+
+<script>
+    function play() {
+        wavesurfer.play();
+    }
+
+    var delay = 2000;
+
+    setTimeout(play, delay)
+</script>

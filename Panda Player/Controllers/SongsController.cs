@@ -93,6 +93,11 @@ namespace Panda_Player.Controllers
                         UploadDate = DateTime.Now
                     };
 
+                    if (!Directory.Exists(mappedPath))
+                    {
+                        Directory.CreateDirectory(mappedPath);
+                    }
+
                     file.SaveAs(absoluteFilePath);
 
                     db.Songs.Add(currentSong);
@@ -185,9 +190,7 @@ namespace Panda_Player.Controllers
         // POST: Songs/Delete/5
         [HttpPost]
         public ActionResult DeleteConfirmed(int id)
-        {
-            var result = false;
-            
+        {            
             string uploadDir = Server.MapPath("~/");
             Song song = db.Songs.Find(id);
 
@@ -198,7 +201,6 @@ namespace Panda_Player.Controllers
             System.IO.File.Delete(absolutePath);
             db.Songs.Remove(song);
             db.SaveChanges();
-            result = true;
 
             this.AddNotification("Song has been deleted successfully.", NotificationType.SUCCESS);
             return Json(new { Success = true });
