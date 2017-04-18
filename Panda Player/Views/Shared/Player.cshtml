@@ -1,4 +1,5 @@
-﻿<div id="waveform">
+﻿<body onload="setTimeout(play, delay)"></body>
+<div id="waveform">
     <button class="btn btn-primary" onclick="wavesurfer.playPause()">
         <i class="fa fa-play-circle-o" aria-hidden="true"></i>
         Play
@@ -7,3 +8,13 @@
         Pause
     </button>
 </div>
+
+<script>
+    function play() {
+        wavesurfer.play();
+    }
+
+    var delay = 2000;
+
+    setTimeout(play, delay)
+</script>
