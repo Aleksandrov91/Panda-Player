@@ -97,6 +97,7 @@ namespace Panda_Player.Controllers
 
                     var fileName = randomHash + "_" + uploadFilename;
 
+                    var absoluteFilePath = mappedPath + fileName;
 
                     bool isGenreIdValid = validateGenre(song.Genre);
 
