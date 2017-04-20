@@ -20,5 +20,6 @@ namespace Panda_Player.Models
 
         public virtual DbSet<Song> Songs { get; set; }
         public virtual DbSet<Playlist> Playlists { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
     }
 }
