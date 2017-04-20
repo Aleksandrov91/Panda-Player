@@ -6,6 +6,9 @@ namespace Panda_Player.Migrations
     using Panda_Player.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity;
+    using Panda_Player.Models.Manage.Admin;
+    using System.Collections.Generic;
+    using Panda_Player.Models.PandaPlayer;
 
     internal sealed class DbMigrationsConfig : DbMigrationsConfiguration<Panda_Player.Models.ApplicationDbContext>
     {
@@ -33,6 +36,16 @@ namespace Panda_Player.Migrations
                 this.CreateAdminUser(context, adminEmail, adminUserName, adminFullName, adminPassword);
                 this.SetRoleToUser(context, "admin@admin.com", "Admin");
             }
+
+            if (!context.Genres.Any())
+            {
+                this.CreateGenre(context, "Other");
+                this.CreateGenre(context, "Rock");
+                this.CreateGenre(context, "Chill Out");
+                this.CreateGenre(context, "Folk");
+                this.CreateGenre(context, "Jazz");
+                this.CreateGenre(context, "Blues");
+            }
         }
 
         private void SetRoleToUser(ApplicationDbContext context, string email, string role)
@@ -47,6 +60,18 @@ namespace Panda_Player.Migrations
             {
                 throw new Exception(string.Join(";", result.Errors));
             }
+        }
+
+        private void CreateGenre(ApplicationDbContext context, string name)
+        {
+            var genre = new Genre
+            {
+                Name = name,
+                Songs = new HashSet<Song>()
+            };
+
+            context.Genres.Add(genre);
+            context.SaveChanges();
         }
 
         private void CreateAdminUser(ApplicationDbContext context, string adminEmail, string adminUserName, string adminFullName, string adminPassword)

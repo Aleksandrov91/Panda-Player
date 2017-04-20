@@ -189,6 +189,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\GenreController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -216,6 +217,10 @@
     <Compile Include="Models\Identity\UserDetailsViewModel.cs" />
     <Compile Include="Models\Identity\VerifyCodeViewModel.cs" />
     <Compile Include="Models\Manage\AddPhoneNumberViewModel.cs" />
+    <Compile Include="Models\Manage\Admin\DeleteUserViewModel.cs" />
+    <Compile Include="Models\Manage\Admin\Genre.cs" />
+    <Compile Include="Models\Manage\Admin\EditUserViewModel.cs" />
+    <Compile Include="Models\Manage\Admin\Role.cs" />
     <Compile Include="Models\Manage\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Manage\ConfigureTwoFactorViewModel.cs" />
     <Compile Include="Models\Manage\FactorViewModel.cs" />
@@ -225,6 +230,9 @@
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Playlist.cs" />
     <Compile Include="Models\PandaPlayer\Song.cs" />
+    <Compile Include="Models\PandaPlayer\SongDetailsModel.cs" />
+    <Compile Include="Models\PandaPlayer\SongUploadViewModel.cs" />
+    <Compile Include="Models\PandaPlayer\SongViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -301,6 +309,12 @@
     <Content Include="Views\Playlists\Index.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
     <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Genre\List.cshtml" />
+    <Content Include="Views\Genre\Create.cshtml" />
+    <Content Include="Views\Genre\Edit.cshtml" />
+    <Content Include="Views\Genre\Delete.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

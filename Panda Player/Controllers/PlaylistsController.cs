@@ -14,30 +14,46 @@ namespace Panda_Player.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Playlists
+        [Authorize]
         public ActionResult Index()
         {
             var currentUser = this.User.Identity.GetUserId();
-            var myPlaylists = db.Playlists.Where(u => u.Author.Id == currentUser).ToList();
+            var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUser).ToList();
             return View(myPlaylists);
         }
 
-        // GET: Playlists/Details/5
+        // GET: Playlists/Details
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("Index");
             }
+
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
+
             if (playlist == null)
             {
-                return HttpNotFound();
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("Index");
+            }
+
+            if (!playlist.IsPublic)
+            {
+                if (!IsAuthorizedToOperate(playlist))
+                {
+                    this.AddNotification("Playlist is not public!", NotificationType.ERROR);
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(playlist);
         }
 
         // GET: Playlists/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -47,6 +63,7 @@ namespace Panda_Player.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,PlaylistName,IsPublic")] Playlist playlist)
         {
@@ -55,28 +72,41 @@ namespace Panda_Player.Controllers
                 string authorId = this.User.Identity.GetUserId();
                 var author = db.Users.Find(authorId);
 
-                playlist.Author = author;
+                playlist.Creator = author;
 
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
-                return RedirectToAction("MySongs", "Songs");
+
+                return RedirectToAction("Index");
             }
 
             return View(playlist);
         }
 
         // GET: Playlists/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("Index");
             }
+
             Playlist playlist = db.Playlists.Find(id);
+
             if (playlist == null)
             {
-                return HttpNotFound();
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("Index");
             }
+
+            if (!IsAuthorizedToOperate(playlist))
+            {
+                this.AddNotification("You are not authorized to edit this playlist!", NotificationType.ERROR);
+                return RedirectToAction("Index");
+            }
+
             return View(playlist);
         }
 
@@ -84,6 +114,7 @@ namespace Panda_Player.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,PlaylistName,IsPublic")] Playlist playlist)
         {
@@ -91,8 +122,10 @@ namespace Panda_Player.Controllers
             {
                 db.Entry(playlist).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
             return View(playlist);
         }
 
@@ -101,18 +134,31 @@ namespace Panda_Player.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("Index");
             }
+
+
             Playlist playlist = db.Playlists.Find(id);
+
             if (playlist == null)
             {
-                return HttpNotFound();
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("Index");
             }
+
+            if (!IsAuthorizedToOperate(playlist))
+            {
+                this.AddNotification("You are not authorized to delete this playlist!", NotificationType.ERROR);
+                return RedirectToAction("Index");
+            }
+
             return View(playlist);
         }
 
         // POST: Playlists/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             var result = false;
@@ -133,6 +179,14 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
             
             return RedirectToAction("Index");
+        }
+
+        private bool IsAuthorizedToOperate(Playlist playlist)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isCreator = playlist.IsCreator(this.User.Identity.Name);
+
+            return isAdmin || isCreator;
         }
 
         protected override void Dispose(bool disposing)

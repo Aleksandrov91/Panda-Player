@@ -1,0 +1,31 @@
+﻿@model List<Panda_Player.Models.Manage.Admin.Genre>
+
+@{
+    ViewBag.Title = "List Genres";
+}
+
+<h2>All Genres - @Html.ActionLink("Create", "Create", "Genre", null, new { @class = "btn btn-warning" })</h2>
+<div class="row">
+    <table class="table table-striped table-hover col-sm-12">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number of songs</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var genre in Model)
+            {
+                <tr>
+                    <td>@genre.Name</td>
+                    <td>@genre.Songs.Count</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Genre", new { @id = genre.Id }, null)
+                        @Html.ActionLink("Delete", "Delete", "Genre", new { @id = genre.Id }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

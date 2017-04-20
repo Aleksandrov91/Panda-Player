@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Panda_Player.Models.Manage.Admin;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Panda_Player.Models.PandaPlayer
 {
@@ -40,5 +42,9 @@ namespace Panda_Player.Models.PandaPlayer
         {
             return this.Uploader.UserName.Equals(name);
         }
+
+        public int GenreId { get; set; }
+
+        public virtual Genre Genre { get; set; }
     }
 }

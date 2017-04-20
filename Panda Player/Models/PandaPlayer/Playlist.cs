@@ -21,6 +21,11 @@ namespace Panda_Player.Models.PandaPlayer
 
         public ICollection<Song> Songs { get; set; }
 
-        public ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
+
+        public bool IsCreator(string name)
+        {
+            return this.Creator.UserName.Equals(name);
+        }
     }
 }

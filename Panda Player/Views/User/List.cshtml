@@ -16,8 +16,15 @@
 
     @foreach (var user in Model)
     {
+        if (user.Roles.Contains("Admin"))
+        {
+            @:<tr class="info">
+        }
+        else
+        {
+            @:<tr>
+        }
         
-        <tr>
             <td>
                 @Html.DisplayFor(u => user.Email)
             </td>
@@ -32,7 +39,7 @@
                 @Html.ActionLink("Details", "Details", new { Id = user.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = user.Id })
             </td>
-        </tr>
+        @:</tr>
     }
 
 </table>
