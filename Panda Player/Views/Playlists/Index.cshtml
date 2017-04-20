@@ -4,6 +4,8 @@
     ViewBag.Title = "My Playlists";
 }
 
+@Html.Partial("Player")
+
 <h2>My Playlists</h2>
 
 <p class = "btn btn-warning">
@@ -82,9 +84,7 @@
             success: function (result) {
                 $("#loaderDiv").hide();
                 $("#myModal").modal("hide");
-                if (result) {
-                    window.location.reload();
-                }
+                window.location.reload();
             }
         })
     }

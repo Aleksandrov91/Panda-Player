@@ -1,0 +1,25 @@
+﻿<body onload="setTimeout(play, delay)"></body>
+<div id="waveform">
+    <button class="btn btn-primary" onclick="wavesurfer.playPause()">
+        <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+        Play
+        /
+        <i class="fa fa-pause-circle" aria-hidden="true"></i>
+        Pause
+    </button>
+    <button class="btn btn-primary loadM3U">
+        <i class="glyphicon glyphicon-play"></i>
+        LOAD M3U
+    </button>
+    <ul class="playlistbox"></ul>
+</div>
+
+<script>
+    function play() {
+        wavesurfer.play();
+    }
+
+    var delay = 2000;
+
+    setTimeout(play, delay)
+</script>

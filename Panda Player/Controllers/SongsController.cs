@@ -9,6 +9,7 @@ using System;
 using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using Panda_Player.Models.Manage.Admin;
+using System.IO;
 
 namespace Panda_Player.Controllers
 {
@@ -91,12 +92,11 @@ namespace Panda_Player.Controllers
                     var currentUser = this.User.Identity.GetUserId();
                     var songsPath = "~/Uploads/";
                     var mappedPath = HttpContext.Server.MapPath(songsPath);
-                    //var uploadFilename = Path.GetFileName(file.FileName);
-                    var hash = currentUser.Substring(0, 6);
+                    var uploadFilename = Path.GetFileName(file.FileName);
+                    var randomHash = Guid.NewGuid().ToString().Substring(0, 6);
 
-                    var filename = hash + "_" + file.FileName;
+                    var fileName = randomHash + "_" + uploadFilename;
 
-                    var absoluteFilePath = mappedPath + filename;
 
                     bool isGenreIdValid = validateGenre(song.Genre);
 
@@ -112,10 +112,15 @@ namespace Panda_Player.Controllers
                         Title = song.Title,
                         Description = song.Description,
                         UploaderId = currentUser,
-                        SongPath = $"/Uploads/{filename}",
+                        SongPath = $"/Uploads/{fileName}",
                         UploadDate = DateTime.Now,
                         GenreId = song.Genre
                     };
+
+                    if (!Directory.Exists(mappedPath))
+                    {
+                        Directory.CreateDirectory(mappedPath);
+                    }
 
                     file.SaveAs(absoluteFilePath);
 
@@ -219,9 +224,7 @@ namespace Panda_Player.Controllers
         // POST: Songs/Delete/5
         [HttpPost]
         public ActionResult DeleteConfirmed(int id)
-        {
-            var result = false;
-
+        {            
             string uploadDir = Server.MapPath("~/");
             Song song = db.Songs.Find(id);
 
@@ -232,7 +235,6 @@ namespace Panda_Player.Controllers
             System.IO.File.Delete(absolutePath);
             db.Songs.Remove(song);
             db.SaveChanges();
-            result = true;
 
             this.AddNotification("Song has been deleted successfully.", NotificationType.SUCCESS);
             return Json(new { Success = true });
