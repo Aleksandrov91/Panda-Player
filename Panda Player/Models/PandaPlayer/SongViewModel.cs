@@ -31,6 +31,8 @@ namespace Panda_Player.Models.PandaPlayer
         [Display(Name = "Song Path *")]
         public string SongPath { get; set; }
 
+        public string UploaderId { get; set; }
+
         [Required]
         public DateTime UploadDate { get; set; }
 
