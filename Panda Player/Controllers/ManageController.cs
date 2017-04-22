@@ -408,11 +408,18 @@ namespace Panda_Player.Controllers
 
             var currentUser = this.User.Identity.GetUserId();
             var loggedUser = db.Users.Find(currentUser);
-
             var imageData = loggedUser.ProfilePicPath;
 
+            var model = new IndexViewModel();
+
+            if (!model.HasProfilePic)
+            {
+                imageData = "~/Content/Images/ProfilePics/default-avatar.png";
+                return File(imageData, "image/jpg");
+            }
 
             return File(imageData, "image/jpg");
+
         }
 
         #region Helpers
