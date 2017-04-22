@@ -19,7 +19,7 @@ namespace Panda_Player.Controllers
         public ActionResult Index()
         {
             var currentUserId = this.User.Identity.GetUserId();
-            var myPlaylists = db.Playlists.Where(u => u.Author.Id == currentUserId).ToList();
+            var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
             return View(myPlaylists);
         }
 
