@@ -41,5 +41,7 @@ namespace Panda_Player.Models.PandaPlayer
         public int GenreId { get; set; }
 
         public HttpPostedFileBase File { get; set; }
+
+        public string Tags { get; set; }
     }
 }

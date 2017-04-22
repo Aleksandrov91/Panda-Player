@@ -22,9 +22,15 @@ namespace Panda_Player.Controllers
         public ActionResult MySongs()
         {
             var currentUser = this.User.Identity.GetUserId();
-            var userSongs = db.Songs.Where(s => s.Uploader.Id == currentUser).Include(u => u.Uploader).ToList();
+            var userSongs = db.Songs
+                .Where(s => s.Uploader.Id == currentUser)
+                .Include(u => u.Uploader)
+                .Include(s => s.Tags)
+                .ToList();
 
-            var playlists = db.Playlists.Where(a => a.Creator.Id == currentUser).ToList();
+            var playlists = db.Playlists
+                .Where(a => a.Creator.Id == currentUser)
+                .ToList();
 
             ViewBag.Playlists = playlists;
 
@@ -39,7 +45,12 @@ namespace Panda_Player.Controllers
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
                 return RedirectToAction("MySongs");
             }
-            Song song = db.Songs.Find(id);
+
+            Song song = db.Songs
+                .Where(s => s.Id == id)
+                .Include(s => s.Uploader)
+                .Include(s => s.Tags)
+                .First();
 
             if (song == null)
             {
@@ -55,6 +66,7 @@ namespace Panda_Player.Controllers
             currSong.Description = song.Description;
             currSong.UploadDate = song.UploadDate;
             currSong.Uploader = song.Uploader;
+            currSong.Tags = song.Tags.ToList();
 
             return View(currSong);
         }
@@ -116,8 +128,10 @@ namespace Panda_Player.Controllers
                         UploaderId = currentUser,
                         SongPath = $"/Uploads/{fileName}",
                         UploadDate = DateTime.Now,
-                        GenreId = song.Genre
+                        GenreId = song.Genre,                      
                     };
+
+                    this.SetSongTagsOnUpload(currentSong, song, db);
 
                     if (!Directory.Exists(mappedPath))
                     {
@@ -171,6 +185,7 @@ namespace Panda_Player.Controllers
             viewModel.Description = song.Description;
             viewModel.GenreId = song.GenreId;
             viewModel.Genre = db.Genres.OrderBy(g => g.Name).ToList();
+            viewModel.Tags = string.Join(", ", song.Tags.Select(t => t.Name));
 
             return View(viewModel);
         }
@@ -180,7 +195,7 @@ namespace Panda_Player.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(SongUploadViewModel song)
+        public ActionResult Edit(SongUploadEditViewModel song)
         {
             var currentSong = db.Songs.FirstOrDefault(s => s.Id == song.Id);
             if (currentSong == null)
@@ -192,7 +207,8 @@ namespace Panda_Player.Controllers
             currentSong.Artist = song.Artist;
             currentSong.Title = song.Title;
             currentSong.Description = song.Description;
-            currentSong.GenreId = song.Genre;
+            currentSong.GenreId = song.GenreId;
+            this.SetSongTagsOnUpload(currentSong, song, db);
 
             db.SaveChanges();
 
@@ -208,27 +224,54 @@ namespace Panda_Player.Controllers
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
                 return RedirectToAction("MySongs");
             }
-            Song song = db.Songs.Find(id);
 
-            if (!IsAuthorizedToOperate(song))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
+            Song song = db.Songs
+                .Where(s => s.Id == id)
+                .Include(u => u.UploaderId)
+                .Include(g => g.Genre)
+                .First();
 
             if (song == null)
             {
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
                 return RedirectToAction("MySongs");
             }
+
+            if (!IsAuthorizedToOperate(song))
+            {
+                this.AddNotification("You are not allowed to delete this song!", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
+            }
+
+            ViewBag.TagString = string.Join("; ", song.Tags.OrderBy(t => t.Name));
+
             return View(song);
         }
 
         // POST: Songs/Delete/5
         [HttpPost]
-        public ActionResult DeleteConfirmed(int id)
-        {            
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                this.AddNotification("Song does not exist!", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
+            }
+
             string uploadDir = Server.MapPath("~/");
             Song song = db.Songs.Find(id);
+
+            if (song == null)
+            {
+                this.AddNotification("Song does not exist", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
+            }
+
+            if (!IsAuthorizedToOperate(song))
+            {
+                this.AddNotification("You are not allowed to delete this song!", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
+            }
 
             string songPath = song.SongPath;
 
@@ -253,6 +296,52 @@ namespace Panda_Player.Controllers
 
             this.AddNotification($"Song has been added to {playlist.PlaylistName} Playlist.", NotificationType.SUCCESS);
             return null;
+        }
+
+        private void SetSongTagsOnUpload(Song currentSong, SongUploadEditViewModel song, ApplicationDbContext db)
+        {
+            var tagsStringSplit = song.Tags.Split(" ,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .OrderBy(t => t)
+                .Select(t => t.ToLower())
+                .Distinct();
+
+            currentSong.Tags.Clear();
+
+            foreach (var tagString in tagsStringSplit)
+            {
+                Tag tag = db.Tags.FirstOrDefault(t => t.Name == tagString);
+
+                if (tag == null)
+                {
+                    tag = new Tag() { Name = tagString };
+                    db.Tags.Add(tag);
+                }
+
+                currentSong.Tags.Add(tag);
+            }
+        }
+
+        private void SetSongTagsOnUpload(Song currentSong, SongUploadViewModel song, ApplicationDbContext db)
+        {
+            var tagsStringSplit = song.Tags.Split(" ,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .OrderBy(t => t)
+                .Select(t => t.ToLower())
+                .Distinct();
+
+            currentSong.Tags.Clear();
+
+            foreach(var tagString in tagsStringSplit)
+            {
+                Tag tag = db.Tags.FirstOrDefault(t => t.Name == tagString);
+
+                if (tag == null)
+                {
+                    tag = new Tag() { Name = tagString };
+                    db.Tags.Add(tag);
+                }
+
+                currentSong.Tags.Add(tag);
+            }
         }
 
         protected override void Dispose(bool disposing)

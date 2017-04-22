@@ -1,5 +1,4 @@
-﻿using Panda_Player.Models.Manage.Admin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,23 +6,10 @@ using System.Web;
 
 namespace Panda_Player.Models.PandaPlayer
 {
-    public class SongUploadViewModel
+    public class SongUploadEditViewModel
     {
-        public SongUploadViewModel()
-        {
-           
-        }
-
-        //public SongViewModel(string artist, string title, string uploaderId, int categoryId)
-        //{
-        //    this.Artist = artist;
-        //    this.Title = title;
-        //    this.UploaderId = uploaderId;
-        //    this.CategoryId = categoryId;
-        //}
-
         public int Id { get; set; }
-        
+
         [Required]
         [Display(Name = "Artist *")]
         public string Artist { get; set; }
@@ -48,7 +34,7 @@ namespace Panda_Player.Models.PandaPlayer
 
         public ICollection<Song> Songs { get; set; }
 
-        public int Genre { get; set; }
+        public int GenreId { get; set; }
 
         //public int GenreId { get; set; }
 

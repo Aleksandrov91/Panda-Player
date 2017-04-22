@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Panda_Player.Models;
 using Panda_Player.Models.Identity;
+using Panda_Player.Extensions;
 
 namespace Panda_Player.Controllers
 {
@@ -150,6 +151,19 @@ namespace Panda_Player.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, FullName = model.FullName, Email = model.Email};
+
+                var db = new ApplicationDbContext();
+                var users = db.Users.ToList();
+
+                foreach (var dbUser in users)
+                {
+                    if (dbUser.UserName == user.UserName)
+                    {
+                        this.AddNotification($"Username with {user.UserName} email already registered! Please select another e-mail please.", NotificationType.ERROR);
+                        return View(model);
+                    }
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 var addRoleResult = UserManager.AddToRole(user.Id, "User");
