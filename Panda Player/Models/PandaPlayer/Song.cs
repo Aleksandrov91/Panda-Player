@@ -8,9 +8,12 @@ namespace Panda_Player.Models.PandaPlayer
 {
     public class Song
     {
+        private ICollection<Tag> tags;
+
         public Song()
         {
             this.Playlists = new HashSet<Playlist>();
+            this.tags = new HashSet<Tag>();
             this.UploadDate = DateTime.Now;
         }
 
@@ -46,5 +49,11 @@ namespace Panda_Player.Models.PandaPlayer
         public int GenreId { get; set; }
 
         public virtual Genre Genre { get; set; }
+
+        public virtual ICollection<Tag> Tags
+        {
+            get { return this.tags; }
+            set { this.tags = value; }
+        }
     }
 }

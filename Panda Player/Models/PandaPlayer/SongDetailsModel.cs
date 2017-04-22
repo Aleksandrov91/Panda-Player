@@ -29,5 +29,7 @@ namespace Panda_Player.Models.PandaPlayer
         public int GenreId { get; set; }
 
         public string Genre { get; set; }
+
+        public ICollection<Tag> Tags { get; set; }
     }
 }
