@@ -7,6 +7,7 @@ using Panda_Player.Models.PandaPlayer;
 using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using System;
+using System.Text;
 
 namespace Panda_Player.Controllers
 {
@@ -17,8 +18,8 @@ namespace Panda_Player.Controllers
         // GET: Playlists
         public ActionResult Index()
         {
-            var currentUser = this.User.Identity.GetUserId();
-            var myPlaylists = db.Playlists.Where(u => u.Author.Id == currentUser).ToList();
+            var currentUserId = this.User.Identity.GetUserId();
+            var myPlaylists = db.Playlists.Where(u => u.Author.Id == currentUserId).ToList();
             return View(myPlaylists);
         }
 
@@ -30,6 +31,9 @@ namespace Panda_Player.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
+
+            ConvertToM3u(playlist);
+
             if (playlist == null)
             {
                 return HttpNotFound();
@@ -124,8 +128,37 @@ namespace Panda_Player.Controllers
             this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
             return Json(new { Success = true });
         }
+               
 
-        
+        private void ConvertToM3u(Playlist playlist)
+        {
+            var result = new StringBuilder();
+
+            result.AppendLine("#EXTM3U");
+            result.AppendLine("");
+
+            var playlistSongs = playlist.Songs.ToList();
+
+            foreach (var song in playlistSongs)
+            {
+                var formattedSong = $"#EXTINF:1,{song.Artist} - {song.Title}";
+                var songPath = song.SongPath;
+
+                result.AppendLine(formattedSong);
+                result.AppendLine($"http://localhost:4522{songPath}");
+            }
+
+            string uploadDir = Server.MapPath("~/");
+            var myPlayList = $@"{uploadDir}Uploads/Playlists/currentPlaylist.m3u";
+    
+            if (!System.IO.File.Exists($"{myPlayList}"))
+            {
+                System.IO.File.Create($"{myPlayList}");
+            }
+
+            System.IO.File.WriteAllText(myPlayList, result.ToString());
+        }
+
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);
