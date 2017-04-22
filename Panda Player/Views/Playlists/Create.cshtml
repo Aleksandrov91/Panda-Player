@@ -2,17 +2,17 @@
 
 @{
     ViewBag.Title = "Create";
+    Layout = null;
 }
-
-@Html.Partial("Player")
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+
+@using (Ajax.BeginForm( new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Playlist</h4>
         <hr />
@@ -44,7 +44,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Ajax.ActionLink("Back to My Playlists", "MyPlaylists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </div>
 
 @section Scripts {

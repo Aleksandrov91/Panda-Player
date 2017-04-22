@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "Upload a song";
-    Layout = null;
 }
 
-@using (Html.BeginForm("Upload", "Songs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", "Songs", null, FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -55,7 +55,7 @@
 }
 
 <div>
-    @Ajax.ActionLink("Back to My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

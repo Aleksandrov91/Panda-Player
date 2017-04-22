@@ -50,7 +50,7 @@ namespace Panda_Player.Controllers
         // GET: Songs/Upload
         public ActionResult Upload()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Songs/Upload
@@ -216,7 +216,7 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
 
             this.AddNotification($"Song has been added to {playlist.PlaylistName} Playlist.", NotificationType.SUCCESS);
-            return RedirectToAction("MySongs");
+            return null;
         }
 
         protected override void Dispose(bool disposing)

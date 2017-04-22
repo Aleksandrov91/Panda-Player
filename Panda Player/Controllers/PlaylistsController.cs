@@ -7,6 +7,7 @@ using Panda_Player.Models.PandaPlayer;
 using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using System;
+using Panda_Player.Models.ViewModels;
 
 namespace Panda_Player.Controllers
 {
@@ -15,11 +16,11 @@ namespace Panda_Player.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Playlists
-        public ActionResult Index()
+        public ActionResult MyPlaylists()
         {
             var currentUser = this.User.Identity.GetUserId();
             var myPlaylists = db.Playlists.Where(u => u.Author.Id == currentUser).ToList();
-            return View(myPlaylists);
+            return PartialView(myPlaylists);
         }
 
         // GET: Playlists/Details/5
@@ -79,7 +80,15 @@ namespace Panda_Player.Controllers
             {
                 return HttpNotFound();
             }
-            return View(playlist);
+
+            var model = new PlaylistViewModel
+            {
+                Id = playlist.Id,
+                PlaylistName = playlist.PlaylistName,
+                IsPublic = playlist.IsPublic
+            };
+
+            return PartialView(model);
         }
 
         // POST: Playlists/Edit/5
@@ -87,15 +96,20 @@ namespace Panda_Player.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PlaylistName,IsPublic")] Playlist playlist)
+        public ActionResult Edit(PlaylistViewModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(playlist).State = EntityState.Modified;
+                var playlistToEdit = db.Playlists.Find(model.Id);
+
+                playlistToEdit.PlaylistName = model.PlaylistName;
+                playlistToEdit.IsPublic = model.IsPublic;
+
+                db.Entry(playlistToEdit).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
-            return View(playlist);
+            return View(model);
         }
 
         // GET: Playlists/Delete/5

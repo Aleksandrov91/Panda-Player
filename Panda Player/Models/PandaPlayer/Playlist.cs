@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Panda_Player.Models.PandaPlayer
 {
@@ -23,8 +24,9 @@ namespace Panda_Player.Models.PandaPlayer
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public ICollection<Song> Songs { get; set; }
+        [ForeignKey("Songs")]
+        public virtual ICollection<Song> Songs { get; set; }
 
-        public ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Author { get; set; }
     }
 }

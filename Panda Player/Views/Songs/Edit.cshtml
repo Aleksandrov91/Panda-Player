@@ -2,14 +2,13 @@
 
 @{
     ViewBag.Author = "Edit";
+    Layout = null;
 }
-
-@Html.Partial("Player")
 
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using( Ajax.BeginForm( new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
 {
     @Html.AntiForgeryToken()
     
@@ -54,7 +53,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "MySongs")
+    @Ajax.ActionLink("Back to My Songs", "MySongs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </div>
 
 @section Scripts {
