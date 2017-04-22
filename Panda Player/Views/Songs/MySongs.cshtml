@@ -3,14 +3,15 @@
 @{
     ViewBag.Title = "My Songs";
     var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
+    Layout = null;
 }
-
-@Html.Partial("Player")
-
+<div id="result">
+@Html.Partial("_Notifications")
+</div>
 <h2>My Songs</h2>
 
 <p>
-    @Html.ActionLink("Upload New Song", "Upload")
+    @Ajax.ActionLink("Upload New Song", "Upload", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 <table class="table">
     <tr>
@@ -77,76 +78,35 @@
                 @Html.DisplayFor(modelItem => item.Uploader.FullName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Ajax.ActionLink("Edit", "Edit", new { id = item.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
+                @Ajax.ActionLink("Details", "Details", new { id = item.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
                 @Html.Hidden("item-to-delete", "", new { @id = item.Id })
-                @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
-                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@item.Id, '@($"{item.Artist} - {item.Title}")')" data-item-description="@item.Title">
+                <a href="#" class="btn btn-danger btn-sm" onclick="ConfirmDelete(@item.Id, '@($"{item.Artist} - {item.Title}")')" data-item-description="@item.Title">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
 
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                        Add to playlist
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        @foreach (var playlist in playlists)
-                        {
-                            <li>@Html.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = item.Id, playlistId = playlist.Id }, null)</li>
-                        }
-                        <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
-                    </ul>
-                </div>
+                @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "result" }))
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            Add to playlist
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            @foreach (var playlist in playlists)
+                            {
+                                <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = item.Id, playlistId = playlist.Id }, null)</li>
+                            }
+                            <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
+                        </ul>
+                    </div>
+                }
+                
             </td>
         </tr>
     }
 
 </table>
 
-<input type="hidden" id="hiddenSongId" />
-
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog" >
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Delete Song</h3>
-
-            </div>
-            <div class="modal-body" id="songDiscription">                                        
-            </div>
-
-            <div class="modal-footer">
-                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
-                <a href="#" class="btn btn-danger" onclick="DeleteSong()">Delete</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-
-    var ConfirmDelete = function (id, artistAndTitle) {
-        $("#hiddenSongId").val(id);
-        $("#songDiscription").text(`Are you sure you want to delete: ${artistAndTitle}`);
-        $("#myModal").modal('show').css({margin:0, padding:0, border:0});
-    };
-
-    var DeleteSong = function () {
-
-        var sId = $("#hiddenSongId").val();
-
-        $.ajax({
-            type: "POST",
-            url: "/Songs/DeleteConfirmed",
-            data: { id: sId },
-            success: function (result) {
-                $("#loaderDiv").hide();
-                $("#myModal").modal("hide");
-                window.location.reload();
-            }
-        })
-    }
-</script>
+<input type="hidden" id="songId" />
+@Html.Partial("_ModalPopup")

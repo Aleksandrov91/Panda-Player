@@ -80,6 +80,7 @@ namespace Panda_Player.Controllers
             model.Genre = db.Genres.OrderBy(c => c.Name).ToList();
 
             return View(model);
+            return PartialView();
         }
 
         // POST: Songs/Upload
@@ -294,7 +295,7 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
 
             this.AddNotification($"Song has been added to {playlist.PlaylistName} Playlist.", NotificationType.SUCCESS);
-            return RedirectToAction("MySongs");
+            return null;
         }
 
         private void SetSongTagsOnUpload(Song currentSong, SongUploadEditViewModel song, ApplicationDbContext db)

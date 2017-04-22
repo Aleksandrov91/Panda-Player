@@ -33,7 +33,7 @@ namespace Panda_Player.Models.PandaPlayer
 
         public string SongPath { get; set; }
 
-        public ICollection<Playlist> Playlists { get; set; }
+        public virtual ICollection<Playlist> Playlists { get; set; }
 
         public DateTime UploadDate { get; set; }
 

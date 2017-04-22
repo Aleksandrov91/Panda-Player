@@ -7,36 +7,36 @@
 
 
 <div class="row">
-    @*@foreach (var playlist in ViewBag.Playlists)
+    @foreach (var playlist in ViewBag.Playlists)
     {
-        <div class="col-md-4">
+<div class="col-md-4">
             <a href="~/Playlists/Details/@playlist.Id">
                 <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
                 <h4>@playlist.PlaylistName</h4>
             </a>
-            <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+            <button class="btn btn-default" type="button">@Html.ActionLink("Details", $"Details/{@playlist.Id}", "Playlists")</button>
         </div>
-    }*@
+    }
 
 </div>
 <div class="pull-right">
-    @Ajax.ActionLink("View All", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+    @Ajax.ActionLink("View All", "List", new { id = "Playlists" }, new AjaxOptions { } new { @class = "btn btn-primary" })
 </div>
 <br />
 
 
 <h1>Last Added Songs</h1>
 <div class="row">
-    @*@foreach (var song in ViewBag.Songs)
+    @foreach (var song in ViewBag.Songs)
     {
-        <div class="col-md-4">
+<div class="col-md-4">
             <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
                 <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
                 <h4>@song.Artist - @song.Title</h4>
             </a>
 
             <div class="dropdown">
-                <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+                <button class="btn btn-default" type="button">@Html.ActionLink("Details", $"Details/{@song.Id}", "Songs")</button>
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                     Add to playlist
                     <span class="caret"></span>
@@ -44,18 +44,18 @@
                 <ul class="dropdown-menu">
                     @foreach (var playlist in playlists)
                     {
-                        <li>@Html.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, null)</li>
+<li>@Html.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, null)</li>
                     }
                     <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
                 </ul>
             </div>
 
         </div>
-    }*@
+    }
 
 </div>
 <div class="pull-right">
-    @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("View All", "List", new { id = "Songs" }, new { @class = "btn btn-primary" })
 </div>
 <br />
 

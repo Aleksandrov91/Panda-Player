@@ -1,11 +1,11 @@
-﻿@model Panda_Player.Models.PandaPlayer.SongViewModel
+﻿@model Panda_Player.Models.PandaPlayer.Song
 
 @{
     ViewBag.Title = "Upload a song";
-    Layout = null;
 }
 
-@using (Html.BeginForm("Upload", "Songs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", "Songs", null, FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -40,28 +40,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Genre, new { @class = "control-label col-md-2" })
-            <div class="dropdown col-md-10">
-               @Html.DropDownListFor(m => m.Genre,
-                        new SelectList(Model.Genre, "Id", "Name"),
-                        "----- Please select genre from list! -----",
-                        new { @class = "btn btn-info col-md-10" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Tags, new { @class = "control-label col-md-2" })
-            <div class="col-sm-4">
-                @Html.TextBoxFor(m => m.Tags, new { @class = "form-control" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.File, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SongPath, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.File, new { type = "file", name = "Files" })
-                
+                <input id="SongPath" class="form-control" title="Upload a Song" type="file" name="file" accept=".mp3,.wav,.flac,.wv" />
             </div>
         </div>
 
@@ -74,7 +55,7 @@
 }
 
 <div>
-    @Ajax.ActionLink("Back to My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
