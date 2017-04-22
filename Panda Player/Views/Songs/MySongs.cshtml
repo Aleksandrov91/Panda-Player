@@ -35,7 +35,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Uploader)
         </th>
-        <th></th>
+        <th>
+            Actions
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -103,8 +105,7 @@
                 <h3 class="modal-title">Delete Song</h3>
 
             </div>
-            <div class="modal-body" id="songDiscription">                                        
-            </div>
+            <div class="modal-body" id="songDiscription"></div>
 
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>

@@ -11,6 +11,7 @@ namespace Panda_Player.Models.PandaPlayer
         public Song()
         {
             this.Playlists = new HashSet<Playlist>();
+            this.UploadDate = DateTime.Now;
         }
 
         [Key]
@@ -31,7 +32,6 @@ namespace Panda_Player.Models.PandaPlayer
 
         public ICollection<Playlist> Playlists { get; set; }
 
-        [Required]
         public DateTime UploadDate { get; set; }
 
         public string UploaderId { get; set; }

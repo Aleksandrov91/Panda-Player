@@ -99,12 +99,12 @@ namespace Panda_Player.Controllers
 
                     var absoluteFilePath = mappedPath + fileName;
 
-                    bool isGenreIdValid = validateGenre(song.Genre);
+                    bool isGenreIdValid = ValidateGenre(song.Genre);
 
                     if (!isGenreIdValid)
                     {
                         this.AddNotification("Invalid genre selected.", NotificationType.ERROR);
-                        return View();
+                        return View(song);
                     }
 
                     var currentSong = new Song
@@ -129,7 +129,7 @@ namespace Panda_Player.Controllers
                     db.SaveChanges();
 
                     this.AddNotification("The song has been upload successfully.", NotificationType.SUCCESS);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("MySongs", "Songs");
                 }
 
                 this.AddNotification("The File must be only mp3 or wav.", NotificationType.ERROR);
@@ -271,7 +271,7 @@ namespace Panda_Player.Controllers
             return isAdmin || isUploader;
         }
 
-        private bool validateGenre(int genreId)
+        private bool ValidateGenre(int genreId)
         {
             var db = new ApplicationDbContext();
 

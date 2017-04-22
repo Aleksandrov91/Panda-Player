@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Panda_Player.Models.PandaPlayer
 {
@@ -9,6 +10,7 @@ namespace Panda_Player.Models.PandaPlayer
         public Playlist()
         {
             this.Songs = new HashSet<Song>();
+            this.DateCreated = DateTime.Now;
         }
         
         [Key]
