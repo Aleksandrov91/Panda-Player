@@ -1,4 +1,4 @@
-﻿@model Panda_Player.Models.PandaPlayer.Song
+﻿@model Panda_Player.Models.PandaPlayer.SongViewModel
 
 @{
     ViewBag.Author = "Edit";
@@ -42,7 +42,14 @@
             </div>
         </div>
 
-        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Genre, new { @class = "control-label col-md-2" })
+            <div class="dropdown col-md-10">
+                @Html.DropDownListFor(m => m.GenreId,
+                        new SelectList(Model.Genre, "Id", "Name", Model.GenreId),
+                        new { @class = "btn btn-info col-md-10" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

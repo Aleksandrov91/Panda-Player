@@ -9,10 +9,10 @@ wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_libriv
 
 // load M3U playlist    
 var myPlaylist = wavesurfer.Playlist;
-$('body').on('click', '.loadM3U', function () {
+$('body').on('click', '.playlist', function () {
     myPlaylist.init({
         wavesurfer: wavesurfer,
-        playlistFile: 'https://cdn.rawgit.com/katspaugh/wavesurfer.js/gh-pages/example/playlist/sample.m3u',
+        playlistFile: 'http://localhost:4522/Uploads/Playlists/currentPlaylist.m3u',
         playlistType: 'm3u'
     });
 });

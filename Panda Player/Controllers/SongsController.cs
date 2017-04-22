@@ -8,6 +8,7 @@ using System.Web;
 using System;
 using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
+using Panda_Player.Models.Manage.Admin;
 using System.IO;
 
 namespace Panda_Player.Controllers
@@ -23,14 +24,14 @@ namespace Panda_Player.Controllers
             var currentUser = this.User.Identity.GetUserId();
             var userSongs = db.Songs.Where(s => s.Uploader.Id == currentUser).Include(u => u.Uploader).ToList();
 
-            var playlists = db.Playlists.Where(a => a.Author.Id == currentUser).ToList();
+            var playlists = db.Playlists.Where(a => a.Creator.Id == currentUser).ToList();
 
             ViewBag.Playlists = playlists;
 
             return View(userSongs);
         }
 
-        // GET: Songs/Details/5
+        // GET: Songs/Details
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,17 +40,34 @@ namespace Panda_Player.Controllers
                 return RedirectToAction("MySongs");
             }
             Song song = db.Songs.Find(id);
+
             if (song == null)
             {
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
                 return RedirectToAction("MySongs");
             }
-            return View(song);
+
+            SongDetailsModel currSong = new SongDetailsModel();
+
+            currSong.Artist = song.Artist;
+            currSong.Title = song.Title;
+            currSong.Genre = db.Genres.Where(g => g.Id == song.GenreId).Select(g => g.Name).First();
+            currSong.Description = song.Description;
+            currSong.UploadDate = song.UploadDate;
+            currSong.Uploader = song.Uploader;
+
+            return View(currSong);
         }
 
         // GET: Songs/Upload
         public ActionResult Upload()
         {
+            var db = new ApplicationDbContext();
+
+            var model = new SongViewModel();
+            model.Genre = db.Genres.OrderBy(c => c.Name).ToList();
+
+            return View(model);
             return PartialView();
         }
 
@@ -57,9 +75,9 @@ namespace Panda_Player.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Upload(Song song, HttpPostedFileBase file)
-        {
-            if (ModelState.IsValid && file != null)
+        public ActionResult Upload(SongUploadViewModel song, HttpPostedFileBase file)
+        {   
+            if (file != null)
             {
                 var validTypes = new[]
                 {
@@ -80,8 +98,15 @@ namespace Panda_Player.Controllers
 
                     var fileName = randomHash + "_" + uploadFilename;
 
-
                     var absoluteFilePath = mappedPath + fileName;
+
+                    bool isGenreIdValid = ValidateGenre(song.Genre);
+
+                    if (!isGenreIdValid)
+                    {
+                        this.AddNotification("Invalid genre selected.", NotificationType.ERROR);
+                        return View(song);
+                    }
 
                     var currentSong = new Song
                     {
@@ -90,7 +115,8 @@ namespace Panda_Player.Controllers
                         Description = song.Description,
                         UploaderId = currentUser,
                         SongPath = $"/Uploads/{fileName}",
-                        UploadDate = DateTime.Now
+                        UploadDate = DateTime.Now,
+                        GenreId = song.Genre
                     };
 
                     if (!Directory.Exists(mappedPath))
@@ -104,18 +130,18 @@ namespace Panda_Player.Controllers
                     db.SaveChanges();
 
                     this.AddNotification("The song has been upload successfully.", NotificationType.SUCCESS);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("MySongs", "Songs");
                 }
 
                 this.AddNotification("The File must be only mp3 or wav.", NotificationType.ERROR);
-                return View(song);
+                return RedirectToAction("Upload");
             }
 
             this.AddNotification("The file cannot be null", NotificationType.ERROR);
-            return View(song);
+            return RedirectToAction("Upload");
         }
 
-        // GET: Songs/Edit/5
+        // GET: Songs/Edit/{id}
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -127,25 +153,34 @@ namespace Panda_Player.Controllers
 
             Song song = db.Songs.Find(id);
 
-            if (!IsAuthorizedToOperate(song))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-
             if (song == null)
             {
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
                 return RedirectToAction("MySongs");
             }
-            return View(song);
+
+            if (!IsAuthorizedToOperate(song))
+            {
+                this.AddNotification("You don't have permission to edit this song.", NotificationType.ERROR);
+                return RedirectToAction("MySongs");
+            }
+
+            var viewModel = new SongViewModel();
+            viewModel.Artist = song.Artist;
+            viewModel.Title = song.Title;
+            viewModel.Description = song.Description;
+            viewModel.GenreId = song.GenreId;
+            viewModel.Genre = db.Genres.OrderBy(g => g.Name).ToList();
+
+            return View(viewModel);
         }
 
-        // POST: Songs/Edit/5
+        // POST: Songs/Edit/
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Song song)
+        public ActionResult Edit(SongUploadViewModel song)
         {
             var currentSong = db.Songs.FirstOrDefault(s => s.Id == song.Id);
             if (currentSong == null)
@@ -157,6 +192,7 @@ namespace Panda_Player.Controllers
             currentSong.Artist = song.Artist;
             currentSong.Title = song.Title;
             currentSong.Description = song.Description;
+            currentSong.GenreId = song.Genre;
 
             db.SaveChanges();
 
@@ -234,6 +270,23 @@ namespace Panda_Player.Controllers
             bool isUploader = song.IsUploader(this.User.Identity.Name);
 
             return isAdmin || isUploader;
+        }
+
+        private bool ValidateGenre(int genreId)
+        {
+            var db = new ApplicationDbContext();
+
+            var genres = db.Genres.ToList();
+
+            foreach (var genre in genres)
+            {
+                if (genre.Id == genreId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

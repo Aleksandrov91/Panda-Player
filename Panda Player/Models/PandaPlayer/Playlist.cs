@@ -10,6 +10,7 @@ namespace Panda_Player.Models.PandaPlayer
         public Playlist()
         {
             this.Songs = new HashSet<Song>();
+            this.DateCreated = DateTime.Now;
         }
         
         [Key]
@@ -27,6 +28,11 @@ namespace Panda_Player.Models.PandaPlayer
         [ForeignKey("Songs")]
         public virtual ICollection<Song> Songs { get; set; }
 
-        public virtual ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
+
+        public bool IsCreator(string name)
+        {
+            return this.Creator.UserName.Equals(name);
+        }
     }
 }
