@@ -1,7 +1,7 @@
-﻿@model Panda_Player.Models.PandaPlayer.Song
+﻿@model Panda_Player.Models.PandaPlayer.SongDetailsModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Song Details";
 }
 
 @Html.Partial("Player")
@@ -29,9 +29,17 @@
                 @Html.DisplayFor(model => model.Title)
             </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
 
             <dd>
                 @Html.DisplayFor(model => model.Description)

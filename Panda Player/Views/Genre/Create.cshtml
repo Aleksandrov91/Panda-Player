@@ -1,0 +1,23 @@
+﻿@model Panda_Player.Models.Manage.Admin.Genre
+
+@{
+    ViewBag.Title = "Create Genre";
+}
+
+
+@using (@Html.BeginForm("Create", "Genre", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="form-group span=8 offset=2">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-4" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+                    @Html.ActionLink("Cancel", "Index", "Genre", new { @class = "btn btn-default" })
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+}

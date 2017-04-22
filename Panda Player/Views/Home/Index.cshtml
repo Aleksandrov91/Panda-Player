@@ -9,7 +9,7 @@
 
 
 <div class="row">
-    @foreach (var playlist in ViewBag.Playlists)
+    @*@foreach (var playlist in ViewBag.Playlists)
     {
         <div class="col-md-4">
             <a href="~/Playlists/Details/@playlist.Id">
@@ -18,13 +18,13 @@
             </a>
             <button class="btn btn-default" type="button">@Html.ActionLink("Details", $"Details/{@playlist.Id}", "Playlists")</button>
         </div>
-    }
+    }*@
 </div>
 
 
 <h2>Last Added Songs</h2>
 <div class="row">
-    @foreach (var song in ViewBag.Songs)
+    @*@foreach (var song in ViewBag.Songs)
     {
         <div class="col-md-4">
             <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
@@ -48,13 +48,13 @@
             </div>
 
         </div>
-    }
+    }*@
 </div>
 
-        @*<div class="col-md-4">
-            <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;">
-        </div>
+@*<div class="col-md-4">
+        <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;">
+    </div>
 
-        <div class="col-md-4">
-            <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;">
-        </div>*@
+    <div class="col-md-4">
+        <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;">
+    </div>*@

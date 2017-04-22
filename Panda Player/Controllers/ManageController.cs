@@ -6,6 +6,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Panda_Player.Models.Manage;
+using Panda_Player.Models;
+using Panda_Player.Extensions;
+using Panda_Player.Models.PandaPlayer;
+using System.Data.Entity;
+using System;
+using System.IO;
 
 namespace Panda_Player.Controllers
 {
@@ -66,6 +72,7 @@ namespace Panda_Player.Controllers
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
+                HasProfilePic = HasProfilePic(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
@@ -332,7 +339,83 @@ namespace Panda_Player.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        // GET: Image
+        public ActionResult Upload()
+        {
+            return View();
+        }
+
+        //Post: Image
+        [HttpPost]
+        public ActionResult Upload(Image image, HttpPostedFileBase file)
+        {
+            
+
+            if (ModelState.IsValid && file != null)
+            {
+                var validTypes = new[]
+                {
+                    "image/jpg",
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif"
+                };
+
+                if (validTypes.Contains(file.ContentType))
+                {
+                    ApplicationDbContext db = new ApplicationDbContext();
+
+                    var currentUser = this.User.Identity.GetUserId();
+                    var imagePath = "~/Content/Images/ProfilePics/";
+                    var mappedPath = HttpContext.Server.MapPath(imagePath);
+                    var uploadFilename = Path.GetFileName(file.FileName);
+                    var randomHash = Guid.NewGuid().ToString().Substring(0, 6);
+
+                    var fileName = randomHash + "_" + uploadFilename;
+
+
+                    var absoluteFilePath = mappedPath + fileName;
+
+                    var loggedUser = db.Users.Find(currentUser);
+                    
+            
+                   
+                    if (!Directory.Exists(mappedPath))
+                    {
+                        Directory.CreateDirectory(mappedPath);
+                    }
+
+                    file.SaveAs(absoluteFilePath);
+
+                    loggedUser.ProfilePicPath = absoluteFilePath;
+                    db.SaveChanges();
+
+                    this.AddNotification("Profile picture has been uploaded successfully.", NotificationType.SUCCESS);
+                    return RedirectToAction("Index", "Manage");
+                }
+
+                this.AddNotification("The File must be only jpg or jpeg.", NotificationType.ERROR);
+                return View(image);
+            }
+
+            this.AddNotification("The file cannot be null", NotificationType.ERROR);
+            return View(image);
+        }
+
+        public ActionResult Show()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            var currentUser = this.User.Identity.GetUserId();
+            var loggedUser = db.Users.Find(currentUser);
+
+            var imageData = loggedUser.ProfilePicPath;
+
+
+            return File(imageData, "image/jpg");
+        }
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -360,6 +443,16 @@ namespace Panda_Player.Controllers
                 return user.PasswordHash != null;
             }
             return false;
+        }
+
+        private bool HasProfilePic()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user.ProfilePicPath == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         private bool HasPhoneNumber()

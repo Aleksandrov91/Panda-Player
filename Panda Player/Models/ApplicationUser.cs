@@ -20,6 +20,8 @@ namespace Panda_Player.Models
         [Required]
         public string FullName { get; set; }
 
+        public string ProfilePicPath { get; set; }
+
         public virtual ICollection<Song> UploadedSongs { get; set; }
 
         public virtual ICollection<Playlist> Playlists { get; set; }

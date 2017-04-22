@@ -1,0 +1,23 @@
+﻿@model Panda_Player.Models.Manage.Admin.Genre
+
+@{
+    ViewBag.Title = "Edit Genre";
+}
+
+
+@using (Html.BeginForm("Edit", "Genre", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-4" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    @Html.ActionLink("Cancel", "List", "Genre", new { @class = "btn btn-default" })
+                    <input type="submit" value="Edit" class="btn btn-success" />
+                </div>
+            </div>
+}
