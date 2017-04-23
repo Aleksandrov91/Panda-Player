@@ -18,11 +18,11 @@
                 </li>
             }
 
-            <li>
-                <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; margin-right:7px; margin-top:3px" />
+            <li style="margin-top:10px; margin-right:4px">                   
+                <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:42px; height:40px;" />         
             </li>
-            <li>               
-                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })               
+            <li>   
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
             @*<li>
                 <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:40px" />
