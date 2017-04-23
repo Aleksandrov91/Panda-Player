@@ -336,7 +336,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Playlists\MyPlaylists.cshtml" />
     <Content Include="Views\Shared\_ModalPopup.cshtml" />
-    <Content Include="Views\Home\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -81,7 +81,7 @@ namespace Panda_Player.Controllers
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             return View(playlist);
@@ -178,11 +178,9 @@ namespace Panda_Player.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            var result = false;
             Playlist playlist = db.Playlists.Find(id);
             db.Playlists.Remove(playlist);
             db.SaveChanges();
-            result = true;
 
             this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
             return Json(new { Success = true });

@@ -75,8 +75,6 @@
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
 
-                @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "result" }))
-                {
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                             Add to playlist
@@ -85,12 +83,11 @@
                         <ul class="dropdown-menu">
                             @foreach (var playlist in playlists)
                             {
-                                <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = item.Id, playlistId = playlist.Id }, null)</li>
+                                <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", new { songId = item.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", OnSuccess="alert(success)" })</li>
                             }
                             <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
                         </ul>
                     </div>
-                }
                 
             </td>
         </tr>
