@@ -17,9 +17,17 @@
                     </ul>
                 </li>
             }
+
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; margin-right:7px; margin-top:3px" />
             </li>
+            <li>               
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })               
+            </li>
+            @*<li>
+                <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:40px" />
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>*@
             @*<li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>*@
             @*<li>@Html.ActionLink("My Songs", "MySongs", "Songs")</li>*@
             @*<li>@Html.ActionLink("My Playlists", "MyPlaylists", "Playlists")</li>*@

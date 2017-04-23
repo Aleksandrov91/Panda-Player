@@ -61,6 +61,18 @@
                 @Html.DisplayFor(model => model.Uploader.FullName)
             </dd>
 
+            <dt>
+                @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+
+            <dd>
+                @foreach (var tag in Model.Tags)
+                {
+                    @Html.ActionLink(tag.Name, "Details", "Tag", new { @id = tag.id },
+                        new { @class = "btn btn-default btn--xs" })
+                }
+            </dd>
+
         </dl>
     </div>
     <p>
