@@ -108,3 +108,35 @@ li {
         font-weight: bold;
     }
 
+/*Playlist toggle*/
+#sidebar-wrapper {
+    margin-left: -250px;
+    top: 135px;
+    width: 250px;
+    left: 0;
+    background: #000;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.4s ease 0s;
+}
+
+#wrapper.active #sidebar-wrapper {
+    margin-left: -250px;
+    top: 135px;
+    left: 250px;
+    width: 250px;
+    background: #000;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.4s ease 0s;
+}
+
+#menu-toggle {
+    text-decoration: none;
+    color: #fff;
+    padding-right: 15px;
+}

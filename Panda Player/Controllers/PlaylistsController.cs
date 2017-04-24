@@ -9,6 +9,7 @@ using Panda_Player.Extensions;
 using System.Text;
 using Panda_Player.Models.ViewModels;
 using System;
+using System.IO;
 
 namespace Panda_Player.Controllers
 {
@@ -207,6 +208,7 @@ namespace Panda_Player.Controllers
             return Json(new { Success = true });
         }
 
+        [Authorize]
         public ActionResult LoadPlaylist(int? id)
         {
 
@@ -299,35 +301,7 @@ namespace Panda_Player.Controllers
 
         //    System.IO.File.WriteAllText(myPlayList, result.ToString());
         //}
-
-        private void ConvertToM3u(Playlist playlist)
-        {
-            var result = new StringBuilder();
-
-            result.AppendLine("#EXTM3U");
-            result.AppendLine("");
-
-            var playlistSongs = playlist.Songs.ToList();
-
-            foreach (var song in playlistSongs)
-            {
-                var formattedSong = $"#EXTINF:1,{song.Artist} - {song.Title}";
-                var songPath = song.SongPath;
-
-                result.AppendLine(formattedSong);
-                result.AppendLine($"http://localhost:4522{songPath}");
-            }
-
-            string uploadDir = Server.MapPath("~/");
-            var myPlayList = $@"{uploadDir}Uploads/Playlists/currentPlaylist.m3u";
-    
-            if (!System.IO.File.Exists($"{myPlayList}"))
-            {
-                System.IO.File.Create($"{myPlayList}");
-            }
-
-            System.IO.File.WriteAllText(myPlayList, result.ToString());
-        }
+              
 
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {

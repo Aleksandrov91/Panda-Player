@@ -230,6 +230,7 @@
     <Compile Include="Models\Manage\SetPasswordViewModel.cs" />
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Image.cs" />
+    <Compile Include="Models\PandaPlayer\LoadPlaylistSongsViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Playlist.cs" />
     <Compile Include="Models\PandaPlayer\Song.cs" />
     <Compile Include="Models\PandaPlayer\SongDetailsModel.cs" />
@@ -342,6 +343,9 @@
     <Content Include="Views\Shared\_ModalPopup.cshtml" />
     <Content Include="Views\Songs\MySongs.cshtml" />
     <Content Include="Views\Playlists\MyPlaylists.cshtml" />
+    <Content Include="Views\Shared\_PlayList.cshtml" />
+    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Playlists\LoadPlaylist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
