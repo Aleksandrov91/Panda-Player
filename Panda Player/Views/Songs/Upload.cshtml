@@ -46,6 +46,7 @@
                         new SelectList(Model.Genre, "Id", "Name"),
                         "----- Please select genre from list! -----",
                         new { @class = "btn btn-info col-md-10" })
+                @Html.ValidationMessageFor(model => model.Artist, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -60,7 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.File, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.File, new { type = "file", name = "Files" })
+                @Html.TextBoxFor(m => m.File, new { type = "file", name = "File", accept = ".mp3,.wav,.flac,.wv" })
                 
             </div>
         </div>

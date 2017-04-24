@@ -74,13 +74,11 @@ namespace Panda_Player.Controllers
         // GET: Songs/Upload
         public ActionResult Upload()
         {
-            var db = new ApplicationDbContext();
-
             var model = new SongViewModel();
             model.Genre = db.Genres.OrderBy(c => c.Name).ToList();
 
-            return View(model);
-            return PartialView();
+            //return View(model);
+            return PartialView(model);
         }
 
         // POST: Songs/Upload

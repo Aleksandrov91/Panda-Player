@@ -16,6 +16,7 @@
             </a>
             <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
         </div>
+    }
 
     }
 
@@ -55,6 +56,7 @@
             </div>
 
         </div>
+    }
 
     }
 
@@ -66,15 +68,3 @@
     @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
 </div>
 <br />
-
-
-
-
-
-@*<div class="col-md-4">
-        <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;">
-    </div>
-
-    <div class="col-md-4">
-        <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;">
-    </div>*@

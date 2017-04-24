@@ -402,23 +402,24 @@ namespace Panda_Player.Controllers
             return View(image);
         }
 
-        public ActionResult Show()
+        public ActionResult Show(IndexViewModel model)
         {
             ApplicationDbContext db = new ApplicationDbContext();
+            
+            
 
             var currentUser = this.User.Identity.GetUserId();
             var loggedUser = db.Users.Find(currentUser);
             var imageData = loggedUser.ProfilePicPath;
 
-            var model = new IndexViewModel();
-
-            if (!model.HasProfilePic)
+            if (imageData != null)
             {
-                imageData = "~/Content/Images/ProfilePics/default-avatar.png";
                 return File(imageData, "image/jpg");
+                
             }
 
-            return File(imageData, "image/jpg");
+            var defImg = "~/Content/Images/ProfilePics/default-avatar.png";
+            return File(defImg, "image/jpg");
 
         }
 
