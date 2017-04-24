@@ -1,23 +1,20 @@
-﻿@model Panda_Player.Models.PandaPlayer.SongViewModel
+﻿@model Panda_Player.Models.PandaPlayer.Song
 
 @{
-    ViewBag.Author = "Edit";
-    Layout = null;
+    ViewBag.Title = "Upload a song";
 }
 
-<h2>Edit</h2>
-
-
-@using( Ajax.BeginForm( new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
+@using (Html.BeginForm("Upload", "Songs", null, FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Song</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+    @Html.ValidationSummary(true)
 
+    <div class="form-horizontal">
+        <h2>Upload a song</h2>
+        <hr />
+        <h1>@ViewBag.Error</h1>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Artist, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -43,31 +40,22 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.GenreId, new { @class = "control-label col-md-2" })
-            <div class="dropdown col-md-10">
-                @Html.DropDownListFor(m => m.GenreId,
-                        new SelectList(Model.Genre, "Id", "Name", Model.GenreId),
-                        new { @class = "btn btn-info col-md-10" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Tags, new { @class = "control-label col-md-2" })
-            <div class="col-sm-4">
-                @Html.TextBoxFor(m => m.Tags, new { @class = "form-control" })
+            @Html.LabelFor(model => model.SongPath, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="SongPath" class="form-control" title="Upload a Song" type="file" name="file" accept=".mp3,.wav,.flac,.wv" />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Upload" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Ajax.ActionLink("Back to My Songs", "MySongs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

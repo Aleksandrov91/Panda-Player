@@ -2,9 +2,8 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = null;
 }
-
-@Html.Partial("Player")
 
 <h2>Details</h2>
 
@@ -42,6 +41,6 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
+    @Ajax.ActionLink("Back My Playlists", "MyPlaylists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>

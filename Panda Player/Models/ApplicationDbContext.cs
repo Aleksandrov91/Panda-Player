@@ -22,5 +22,6 @@ namespace Panda_Player.Models
         public virtual DbSet<Song> Songs { get; set; }
         public virtual DbSet<Playlist> Playlists { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
     }
 }
