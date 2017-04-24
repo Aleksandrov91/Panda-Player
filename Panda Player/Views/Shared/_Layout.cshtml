@@ -28,7 +28,6 @@
                 <a class="navbar-brand" style="margin-left:40px">                    
                     @*@Html.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@ 
                     @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "get", UpdateTargetId = "body" }, new { @class = "navbar-brand" })
-                    @*@Html.Partial("_PlayList")*@
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

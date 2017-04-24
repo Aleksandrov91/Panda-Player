@@ -339,7 +339,6 @@
     <Content Include="Views\Shared\PlaylistPartial.cshtml" />
     <Content Include="Views\Songs\Upload.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Playlists\MyPlaylists.cshtml" />
     <Content Include="Views\Shared\_ModalPopup.cshtml" />
   </ItemGroup>
   <ItemGroup>

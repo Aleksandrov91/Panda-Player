@@ -37,7 +37,7 @@ namespace Panda_Player.Controllers
 
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
 
-            ConvertToM3u(playlist);
+            //ConvertToM3u(playlist);
 
             if (playlist == null)
             {
@@ -187,11 +187,60 @@ namespace Panda_Player.Controllers
             return Json(new { Success = true });
         }
 
-        //public ActionResult LoadPlaylist(int id)
-        //{            
+        public ActionResult LoadPlaylist(int? id)
+        {
 
-        //    var playlist = db.Playlists.Include(song => song.Songs).FirstOrDefault(a => a.Id == id);
+            var playlist = db.Playlists.Include(song => song.Songs).FirstOrDefault(a => a.Id == id);
+            var playlistSongs = playlist.Songs.ToList();
 
+            var result = new StringBuilder();
+
+            result.AppendLine("#EXTM3U");
+            result.AppendLine("");
+
+
+            foreach (var song in playlistSongs)
+            {
+                var formattedSong = $"#EXTINF:1,{song.Artist} - {song.Title}";
+                var songPath = song.SongPath;
+
+                result.AppendLine(formattedSong);
+                result.AppendLine($"http://localhost:4522{songPath}");
+            }
+
+            var directoryPath = HttpContext.Server.MapPath("~/Uploads/Playlists");
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string uploadDir = Server.MapPath("~/Uploads/Playlists/");
+            var myPlayList = $@"{uploadDir}currentPlaylist.m3u";
+
+            if (!System.IO.File.Exists($"{myPlayList}"))
+            {
+                System.IO.File.Create($"{myPlayList}");
+            }
+
+            if (!System.IO.File.Exists($"{myPlayList}"))
+            {
+                System.IO.File.Create($"{myPlayList}");
+            }
+
+            System.IO.File.WriteAllText(myPlayList, result.ToString());
+
+            var model = new LoadPlaylistSongsViewModel
+            {
+                Playlist = playlist,
+                PlaylistSongs = playlistSongs
+            };
+
+            return PartialView("LoadPlaylist");
+        }
+
+        //private void ConvertToM3u(Playlist playlist)
+        //{
         //    var result = new StringBuilder();
 
         //    result.AppendLine("#EXTM3U");
@@ -229,57 +278,7 @@ namespace Panda_Player.Controllers
         //    }
 
         //    System.IO.File.WriteAllText(myPlayList, result.ToString());
-
-        //    var model = new LoadPlaylistSongsViewModel
-        //    {
-        //        Playlist = playlist,
-        //        PlaylistSongs = playlistSongs
-        //    };
-
-        //    return PartialView("LoadPlaylist");
         //}
-               
-
-        private void ConvertToM3u(Playlist playlist)
-        {
-            var result = new StringBuilder();
-
-            result.AppendLine("#EXTM3U");
-            result.AppendLine("");
-
-            var playlistSongs = playlist.Songs.ToList();
-
-            foreach (var song in playlistSongs)
-            {
-                var formattedSong = $"#EXTINF:1,{song.Artist} - {song.Title}";
-                var songPath = song.SongPath;
-
-                result.AppendLine(formattedSong);
-                result.AppendLine($"http://localhost:4522{songPath}");
-            }
-
-            var directoryPath = HttpContext.Server.MapPath("~/Uploads/Playlists");
-
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-
-            string uploadDir = Server.MapPath("~/Uploads/Playlists/");
-            var myPlayList = $@"{uploadDir}currentPlaylist.m3u";
-
-            if (!System.IO.File.Exists($"{myPlayList}"))
-            {
-                System.IO.File.Create($"{myPlayList}");
-            }
-
-            if (!System.IO.File.Exists($"{myPlayList}"))
-            {
-                System.IO.File.Create($"{myPlayList}");
-            }
-
-            System.IO.File.WriteAllText(myPlayList, result.ToString());
-        }
 
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
