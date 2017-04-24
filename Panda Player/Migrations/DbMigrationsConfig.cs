@@ -80,7 +80,8 @@ namespace Panda_Player.Migrations
             {
                 UserName = adminUserName,
                 FullName = adminFullName,
-                Email = adminEmail
+                Email = adminEmail,
+                UserAccessControl = new Models.PandaPlayer.UserAccessControl { UserRegisterDate = DateTime.Now }
             };
 
             var userStore = new UserStore<ApplicationUser>(context);

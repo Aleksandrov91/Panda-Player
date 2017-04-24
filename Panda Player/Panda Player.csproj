@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
@@ -236,6 +237,7 @@
     <Compile Include="Models\PandaPlayer\SongUploadEditViewModel.cs" />
     <Compile Include="Models\PandaPlayer\SongUploadViewModel.cs" />
     <Compile Include="Models\PandaPlayer\SongViewModel.cs" />
+    <Compile Include="Models\PandaPlayer\UserAccessControl.cs" />
     <Compile Include="Models\ViewModels\PlaylistViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -341,6 +343,7 @@
     <Content Include="Views\Playlists\MyPlaylists.cshtml" />
     <Content Include="Views\Shared\_ModalPopup.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Shared\_ModalPopupBAN.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

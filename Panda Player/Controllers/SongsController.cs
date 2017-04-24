@@ -27,7 +27,7 @@ namespace Panda_Player.Controllers
                 .Include(u => u.Uploader)
                 .Include(s => s.Tags)
                 .ToList();
-
+            
             var playlists = db.Playlists
                 .Where(a => a.Creator.Id == currentUser)
                 .ToList();
