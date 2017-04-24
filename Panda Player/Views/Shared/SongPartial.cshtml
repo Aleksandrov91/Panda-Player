@@ -1,14 +1,41 @@
-﻿@model List<Panda_Player.Models.PandaPlayer.Song>
+﻿@model Panda_Player.Models.ViewModels.ListAllSongsViewModel
 <div class="row">
-    @foreach (var song in Model)
-    {
-        <div class="col-md-4">
-            <h4>@song.Artist - @song.Title</h4>
-            <p>
+    <div class="row">
+        @foreach (var song in Model.Songs)
+        {
+            <div class="col-md-4">
                 <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
                     <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
+                    <h4>@song.Artist - @song.Title</h4>
                 </a>
-            </p>
-        </div>
-    }
+                <div>
+                    <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                Add to playlist
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach (var playlist in Model.UserPlaylists)
+                                {
+                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST" })</li>
+                                }
+                                <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
+                            </ul>
+                        </div>
+                        if (song.IsUploader(User.Identity.Name) || this.User.IsInRole("Admin"))
+                        {
+                            @Ajax.ActionLink("Edit", "Edit", new { id = song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                            @Html.Hidden("item-to-delete", "", new { @id = song.Id })
+                            <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@song.Id, '@($"{song.Artist} - {song.Title}")')" data-item-description="@song.Title">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
 </div>

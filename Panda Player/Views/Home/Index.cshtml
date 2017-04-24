@@ -1,13 +1,13 @@
-﻿@{
+﻿@model Panda_Player.Models.ViewModels.IndexViewModel
+@{
     ViewBag.Title = "Home Page";
-    var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
+    //var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
 }
 
 <h1 class="playlists">Playlists</h1>
 
-
 <div class="row">
-    @foreach (var playlist in ViewBag.Playlists)
+    @foreach (var playlist in Model.Playlists)
     {
         <div class="col-md-4">
             <a href="~/Playlists/Details/@playlist.Id">
@@ -15,13 +15,16 @@
                 <h4>@playlist.PlaylistName</h4>
             </a>
             <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+            @if (User.Identity.IsAuthenticated && (playlist.IsCreator(User.Identity.Name) || this.User.IsInRole("Admin")))
+            {
+                @Ajax.ActionLink("Edit", "Edit", new { id = playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                @Html.Hidden("item-to-delete", "", new { @id = playlist.Id })
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@playlist.Id, '@($"{playlist.PlaylistName}")')">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            }
         </div>
     }
-
-    }
-
-
-
 </div>
 <div class="pull-right">
     @Ajax.ActionLink("View All", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
@@ -29,42 +32,51 @@
 </div>
 <br />
 
-
 <h1>Last Added Songs</h1>
 <div class="row">
-    @foreach (var song in ViewBag.Songs)
-    {
-        <div class="col-md-4">
-            <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
-                <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
-                <h4>@song.Artist - @song.Title</h4>
-            </a>
-
-            <div class="dropdown">
-                <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                    Add to playlist
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    @foreach (var playlist in playlists)
-                    {
-                        <li>@Html.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, null)</li>
+    <div class="row">
+        @foreach (var song in Model.Songs)
+        {
+            <div class="col-md-4">
+                <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
+                    <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
+                    <h4>@song.Artist - @song.Title</h4>
+                </a>
+                <div>
+                    <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+                    @if (User.Identity.IsAuthenticated)
+                {
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                Add to playlist
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach (var playlist in Model.UserPlaylists)
+                                {
+                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST" })</li>
+                                }
+                                <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
+                            </ul>
+                        </div>
+                        if (song.IsUploader(User.Identity.Name) || this.User.IsInRole("Admin"))
+                        {
+                            @Ajax.ActionLink("Edit", "Edit", new { id = song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                            @Html.Hidden("item-to-delete", "", new { @id = song.Id })
+                            <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@song.Id, '@($"{song.Artist} - {song.Title}")')" data-item-description="@song.Title">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        }
                     }
-                    <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
-                </ul>
+                </div>
             </div>
-
-        </div>
-    }
-
-    }
-
-
-
-
+        }
+    </div>
 </div>
 <div class="pull-right">
     @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
 </div>
 <br />
+
+<input type="hidden" id="songId" />
+@Html.Partial("_ModalPopup")

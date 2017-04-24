@@ -79,13 +79,3 @@
         @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
         @Ajax.ActionLink("Back to My Songs", "MySongs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
     </p>
-
-<script>
-    function play() {
-        wavesurfer.play();
-    }
-
-    var delay = 2000;
-
-    setTimeout(play, delay)
-</script>

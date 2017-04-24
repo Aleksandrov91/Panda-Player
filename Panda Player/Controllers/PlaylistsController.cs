@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using System.Text;
 using Panda_Player.Models.ViewModels;
+using System;
 
 namespace Panda_Player.Controllers
 {
@@ -17,13 +18,33 @@ namespace Panda_Player.Controllers
 
         // GET: Playlists
         [Authorize]
+        [HttpGet]
         public ActionResult MyPlaylists()
         {
             var currentUserId = this.User.Identity.GetUserId();
             var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
-            return PartialView(myPlaylists);
+            var playlistsPerPage = myPlaylists.Take(5).ToList();
+
+            var lastPage = Math.Ceiling((decimal)myPlaylists.Count() / 5);
+            var model = new ListAllPlaylistsViewModel
+            {
+                Playlists = playlistsPerPage,
+                LastPage = lastPage
+            };
+
+            return PartialView(model);
         }
 
+        [HttpPost]
+        public ActionResult MyPlaylists(ListAllPlaylistsViewModel model)
+        {
+            var currentUserId = this.User.Identity.GetUserId();
+            var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
+            var currentPagePlaylists = myPlaylists.Skip((model.CurrentPage - 1) * 5).Take(5).ToList();
+            model.Playlists = currentPagePlaylists;
+
+            return PartialView("PlaylistPartial", model);
+        }
         // GET: Playlists/Details
         [Authorize]
         public ActionResult Details(int? id)

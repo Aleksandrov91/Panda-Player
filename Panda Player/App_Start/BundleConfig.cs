@@ -28,6 +28,9 @@ namespace Panda_Player
 
             bundles.Add(new ScriptBundle("~/bundles/modalFunction").Include(
                         "~/Scripts/modalFunc.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/paging").Include(
+                        "~/Scripts/paging.js"));
         }
     }
 }

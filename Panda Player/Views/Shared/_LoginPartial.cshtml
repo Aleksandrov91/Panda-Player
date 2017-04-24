@@ -31,7 +31,7 @@
             @*<li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>*@
             @*<li>@Html.ActionLink("My Songs", "MySongs", "Songs")</li>*@
             @*<li>@Html.ActionLink("My Playlists", "MyPlaylists", "Playlists")</li>*@
-            <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", null, new AjaxOptions { HttpMethod = "get", UpdateTargetId = "body" }, new { })</li>          
+            <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", null, new AjaxOptions { HttpMethod = "get", UpdateTargetId = "body", OnSuccess = "changeUrl(data)" }, new { })</li>          
             <li>@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
             <li>@Ajax.ActionLink("My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li>@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body"})</li>
