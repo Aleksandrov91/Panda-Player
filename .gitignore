@@ -250,3 +250,5 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/Panda Player/Uploads
+/Panda Player/Content/Images/ProfilePics

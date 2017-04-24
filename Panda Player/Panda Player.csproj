@@ -230,6 +230,7 @@
     <Compile Include="Models\Manage\SetPasswordViewModel.cs" />
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Image.cs" />
+    <Compile Include="Models\PandaPlayer\LoadPlaylistSongsViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Playlist.cs" />
     <Compile Include="Models\PandaPlayer\Song.cs" />
     <Compile Include="Models\PandaPlayer\SongDetailsModel.cs" />
@@ -253,10 +254,10 @@
     <Content Include="Content\Images\Logos\instagram_icon.png" />
     <Content Include="Content\Images\Logos\linkedin_icon.png" />
     <Content Include="Content\Images\Logos\twitter_icon.png" />
-    <Content Include="Content\Player\player.js" />
-    <Content Include="Content\Player\playlistparser.js" />
-    <Content Include="Content\Player\wavesurfer.min.js" />
-    <Content Include="Content\Player\wavesurfer.playlist.js" />
+    <Content Include="Scripts\Player\player.js" />
+    <Content Include="Scripts\Player\playlistparser.js" />
+    <Content Include="Scripts\Player\wavesurfer.min.js" />
+    <Content Include="Scripts\Player\wavesurfer.playlist.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -342,6 +343,7 @@
     <Content Include="Views\Shared\_ModalPopup.cshtml" />
     <Content Include="Views\Songs\MySongs.cshtml" />
     <Content Include="Views\Playlists\MyPlaylists.cshtml" />
+    <Content Include="Views\Shared\_PlayList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,9 +9,9 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/modalFunction")
-    <script src="/Content/Player/wavesurfer.min.js"></script>
-    <script src="~/Content/Player/playlistparser.js"></script>
-    <script src="~/Content/Player/wavesurfer.playlist.js"></script>
+    @Scripts.Render("~/bundles/wavesurfer")
+    @Scripts.Render("~/bundles/playlistparser")
+    @Scripts.Render("~/bundles/wavesurfer.playlist")
     <link href="/Content/font-awesome.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 </head>
@@ -54,9 +54,9 @@
             var controller = ViewContext.RouteData.Values["controller"].ToString();
             var action = ViewContext.RouteData.Values["action"].ToString();
             if (controller != "Account" && controller != "User" &&
-                controller != "Genre" && action != "Upload" )
+                controller != "Genre" && action != "Upload")
             {
-                Html.Partial("Player");
+                    @Html.Partial("Player")
             }
         }
         <div id="body">
@@ -121,7 +121,7 @@
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="/Content/Player/player.js"></script>
+    @Scripts.Render("~/bundles/player")
     @RenderSection("scripts", required: false)
 </body>
 </html>
