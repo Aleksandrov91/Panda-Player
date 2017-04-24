@@ -3,6 +3,15 @@
 @{
     ViewBag.Title = "My Songs";
 
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
 }
 @Scripts.Render("~/bundles/paging")
 

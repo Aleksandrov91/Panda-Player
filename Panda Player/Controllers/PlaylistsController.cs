@@ -310,7 +310,7 @@ namespace Panda_Player.Controllers
             playlist.Songs.Remove(song);
             db.SaveChanges();
             
-            return RedirectToAction("Index");
+            return RedirectToAction("MyPlaylists");
         }
 
         private bool IsAuthorizedToOperate(Playlist playlist)

@@ -50,8 +50,15 @@
     </nav>
     <div class="container body-content">
         @Html.Partial("_Notifications")
-        @Html.Partial("Player")
-
+        @{
+            var controller = ViewContext.RouteData.Values["controller"].ToString();
+            var action = ViewContext.RouteData.Values["action"].ToString();
+            if (controller != "Account" && controller != "User" &&
+                controller != "Genre" && action != "Upload" )
+            {
+                Html.Partial("Player");
+            }
+        }
         <div id="body">
             @RenderBody()
         </div>

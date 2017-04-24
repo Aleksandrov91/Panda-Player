@@ -2,13 +2,21 @@
 
 @{
     ViewBag.Author = "Edit";
-    Layout = null;
+
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <h2>Edit</h2>
 
 
-@using( Ajax.BeginForm( new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
+@using ( Ajax.BeginForm( new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
 {
     @Html.AntiForgeryToken()
     
