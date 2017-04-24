@@ -27,7 +27,7 @@
                 </button>
                 <a class="navbar-brand" style="margin-left:40px">
                     @*@Html.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
-                    @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "get", UpdateTargetId = "body" }, new { @class = "navbar-brand" })
+                    @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
                     <br />
                     @using (Ajax.BeginForm("Search", null,
                         new AjaxOptions

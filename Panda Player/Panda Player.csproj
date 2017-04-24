@@ -230,7 +230,6 @@
     <Compile Include="Models\Manage\SetPasswordViewModel.cs" />
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Image.cs" />
-    <Compile Include="Models\PandaPlayer\LoadPlaylistSongsViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Playlist.cs" />
     <Compile Include="Models\PandaPlayer\Song.cs" />
     <Compile Include="Models\PandaPlayer\SongDetailsModel.cs" />
@@ -268,6 +267,10 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -280,7 +283,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modalFunc.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\playlistToggle.js" />
     <Content Include="Scripts\paging.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -331,9 +333,6 @@
     <Content Include="Views\Genre\Edit.cshtml" />
     <Content Include="Views\Genre\Delete.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
-    <Content Include="Views\Shared\_PlayList.cshtml" />
-    <Content Include="Views\Playlists\LoadPlaylist.cshtml" />
     <Content Include="Views\Home\ListSongs.cshtml" />
     <Content Include="Views\Shared\SongPartial.cshtml" />
     <Content Include="Views\Home\ListPlaylists.cshtml" />
