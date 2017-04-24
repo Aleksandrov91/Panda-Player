@@ -13,11 +13,3 @@
     </div>
 
 }
-
-
-@*@Html.Partial("LoadPlaylist")*@  
-
-@Ajax.ActionLink("Load", "LoadPlaylist", "Playlists", new { id = item.Id }, new AjaxOptions { HttpMethod = "GET" }, new { @class = "btn btn-primary playlist" })
-@*<button class="btn btn-primary playlist">
-        <i class="fa fa-play-circle-o" aria-hidden="true"></i>
-    </button>*@
