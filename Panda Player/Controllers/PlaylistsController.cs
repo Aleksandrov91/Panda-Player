@@ -7,8 +7,8 @@ using Panda_Player.Models.PandaPlayer;
 using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using System.Text;
-using System.IO;
 using Panda_Player.Models.ViewModels;
+using System;
 
 namespace Panda_Player.Controllers
 {
@@ -18,13 +18,33 @@ namespace Panda_Player.Controllers
 
         // GET: Playlists
         [Authorize]
+        [HttpGet]
         public ActionResult MyPlaylists()
         {
             var currentUserId = this.User.Identity.GetUserId();
             var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
-            return PartialView(myPlaylists);
+            var playlistsPerPage = myPlaylists.Take(5).ToList();
+
+            var lastPage = Math.Ceiling((decimal)myPlaylists.Count() / 5);
+            var model = new ListAllPlaylistsViewModel
+            {
+                Playlists = playlistsPerPage,
+                LastPage = lastPage
+            };
+
+            return PartialView(model);
         }
 
+        [HttpPost]
+        public ActionResult MyPlaylists(ListAllPlaylistsViewModel model)
+        {
+            var currentUserId = this.User.Identity.GetUserId();
+            var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
+            var currentPagePlaylists = myPlaylists.Skip((model.CurrentPage - 1) * 5).Take(5).ToList();
+            model.Playlists = currentPagePlaylists;
+
+            return PartialView("PlaylistPartial", model);
+        }
         // GET: Playlists/Details
         [Authorize]
         public ActionResult Details(int? id)
@@ -279,6 +299,35 @@ namespace Panda_Player.Controllers
 
         //    System.IO.File.WriteAllText(myPlayList, result.ToString());
         //}
+
+        private void ConvertToM3u(Playlist playlist)
+        {
+            var result = new StringBuilder();
+
+            result.AppendLine("#EXTM3U");
+            result.AppendLine("");
+
+            var playlistSongs = playlist.Songs.ToList();
+
+            foreach (var song in playlistSongs)
+            {
+                var formattedSong = $"#EXTINF:1,{song.Artist} - {song.Title}";
+                var songPath = song.SongPath;
+
+                result.AppendLine(formattedSong);
+                result.AppendLine($"http://localhost:4522{songPath}");
+            }
+
+            string uploadDir = Server.MapPath("~/");
+            var myPlayList = $@"{uploadDir}Uploads/Playlists/currentPlaylist.m3u";
+    
+            if (!System.IO.File.Exists($"{myPlayList}"))
+            {
+                System.IO.File.Create($"{myPlayList}");
+            }
+
+            System.IO.File.WriteAllText(myPlayList, result.ToString());
+        }
 
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {

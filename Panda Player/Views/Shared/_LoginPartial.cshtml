@@ -18,11 +18,11 @@
                 </li>
             }
 
-            <li style="margin-top:10px; margin-right:4px">                   
-                <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:42px; height:40px;" />         
+            <li>
+                <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; margin-right:7px; margin-top:3px" />
             </li>
-            <li>   
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <li>               
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })               
             </li>
             @*<li>
                 <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:40px" />
@@ -31,7 +31,7 @@
             @*<li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>*@
             @*<li>@Html.ActionLink("My Songs", "MySongs", "Songs")</li>*@
             @*<li>@Html.ActionLink("My Playlists", "MyPlaylists", "Playlists")</li>*@
-            <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", null, new AjaxOptions { HttpMethod = "get", UpdateTargetId = "body" }, new { })</li>          
+            <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", null, new AjaxOptions { HttpMethod = "get", UpdateTargetId = "body", OnSuccess = "changeUrl(data)" }, new { })</li>          
             <li>@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
             <li>@Ajax.ActionLink("My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li>@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body"})</li>

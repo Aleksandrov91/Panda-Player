@@ -11,7 +11,6 @@ namespace Panda_Player
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -29,6 +28,9 @@ namespace Panda_Player
 
             bundles.Add(new ScriptBundle("~/bundles/modalFunction").Include(
                         "~/Scripts/modalFunc.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/paging").Include(
+                        "~/Scripts/paging.js"));
         }
     }
 }
