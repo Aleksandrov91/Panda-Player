@@ -38,15 +38,8 @@
                 @Html.ActionLink("Edit", "Edit", new { Id = user.Id }) |
                 @Html.ActionLink("Details", "Details", new { Id = user.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = user.Id })
-                @Html.Hidden("item-to-delete", "", new { @id = user.Id })
-                <a href="#" class="btn btn-danger btn-sm" onclick="BanUser('@($"{user.Id}")', '@($"{user.FullName}")')">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </a>
             </td>
         @:</tr>
     }
 
 </table>
-
-<input type="hidden" id="userId" />
-@Html.Partial("_ModalPopupBAN")

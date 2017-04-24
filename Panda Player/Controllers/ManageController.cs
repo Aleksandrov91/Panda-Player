@@ -404,9 +404,7 @@ namespace Panda_Player.Controllers
 
         public ActionResult Show(IndexViewModel model)
         {
-            ApplicationDbContext db = new ApplicationDbContext();
-            
-            
+            ApplicationDbContext db = new ApplicationDbContext();            
 
             var currentUser = this.User.Identity.GetUserId();
             var loggedUser = db.Users.Find(currentUser);
