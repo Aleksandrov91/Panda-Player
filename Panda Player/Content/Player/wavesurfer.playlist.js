@@ -16,7 +16,7 @@ WaveSurfer.Playlist = {
         this.playlistType = this.params.playlistType || 'm3u';
         this.playlistData = [];
 
-        if (this.playlistFileGET != null) {
+        if (this.playlistFileGET !== null) {
             var ajaxData = wavesurfer.util.ajax({
                 url: this.playlistFileGET,
                 responseType: 'text'
@@ -44,7 +44,7 @@ WaveSurfer.Playlist = {
         // check if playlist type is given
         var playlist = [];
 
-        if (this.playlistType == 'm3u' || this.playlistType == 'audio/mpegurl') {
+        if (this.playlistType === 'm3u' || this.playlistType === 'audio/mpegurl') {
             playlist = playlistFile.replace(/^.*#.*$|#EXTM3U|#EXTINF:/mg, '').split('\n');
         } else {
             throw new Error('No valid playlist file provided');
@@ -62,7 +62,7 @@ WaveSurfer.Playlist = {
         }
         this.playlistData = outputArray;
         return;
-    }
+    }    
 };
 
 WaveSurfer.util.extend(WaveSurfer.Playlist, WaveSurfer.Observer);
