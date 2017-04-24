@@ -1,0 +1,66 @@
+﻿@model List<Panda_Player.Models.PandaPlayer.Playlist>
+@{
+    ViewBag.Title = "ListPlaylists";
+    Layout = null;
+}
+
+<h2>ListPlaylists</h2>
+
+<div id="PlaylistDiv">
+    @Html.Partial("PlaylistPartial", Model)
+</div>
+<div>
+    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "PlaylistDiv" }))
+    {
+        <input type="hidden" id="CurrentPage" name="CurrentPage" value="@ViewBag.CurrentPage" />
+        <input type="hidden" id="LastPage" name="LastPage" value="@ViewBag.LastPage" />
+    }
+    <input type="button" class="btn btn-primary" id="Previous" value="Previous" />
+    <input type="button" class="btn btn-primary" id="Next" value="Next" />
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Previous").click(function () {
+           if (CalculateAndSetPage("Previous"))
+            $("form").submit();
+        });
+        $("#Next").click(function () {
+            if (CalculateAndSetPage("Next"))
+            $("form").submit();
+        });
+    });
+
+    function CalculateAndSetPage(movingType)
+    {
+        var currentPage = parseInt($("#CurrentPage").val());
+        var lastPage = parseInt($("#LastPage").val());
+
+        if (currentPage == 1 && movingType == "Previous") {
+            console.log(CurrentPage);
+            return false;
+        }
+        if (currentPage == lastPage && movingType == "Next") {
+            return false;
+        }
+
+        if (movingType == "Previous")
+        {
+            currentPage--;
+        }
+        else if (movingType == "Next")
+        {
+            currentPage++;
+        }
+        else
+        {
+            alert("Somethins is wrong");
+        }
+
+        $("#CurrentPage").val(currentPage);
+        return true;
+    }
+</script>
+

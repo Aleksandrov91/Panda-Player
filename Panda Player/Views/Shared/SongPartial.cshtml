@@ -1,0 +1,14 @@
+﻿@model List<Panda_Player.Models.PandaPlayer.Song>
+<div class="row">
+    @foreach (var song in Model)
+    {
+        <div class="col-md-4">
+            <h4>@song.Artist - @song.Title</h4>
+            <p>
+                <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
+                    <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
+                </a>
+            </p>
+        </div>
+    }
+</div>

@@ -25,7 +25,8 @@ namespace Panda_Player.Models.PandaPlayer
         [Required]
         public DateTime DateCreated { get; set; }
 
-        public ICollection<Song> Songs { get; set; }
+        [ForeignKey("Songs")]
+        public virtual ICollection<Song> Songs { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }
 

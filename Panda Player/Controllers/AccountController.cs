@@ -7,6 +7,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Panda_Player.Models;
 using Panda_Player.Models.Identity;
+using Panda_Player.Extensions;
+using System;
+using System.Configuration;
+using System.Web.Configuration;
+using System.Data.Entity;
 
 namespace Panda_Player.Controllers
 {
@@ -66,27 +71,127 @@ namespace Panda_Player.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(model);
+                // find user by username first
+                var user = await UserManager.FindByNameAsync(model.Email);
+                
+                if (user != null)
+                {
+                    var validCredentials = await UserManager.FindAsync(model.Email, model.Password);
+
+                    // When a user is lockedout, this check is done to ensure that even if the credentials are valid
+                    // the user can not login until the lockout duration has passed
+                    if (await UserManager.IsLockedOutAsync(user.Id))
+                    {
+                        var db = new ApplicationDbContext();
+                        string lockotTime = UserManager.DefaultAccountLockoutTimeSpan.Minutes.ToString();
+                        var lockoutEndTime = db.Users.Where(u => u.Email == model.Email).Select(t => t.UserAccessControl.LockoutEndTime).FirstOrDefault();
+                        var timeLeft = (int)lockoutEndTime.Subtract(DateTime.Now).TotalSeconds;
+                        
+                        ModelState.AddModelError("", string.Format($"Your account has been locked out for {lockotTime} minutes due to multiple failed login attempts. \r\n You can try to log in again in {timeLeft} seconds!"));
+                    }
+                    // if user is subject to lockouts and the credentials are invalid
+                    // record the failure and check if user is lockedout and display message, otherwise, 
+                    // display the number of attempts remaining before lockout
+                    else if (await UserManager.GetLockoutEnabledAsync(user.Id) && validCredentials == null)
+                    {
+                        // Record the failure which also may cause the user to be locked out
+                        await UserManager.AccessFailedAsync(user.Id);
+
+                        var db = new ApplicationDbContext();
+
+                        // If "LockoutEndTime" in db is less than "DateTime.Now" set "LockoutEndTime" new value;
+                        var currUser = db.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+
+                        if (await UserManager.IsLockedOutAsync(user.Id))
+                        {
+                            currUser.UserAccessControl.LockoutEndTime = DateTime.Now.AddMinutes(2);
+
+                            db.Users.Attach(currUser);
+                            var entity = db.Entry(currUser.UserAccessControl);
+                            entity.Property(l => l.LockoutEndTime).IsModified = true;
+                            db.SaveChanges();
+                        }
+
+                        string message;
+
+                        if (await UserManager.IsLockedOutAsync(user.Id))
+                        {
+                            string lockotTime = UserManager.DefaultAccountLockoutTimeSpan.Minutes.ToString();
+
+                            message = string.Format($"Your account has been locked out for {lockotTime} minutes due to multiple failed login attempts.");
+                        }
+                        else
+                        {
+                            int accessFailedCount = await UserManager.GetAccessFailedCountAsync(user.Id);
+
+                            int maxAttempts = UserManager.MaxFailedAccessAttemptsBeforeLockout;
+
+                            int attemptsLeft = maxAttempts - accessFailedCount;
+
+                            message = string.Format( $"Invalid credentials. You have {attemptsLeft} more attempt(s) before your account gets locked out.");
+                        }
+
+                        ModelState.AddModelError("", message);
+                    }
+                    else if (validCredentials == null)
+                    {
+                        ModelState.AddModelError("", "Invalid credentials. Please try again.");
+                    }
+                    else
+                    {
+                        await SignInAsync(user, model.RememberMe);
+
+                        // When token is verified correctly, clear the access failed count used for lockout
+                        await UserManager.ResetAccessFailedCountAsync(user.Id);
+
+                        // Update date of last successfull login
+                        var db = new ApplicationDbContext();
+                        var currUser = db.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+                        currUser.UserAccessControl.LastLogin = DateTime.Now;
+
+                        db.Users.Attach(currUser);
+                        var entity = db.Entry(currUser.UserAccessControl);
+                        entity.Property(l => l.LastLogin).IsModified = true;
+                        db.SaveChanges();
+
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
-            }
+            // If we got this far, something failed, redisplay form
+            return View(model);
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
+
+            //// This doesn't count login failures towards account lockout
+            //// To enable password failures to trigger account lockout, change to shouldLockout: true
+            //var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        return RedirectToLocal(returnUrl);
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        ModelState.AddModelError("", "Invalid login attempt.");
+            //        return View(model);
+            //}
+        }
+
+        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
 
         //
@@ -149,7 +254,21 @@ namespace Panda_Player.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, FullName = model.FullName, Email = model.Email};
+                var user = new ApplicationUser { UserName = model.Email, FullName = model.FullName, Email = model.Email, UserAccessControl = new Models.PandaPlayer.UserAccessControl { UserRegisterDate = DateTime.Now } };
+
+                var db = new ApplicationDbContext();
+                
+                var users = db.Users.ToList();
+
+                foreach (var dbUser in users)
+                {
+                    if (dbUser.UserName == user.UserName)
+                    {
+                        this.AddNotification($"Username with {user.UserName} email already registered! Please select another e-mail please.", NotificationType.ERROR);
+                        return View(model);
+                    }
+                }
+               
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 var addRoleResult = UserManager.AddToRole(user.Id, "User");

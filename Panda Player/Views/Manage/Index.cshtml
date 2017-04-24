@@ -15,25 +15,12 @@
         <dl class="dl-horizontal">
             <dt>Profile picture:</dt>
             <dd>
-                
-                @if (!Model.HasProfilePic)
-                {
-                      @Html.ActionLink("Upload picture", "Upload", "Manage")
-
-                }
-                else
-                {
-                    <div class="row">
-                        <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-2">
                             <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' />
-                            @Html.ActionLink("Change Picture", "Upload", "Manage")
-                        </div>
+                            @Html.ActionLink("Change Picture", "Upload", "Manage")          
                     </div>
-                           
-                }
-                
-            </dd>
-
+                </div>
         </dl>
         <dl class="dl-horizontal">
             <dt>Email Adress:</dt>

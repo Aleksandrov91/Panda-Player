@@ -2,9 +2,9 @@
 
 @{
     ViewBag.Title = "Song Details";
+    Layout = null;
 }
 
-@Html.Partial("Player")
 
 <h2>Details</h2>
 
@@ -61,11 +61,23 @@
                 @Html.DisplayFor(model => model.Uploader.FullName)
             </dd>
 
+            <dt>
+                @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+
+            <dd>
+                @foreach (var tag in Model.Tags)
+                {
+                    @Html.ActionLink(tag.Name, "Details", "Tag", new { @id = tag.id },
+                        new { @class = "btn btn-default btn--xs" })
+                }
+            </dd>
+
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "MySongs")
+        @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
+        @Ajax.ActionLink("Back to My Songs", "MySongs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
     </p>
 
 <script>

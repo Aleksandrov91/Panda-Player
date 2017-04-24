@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using System.Text;
 using System.IO;
+using Panda_Player.Models.ViewModels;
 
 namespace Panda_Player.Controllers
 {
@@ -17,11 +18,11 @@ namespace Panda_Player.Controllers
 
         // GET: Playlists
         [Authorize]
-        public ActionResult Index()
+        public ActionResult MyPlaylists()
         {
             var currentUserId = this.User.Identity.GetUserId();
             var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
-            return View(myPlaylists);
+            return PartialView(myPlaylists);
         }
 
         // GET: Playlists/Details
@@ -81,7 +82,7 @@ namespace Panda_Player.Controllers
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             return View(playlist);
@@ -111,7 +112,15 @@ namespace Panda_Player.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(playlist);
+
+            var model = new PlaylistViewModel
+            {
+                Id = playlist.Id,
+                PlaylistName = playlist.PlaylistName,
+                IsPublic = playlist.IsPublic
+            };
+
+            return PartialView(model);
         }
 
         // POST: Playlists/Edit/5
@@ -120,17 +129,22 @@ namespace Panda_Player.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PlaylistName,IsPublic")] Playlist playlist)
+        public ActionResult Edit(PlaylistViewModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(playlist).State = EntityState.Modified;
+                var playlistToEdit = db.Playlists.Find(model.Id);
+
+                playlistToEdit.PlaylistName = model.PlaylistName;
+                playlistToEdit.IsPublic = model.IsPublic;
+
+                db.Entry(playlistToEdit).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
-            return View(playlist);
+            return View(model);
         }
 
         // GET: Playlists/Delete/5
@@ -165,11 +179,9 @@ namespace Panda_Player.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            var result = false;
             Playlist playlist = db.Playlists.Find(id);
             db.Playlists.Remove(playlist);
             db.SaveChanges();
-            result = true;
 
             this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
             return Json(new { Success = true });
