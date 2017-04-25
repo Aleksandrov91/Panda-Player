@@ -25,20 +25,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" style="margin-left:40px"> 
+                <a class="navbar-brand" style="margin-left:40px">
                     @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
-                    <br />
+                </a>
                     @using (Ajax.BeginForm("Search", null,
                         new AjaxOptions
                         {
                             HttpMethod = "POST",
                             UpdateTargetId = "body",
                             InsertionMode = InsertionMode.Replace,
-                        }, new { id = "searchForm" }))
+                        }, new { id = "searchForm", type = "songs" }))
                     {
                         <input type="text" name="query" placeholder="Live Search" oninput="$('#searchForm').submit()" />
+                        <div>
+                            <span>@Html.RadioButton("type", "songs") Songs</span>
+                            <span>@Html.RadioButton("type", "playlists") Playlists</span>
+                        </div>
                     }
-                </a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 @Html.Partial("_LoginPartial")
@@ -55,7 +58,7 @@
             if (controller != "Account" && controller != "User" &&
                 controller != "Genre" && action != "Upload")
             {
-                    @Html.Partial("Player")
+                @Html.Partial("Player")
             }
         }
         <div id="body">

@@ -97,30 +97,85 @@ namespace Panda_Player.Controllers
             return PartialView("PlaylistPartial", playlistsModel);
         }
 
-        public ActionResult Search(string query)
+        public ActionResult Search(string query, string type)
         {
-            var songs = db.Songs;
+            switch (type)
+            {
+                case "songs":
+                    var allSongs = db.Songs;
 
-            var result = songs
+                    var songResult = allSongs
+                        .AsQueryable()
+                        .Where(song => song.Artist.ToLower().Contains(query.ToLower()) ||
+                            song.Title.ToLower().Contains(query.ToLower()))
+                            .ToList();
+                    var songsPerPage = songResult.Take(5).ToList();
+                    var lastSongPage = Math.Ceiling((decimal)songResult.Count() / 5);
+                    var songModel = new ListAllSongsViewModel
+                    {
+                        Songs = songsPerPage,
+                        UserPlaylists = LoggedUser(),
+                        LastPage = lastSongPage
+                    };
+
+                    if (query == string.Empty)
+                    {
+                        songModel.Songs = allSongs.ToList();
+                        songModel.LastPage = Math.Ceiling((decimal)allSongs.Count() / 5);
+                    }
+
+                    return PartialView("SearchSongs", songModel);
+
+                case "playlists":
+                    var publicPlaylists = db.Playlists.Where(playlist => playlist.IsPublic).ToList();
+
+                    var playlistResult = publicPlaylists
+                        .AsQueryable()
+                        .Where(playlist => playlist.PlaylistName.ToLower().Contains(query.ToLower()))
+                        .ToList();
+
+                    var playlistsPerPage = playlistResult.Take(5).ToList();
+                    var lastPlaylistPage = Math.Ceiling((decimal)playlistResult.Count() / 5);
+
+                    var playlistModel = new ListAllPlaylistsViewModel
+                    {
+                        Playlists = playlistsPerPage,
+                        LastPage = lastPlaylistPage
+                    };
+
+                    if (query == string.Empty)
+                    {
+                        playlistModel.Playlists = publicPlaylists;
+                        playlistModel.LastPage = Math.Ceiling((decimal)publicPlaylists.Count() / 5);
+                    }
+
+                    return PartialView("SearchPlaylists", playlistModel);
+
+                default:
+
+                    return HttpNotFound();
+            }  
+        }
+
+        [HttpPost]
+        public ActionResult SearchSongs(ListAllSongsViewModel model)
+        {
+            return null;
+        }
+
+        public ActionResult SearchPlaylists(string query, ListAllPlaylistsViewModel playlistsModel)
+        {
+            var publicPlaylists = db.Playlists.Where(playlist => playlist.IsPublic).ToList();
+
+            var playlistResult = publicPlaylists
                 .AsQueryable()
-                .Where(song => song.Artist.ToLower().Contains(query.ToLower()) ||
-                    song.Title.ToLower().Contains(query.ToLower()))
-                    .ToList();
+                .Where(playlist => playlist.PlaylistName.ToLower().Contains(query.ToLower()))
+                .ToList();
 
-            var model = new ListAllSongsViewModel
-            {
-                Songs = result,
-                UserPlaylists = LoggedUser(),
-                CurrentPage = 1,
-                LastPage = 1
-            };
+            var currentPagePlaylists = publicPlaylists.Skip((playlistsModel.CurrentPage - 1) * 5).Take(5).ToList();
+            playlistsModel.Playlists = currentPagePlaylists;
+            return PartialView("PlaylistPartial", playlistsModel);
 
-            if (query == string.Empty)
-            {
-                model.Songs = songs.ToList();
-            }
-
-            return PartialView("SongPartial", model);
         }
 
         public List<Playlist> LoggedUser()

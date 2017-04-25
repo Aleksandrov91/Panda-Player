@@ -1,0 +1,29 @@
+﻿@model Panda_Player.Models.ViewModels.ListAllPlaylistsViewModel
+@{
+    ViewBag.Title = "SearchPlaylists";
+
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+@Scripts.Render("~/bundles/paging")
+
+<h2>SearchPlaylists</h2>
+
+<div id="SearchPlaylists">
+    @Html.Partial("PlaylistPartial", Model)
+</div>
+<div>
+    @using (Ajax.BeginForm("SearchPlaylists", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SearchPlaylists" }, new { id = "page" }))
+    {
+        <input type="hidden" id="CurrentPage" name="CurrentPage" value="@Model.CurrentPage" />
+        <input type="hidden" id="LastPage" name="LastPage" value="@Model.LastPage" />
+    }
+    <input type="button" class="btn btn-primary" id="Previous" value="Previous" />
+    <input type="button" class="btn btn-primary" id="Next" value="Next" />
+</div>
