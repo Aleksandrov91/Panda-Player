@@ -36,10 +36,16 @@ namespace Panda_Player.Models.PandaPlayer
         [Required]
         public DateTime UploadDate { get; set; }
 
+        [Required]
+        [Display(Name = "Genre *")]
         public ICollection<Genre> Genre { get; set; }
 
+        [Required]
+        [Display(Name = "Genre *")]
         public int GenreId { get; set; }
 
+        [Required]
+        [Display(Name = "File *")]
         public HttpPostedFileBase File { get; set; }
 
         public string Tags { get; set; }

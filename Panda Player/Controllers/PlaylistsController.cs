@@ -267,9 +267,7 @@ namespace Panda_Player.Controllers
             return PartialView("LoadPlaylist");
         }
 
-        public ActionResult 
-              
-
+        [HttpPost]
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);

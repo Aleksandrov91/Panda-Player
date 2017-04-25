@@ -8,6 +8,12 @@ namespace Panda_Player.Models.PandaPlayer
 {
     public class SongUploadEditViewModel
     {
+        public SongUploadEditViewModel()
+        {
+
+        }
+
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -34,6 +40,8 @@ namespace Panda_Player.Models.PandaPlayer
 
         public ICollection<Song> Songs { get; set; }
 
+        [Required]
+        [Display(Name = "Genre *")]
         public int GenreId { get; set; }
 
         //public int GenreId { get; set; }

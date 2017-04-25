@@ -15,17 +15,13 @@
 
 <h2>Edit</h2>
 
-
-@using ( Ajax.BeginForm( new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
 {
     @Html.AntiForgeryToken()
-    
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <h4>Song</h4>
     <div class="form-horizontal">
-        <h4>Song</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
         <div class="form-group">
             @Html.LabelFor(model => model.Artist, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -46,7 +42,6 @@
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -54,8 +49,8 @@
             @Html.LabelFor(model => model.GenreId, new { @class = "control-label col-md-2" })
             <div class="dropdown col-md-10">
                 @Html.DropDownListFor(m => m.GenreId,
-                        new SelectList(Model.Genre, "Id", "Name", Model.GenreId),
-                        new { @class = "btn btn-info col-md-10" })
+             new SelectList(Model.Genre, "Id", "Name", Model.GenreId),
+             new { @class = "btn btn-info col-md-10" })
             </div>
         </div>
 
@@ -73,6 +68,7 @@
         </div>
     </div>
 }
+
 
 <div>
     @Ajax.ActionLink("Back to My Songs", "MySongs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
