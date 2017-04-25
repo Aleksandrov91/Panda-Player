@@ -9,6 +9,7 @@ namespace Panda_Player.Migrations
     using Panda_Player.Models.Manage.Admin;
     using System.Collections.Generic;
     using Panda_Player.Models.PandaPlayer;
+    using System.Data.Entity;
 
     internal sealed class DbMigrationsConfig : DbMigrationsConfiguration<Panda_Player.Models.ApplicationDbContext>
     {
@@ -33,8 +34,27 @@ namespace Panda_Player.Migrations
                 var adminUserName = adminEmail;
                 var adminFullName = "Administrator";
                 var adminPassword = "admin";
-                this.CreateAdminUser(context, adminEmail, adminUserName, adminFullName, adminPassword);
+                this.CreateUser(context, adminEmail, adminUserName, adminFullName, adminPassword);
                 this.SetRoleToUser(context, "admin@admin.com", "Admin");
+
+                // Add some users
+                this.CreateUser(context, "a@a.com", "a@a.com", "UserA", "a");
+                this.SetRoleToUser(context, "a@a.com", "User");
+                this.CreateUser(context, "b@b.com", "b@b.com", "UserB", "b");
+                this.SetRoleToUser(context, "b@b.com", "User");
+                this.CreateUser(context, "c@c.com", "c@c.com", "UserC", "c");
+                this.SetRoleToUser(context, "c@c.com", "User");
+                this.CreateUser(context, "d@d.com", "d@d.com", "UserD", "d");
+                this.SetRoleToUser(context, "d@d.com", "User");
+                this.CreateUser(context, "e@e.com", "e@e.com", "UserE", "e");
+                this.SetRoleToUser(context, "e@e.com", "User");
+                this.CreateUser(context, "f@f.com", "f@f.com", "UserF", "f");
+                this.SetRoleToUser(context, "f@f.com", "User");
+                this.CreateUser(context, "g@g.com", "g@g.com", "UserG", "g");
+                this.SetRoleToUser(context, "g@g.com", "User");
+
+                var db = new ApplicationDbContext();
+                var users = db.Users.ToList();
             }
 
             if (!context.Genres.Any())
@@ -56,6 +76,11 @@ namespace Panda_Player.Migrations
 
             var result = userManager.AddToRole(user.Id, role);
             
+            if (role == "User")
+            {
+                user.LockoutEnabled = true;
+            }
+
             if (!result.Succeeded)
             {
                 throw new Exception(string.Join(";", result.Errors));
@@ -74,13 +99,14 @@ namespace Panda_Player.Migrations
             context.SaveChanges();
         }
 
-        private void CreateAdminUser(ApplicationDbContext context, string adminEmail, string adminUserName, string adminFullName, string adminPassword)
+        private void CreateUser(ApplicationDbContext context, string adminEmail, string adminUserName, string adminFullName, string adminPassword)
         {
             var adminUser = new ApplicationUser
             {
                 UserName = adminUserName,
                 FullName = adminFullName,
-                Email = adminEmail
+                Email = adminEmail,
+                UserAccessControl = new Models.PandaPlayer.UserAccessControl { UserRegisterDate = DateTime.Now }
             };
 
             var userStore = new UserStore<ApplicationUser>(context);
