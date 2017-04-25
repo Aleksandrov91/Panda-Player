@@ -1,4 +1,10 @@
-﻿<div class="row">
+﻿@if (Model.Playlists.Count == 0)
+{
+    <h1>No Playlists Found!</h1>
+    return;
+}
+
+<div class="row">
     @foreach (var playlist in Model.Playlists)
     {
         <div class="col-md-4">

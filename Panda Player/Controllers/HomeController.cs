@@ -177,6 +177,46 @@ namespace Panda_Player.Controllers
             return PartialView("PlaylistPartial", playlistsModel);
 
         }
+        
+        [HttpGet]
+        public ActionResult Genres()
+        {
+            var allSongs = db.Songs.ToList();
+            var allGenres = db.Genres.ToList();
+            var lastSongPage = Math.Ceiling((decimal)allSongs.Count() / 5);
+
+            var model = new ListAllSongsViewModel
+            {
+                Songs = allSongs,
+                UserPlaylists = LoggedUser(),
+                LastPage = lastSongPage
+            };
+
+            ViewBag.Genres = allGenres;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Genres(int id)
+        {
+            var selectedGenre = db.Genres.Select(i => i.Id).Contains(id);
+            if (!selectedGenre)
+            {
+                return HttpNotFound();
+            }
+
+            var songsInGenre = db.Songs.Where(g => g.GenreId == id).ToList();
+            var lastSongPage = Math.Ceiling((decimal)songsInGenre.Count() / 5);
+            var model = new ListAllSongsViewModel
+            {
+                Songs = songsInGenre,
+                UserPlaylists = LoggedUser(),
+                LastPage = lastSongPage
+            };
+
+            return PartialView("SongPartial", model);
+        }
 
         public List<Playlist> LoggedUser()
         {

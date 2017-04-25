@@ -54,7 +54,7 @@
                         new SelectList(Model.Genre, "Id", "Name"),
                         "----- Please select genre from list! -----",
                         new { @class = "btn btn-info col-md-10" })
-                @Html.ValidationMessageFor(model => model.Artist, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
             </div>
         </div>
 

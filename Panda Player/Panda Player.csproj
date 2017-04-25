@@ -237,6 +237,7 @@
     <Compile Include="Models\PandaPlayer\SongUploadEditViewModel.cs" />
     <Compile Include="Models\PandaPlayer\SongUploadViewModel.cs" />
     <Compile Include="Models\PandaPlayer\SongViewModel.cs" />
+    <Compile Include="Models\ViewModels\GenreViewModel.cs" />
     <Compile Include="Models\ViewModels\IndexViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAllPlaylistsViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAllSongsViewModel.cs" />
@@ -342,6 +343,8 @@
     <Content Include="Views\Shared\_PlayList.cshtml" />
     <Content Include="Views\Home\SearchSongs.cshtml" />
     <Content Include="Views\Home\SearchPlaylists.cshtml" />
+    <Content Include="Views\Home\Genres.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
