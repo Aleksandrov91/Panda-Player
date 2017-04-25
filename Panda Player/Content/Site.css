@@ -73,26 +73,28 @@ h2 {
 h3 {
     font-size: 14px;
     margin: 10px;
+    margin: auto;
+}
+
+h4,
+.h4{
+    font-size: 18px;
 }
 
 #loginForm {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    position: center;
+}
+#registerForm{
     width: 50%;
-    margin: 0 auto;
 }
 
 form {
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
-}
-
-button {
-    background: #eee;
-    border: 1px solid #ddd;
-    border-bottom: 4px solid #ccc;
-    cursor: pointer;
-    font-size: 20px;
-    margin-top: 10px;
-    padding: 10px;
+    text-align: center; 
 }
 
     button:active {
@@ -152,3 +154,81 @@ li {
     color: #fff;
     padding-right: 15px;
 }
+
+.col-md-2 control-label {
+    text-align: right;
+    margin-bottom: 0;
+    padding-top: 9px;
+    width: 16.66666667%;
+    float: left;
+    font-weight: bold;
+    display: inline-block;
+}
+
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+    text-align: center;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    display: block;
+    margin: 0;
+}
+
+
+#regButton{
+    margin: 0;
+    margin-left: 20px;
+    align-self: center;
+    position: relative;
+}
+
+#menu-valenti-footer-menu {
+    text-decoration: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:active {
+    color: greenyellow;
+    text-decoration: underline;
+}
+
+.widget-panel mid col-sm-4 {
+    position: center;
+    align-self: center;
+}
+
+.dropdown-menu{
+    width: 100%;
+    text-align: center;
+}
+/*
+    .dropdown-menu .li :hover {
+        background-color: darkolivegreen;
+        color: darkolivegreen;
+    }
+
+.dropdown open:hover .dropdown-toggle a{
+    background-color: #3e8e41;
+}
+   
+#createAccountTitle{
+    position: center;
+}*/
