@@ -9,7 +9,7 @@ window.PlaylistParser = {
         this.playlistFileGET = this.params.playlistFile || null;
         this.playlistType = this.params.playlistType || null;
 
-        if (this.playlistFileGET != null) {
+        if (this.playlistFileGET !== null) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', this.playlistFileGET, true);
             xhr.responseType = 'text';
@@ -27,7 +27,7 @@ window.PlaylistParser = {
     parse: function() {
         // check if playlist type is given
         var playlist = [];
-        if (this.playlistType == 'm3u' || 'audio/mpegurl') {
+        if (this.playlistType === 'm3u' || 'audio/mpegurl') {
             playlist = this.playlistFile.replace(/^.*#.*$|#EXTM3U|#EXTINF:/mg, '').split('\n');
         } else if (this.playlistType === 'pls' || this.playlistType === 'audio/x-scpls') {
             // to do
