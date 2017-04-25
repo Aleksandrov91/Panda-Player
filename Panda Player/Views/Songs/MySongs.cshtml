@@ -1,110 +1,43 @@
-﻿@model IEnumerable<Panda_Player.Models.PandaPlayer.Song>
-<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+﻿@model Panda_Player.Models.ViewModels.ListAllSongsViewModel
 
 @{
     ViewBag.Title = "My Songs";
-    var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
-    Layout = null;
+
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
 }
-<div id="result">
-@Html.Partial("_Notifications")
-</div>
+@Scripts.Render("~/bundles/paging")
+
 <h2>My Songs</h2>
 
 <p>
     @Ajax.ActionLink("Upload New Song", "Upload", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
-<table class="table">
-    <tr>
-        <th>
 
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Artist)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.SongPath)
-            </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.UploadDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tags)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Uploader)
-        </th>
-        <th>
-            Actions
-        </th>
-    </tr>
 
-    @foreach (var item in Model)
+<div id="SongDiv">
+    @Html.Partial("SongPartial")
+</div>
+<div>
+    @using (Ajax.BeginForm("MySongs", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SongDiv" }, new { id = "page" }))
     {
-        <tr>
-            <td>
-                <button class="btn btn-default btn-sm" onclick="wavesurfer.load('@item.SongPath'); setTimeout(play, delay);">
-                    <i class="fa fa-play-circle" aria-hidden="true"></i>
-                </button>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Artist)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            @*<td>
-                    <audio src="@item.SongPath" controls></audio>
-                </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.UploadDate)
-            </td>
-            <td>
-               @foreach (var tag in item.Tags)
-               {
-                   @Html.ActionLink(tag.Name, "MySongs", "Tag", new { @id = tag.id },
-    new { @class = "btn btn-default btn--xs"})
-               }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uploader.FullName)
-            </td>
-            <td>
-                @Ajax.ActionLink("Edit", "Edit", new { id = item.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
-                @Ajax.ActionLink("Details", "Details", new { id = item.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
-                @Html.Hidden("item-to-delete", "", new { @id = item.Id })
-                <a href="#" class="btn btn-danger btn-sm" onclick="ConfirmDelete(@item.Id, '@($"{item.Artist} - {item.Title}")')" data-item-description="@item.Title">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </a>
-
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            Add to playlist
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach (var playlist in playlists)
-                            {
-                                <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", new { songId = item.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", OnSuccess="alert(success)" })</li>
-                            }
-                            <li>@Html.ActionLink("Create new playlist", "Create", "Playlists")</li>
-                        </ul>
-                    </div>
-                
-            </td>
-        </tr>
+        <input type="hidden" id="CurrentPage" name="CurrentPage" value="@Model.CurrentPage" />
+        <input type="hidden" id="LastPage" name="LastPage" value="@Model.LastPage" />
     }
+    <input type="button" class="btn btn-primary" id="Previous" value="Previous" />
+    <input type="button" class="btn btn-primary" id="Next" value="Next" />
 
-</table>
+</div>
 
 <input type="hidden" id="songId" />
 @Html.Partial("_ModalPopup")
+
+
+

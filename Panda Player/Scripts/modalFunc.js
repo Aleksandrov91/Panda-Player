@@ -18,7 +18,7 @@ var Delete = function () {
                 $("#myModal").modal("hide");
                 window.location.reload();
             }
-        })
+    })
 
     
 }
