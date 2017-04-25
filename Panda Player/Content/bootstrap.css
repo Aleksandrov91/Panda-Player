@@ -1433,7 +1433,7 @@ a {
     a:hover,
     a:focus {
         /*color: #ffffff;*/
-        color: rgb(78, 167, 78);
+        color: rgb(7, 135, 65);
         text-decoration: none;
     }
 
@@ -1529,7 +1529,7 @@ h6,
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 500;
     line-height: 1.1;
-    color: rgb(78, 167, 78);
+    color: 427104;
 }
 
     h1 small,
