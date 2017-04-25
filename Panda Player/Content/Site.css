@@ -215,7 +215,20 @@ a:active {
     align-self: center;
 }
 
+.dropdown-menu{
+    width: 100%;
+    text-align: center;
+}
 /*
+    .dropdown-menu .li :hover {
+        background-color: darkolivegreen;
+        color: darkolivegreen;
+    }
+
+.dropdown open:hover .dropdown-toggle a{
+    background-color: #3e8e41;
+}
+   
 #createAccountTitle{
     position: center;
 }*/
