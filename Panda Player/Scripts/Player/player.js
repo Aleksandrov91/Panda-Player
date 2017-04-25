@@ -1,7 +1,7 @@
 ﻿var wavesurfer = WaveSurfer.create({
     container: '#waveform',
-    waveColor: 'red',
-    progressColor: 'purple',
+    waveColor: '#000000',
+    progressColor: '#1ca532',
 });
 
 // load default track

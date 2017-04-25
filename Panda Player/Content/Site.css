@@ -1,6 +1,8 @@
 ﻿body {
+    font-family: rationale;
     padding-top: 50px;
     padding-bottom: 20px;
+    color: rgb(12, 135, 77);
     background-image: url(http://www.androidguys.com/wp-content/uploads/2016/06/Black-Texture-Wallpaper-for-Desktop.jpg);
 }
 
@@ -50,7 +52,7 @@ textarea {
 
 /*Set playlist media default css*/
 body {
-    font: 15px helvetica,arial,freesans,clean,sans-serif;
+    font: 15px rationale, helvetica, arial, freesans, clean, sans-serif;
     /*margin: 20px auto;*/
     /*text-align: center;*/
 }
@@ -83,12 +85,15 @@ h4,
 
 #loginForm {
     width: 100%;
-    margin: 0;
+    margin: 0px;
     box-sizing: border-box;
     position: center;
 }
-#registerForm{
+#registerForm {
     width: 50%;
+    display: inline-block;
+    align-self: center;
+    margin-left: 330px;
 }
 
 form {
@@ -220,6 +225,34 @@ a:active {
 .dropdown-menu{
     width: 100%;
     text-align: center;
+}
+
+#bs-example-navbar-collapse-1 {
+}
+
+@font-face {
+    font-family: 'rationale';
+    src: URL('/font/Rationale-Regular.ttf') format('ttf');
+}
+
+.form-horizontal {
+    display: inline-block;
+    align-self: center;
+    margin-left: 288px
+}
+
+#h4-register {
+    margin-left: -45px;
+}
+
+#regButton :hover {
+    background-color: greenyellow;
+    color: greenyellow;
+
+}
+
+.dropdown-menu li a:hover {
+    background-color: darkgreen;
 }
 /*
     .dropdown-menu .li :hover {
