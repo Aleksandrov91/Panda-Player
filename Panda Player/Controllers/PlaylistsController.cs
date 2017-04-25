@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using System.Text;
 using Panda_Player.Models.ViewModels;
+using System;
+using System.IO;
 
 namespace Panda_Player.Controllers
 {
@@ -17,13 +19,33 @@ namespace Panda_Player.Controllers
 
         // GET: Playlists
         [Authorize]
+        [HttpGet]
         public ActionResult MyPlaylists()
         {
             var currentUserId = this.User.Identity.GetUserId();
             var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
-            return PartialView(myPlaylists);
+            var playlistsPerPage = myPlaylists.Take(5).ToList();
+
+            var lastPage = Math.Ceiling((decimal)myPlaylists.Count() / 5);
+            var model = new ListAllPlaylistsViewModel
+            {
+                Playlists = playlistsPerPage,
+                LastPage = lastPage
+            };
+
+            return PartialView(model);
         }
 
+        [HttpPost]
+        public ActionResult MyPlaylists(ListAllPlaylistsViewModel model)
+        {
+            var currentUserId = this.User.Identity.GetUserId();
+            var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
+            var currentPagePlaylists = myPlaylists.Skip((model.CurrentPage - 1) * 5).Take(5).ToList();
+            model.Playlists = currentPagePlaylists;
+
+            return PartialView("PlaylistPartial", model);
+        }
         // GET: Playlists/Details
         [Authorize]
         public ActionResult Details(int? id)
@@ -36,7 +58,7 @@ namespace Panda_Player.Controllers
 
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
 
-            ConvertToM3u(playlist);
+            //ConvertToM3u(playlist);
 
             if (playlist == null)
             {
@@ -185,16 +207,22 @@ namespace Panda_Player.Controllers
             this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
             return Json(new { Success = true });
         }
-               
 
-        private void ConvertToM3u(Playlist playlist)
+        [Authorize]
+        public ActionResult LoadPlaylist(int? id)
         {
+
+            var playlist = db.Playlists.Include(song => song.Songs).FirstOrDefault(a => a.Id == id);
+            var playlistSongs = playlist.Songs.ToList();
+            var playlistName = playlist.PlaylistName;
+
+            
+
             var result = new StringBuilder();
 
             result.AppendLine("#EXTM3U");
             result.AppendLine("");
 
-            var playlistSongs = playlist.Songs.ToList();
 
             foreach (var song in playlistSongs)
             {
@@ -205,17 +233,41 @@ namespace Panda_Player.Controllers
                 result.AppendLine($"http://localhost:4522{songPath}");
             }
 
-            string uploadDir = Server.MapPath("~/");
-            var myPlayList = $@"{uploadDir}Uploads/Playlists/currentPlaylist.m3u";
-    
+            var directoryPath = HttpContext.Server.MapPath("~/Uploads/Playlists");
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string uploadDir = Server.MapPath("~/Uploads/Playlists/");
+            var myPlayList = $@"{uploadDir}currentPlaylist.m3u";
+
+            if (!System.IO.File.Exists($"{myPlayList}"))
+            {
+                System.IO.File.Create($"{myPlayList}");
+            }
+
             if (!System.IO.File.Exists($"{myPlayList}"))
             {
                 System.IO.File.Create($"{myPlayList}");
             }
 
             System.IO.File.WriteAllText(myPlayList, result.ToString());
-        }
 
+            var model = new LoadPlaylistSongsViewModel
+            {
+                Playlist = playlist,
+                PlaylistSongs = playlistSongs,
+                PlaylistName = playlistName,
+                
+            };
+            
+
+            return PartialView("LoadPlaylist");
+        }
+                      
+        [HttpPost]
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);
@@ -223,7 +275,7 @@ namespace Panda_Player.Controllers
             playlist.Songs.Remove(song);
             db.SaveChanges();
             
-            return RedirectToAction("Index");
+            return RedirectToAction("MyPlaylists");
         }
 
         private bool IsAuthorizedToOperate(Playlist playlist)

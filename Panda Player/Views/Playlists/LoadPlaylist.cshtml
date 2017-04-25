@@ -1,0 +1,15 @@
+﻿@model Panda_Player.Models.PandaPlayer.LoadPlaylistSongsViewModel
+
+@foreach (var song in Model.Select(a => a.Songs))
+{
+
+    <div class="col-md-4">
+        <h4>@song.Select(a => a.Artist).FirstOrDefault() - @song.Select(t => t.Title).FirstOrDefault()</h4>
+        <p>
+            <button class="btn btn-default btn-sm playlist" onclick="wavesurfer.load('@song.Select(s => s.SongPath).FirstOrDefault()'); setTimeout(play, delay);">
+                <i class="fa fa-play-circle" aria-hidden="true"></i>
+            </button>
+        </p>
+    </div>
+
+}

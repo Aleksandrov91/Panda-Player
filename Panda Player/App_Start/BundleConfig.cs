@@ -28,6 +28,21 @@ namespace Panda_Player
 
             bundles.Add(new ScriptBundle("~/bundles/modalFunction").Include(
                         "~/Scripts/modalFunc.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/paging").Include(
+                        "~/Scripts/paging.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/player").Include(
+                        "~/Scripts/Player/player.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/playlistparser").Include(
+                        "~/Scripts/Player/playlistparser.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/wavesurfer").Include(
+                        "~/Scripts/Player/wavesurfer.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/wavesurfer.playlist").Include(
+                        "~/Scripts/Player/wavesurfer.playlist.js"));
         }
     }
 }

@@ -29,10 +29,16 @@ namespace Panda_Player.Controllers
 
             using (var db = new ApplicationDbContext())
             {
-               
-            }
+                var songs = db.Tags
+                     .Include(t => t.Songs.Select(s => s.Tags))
+                     .Include(t => t.Songs.Select(s => s.Uploader))
+                     .FirstOrDefault(t => t.id == id)
+                     .Songs
+                     .ToList();
 
-            return View();
+                return View(songs);
+
+            }
         }
     }
 }

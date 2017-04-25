@@ -1,7 +1,25 @@
-﻿@model List<Panda_Player.Models.PandaPlayer.Playlist>
-<div class="row">
-    @foreach (var playlist in Model)
+﻿<div class="row">
+    @foreach (var playlist in Model.Playlists)
     {
-        <p>@playlist.PlaylistName</p>
+        <div class="col-md-4">
+            <a href="~/Playlists/Details/@playlist.Id">
+                <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
+                <h4>@playlist.PlaylistName</h4>
+            </a>
+            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
+            @Ajax.ActionLink("Load", "LoadPlaylist", "Playlists", new { id = playlist.Id }, new AjaxOptions { HttpMethod = "GET" }, new { @class = "btn btn-primary playlist" })
+            @if (User.Identity.IsAuthenticated && (playlist.IsCreator(User.Identity.Name) || this.User.IsInRole("Admin")))
+            {
+                
+                @*<button class="btn btn-primary playlist">
+                        <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                    </button>*@
+                @Ajax.ActionLink("Edit", "Edit", new { id = playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                @Html.Hidden("item-to-delete", "", new { @id = playlist.Id })
+                <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@playlist.Id, '@($"{playlist.PlaylistName}")')">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            }
+        </div>
     }
 </div>

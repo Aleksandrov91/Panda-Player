@@ -9,9 +9,9 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/modalFunction")
-    <script src="/Content/Player/wavesurfer.min.js"></script>
-    <script src="~/Content/Player/playlistparser.js"></script>
-    <script src="~/Content/Player/wavesurfer.playlist.js"></script>
+    @Scripts.Render("~/bundles/wavesurfer")
+    @Scripts.Render("~/bundles/playlistparser")
+    @Scripts.Render("~/bundles/wavesurfer.playlist")
     <link href="/Content/font-awesome.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 </head>
@@ -25,24 +25,39 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" style="margin-left:40px">                    
-                    @*@Html.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@ 
-                    @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "get", UpdateTargetId = "body" }, new { @class = "navbar-brand" })
-                    @*@Html.Partial("_PlayList")*@
+                <a class="navbar-brand" style="margin-left:40px"> 
+                    @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
+                    <br />
+                    @using (Ajax.BeginForm("Search", null,
+                        new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "body",
+                            InsertionMode = InsertionMode.Replace,
+                        }, new { id = "searchForm" }))
+                    {
+                        <input type="text" name="query" placeholder="Live Search" oninput="$('#searchForm').submit()" />
+                    }
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 @Html.Partial("_LoginPartial")
             </div>
-                
 
-            </div>
-            </nav>   
-    <div class="container body-content">   
-        @Html.Partial("Player")
-        <div id="result">
-            @Html.Partial("_Notifications")
+
         </div>
+    </nav>
+    <div class="container body-content">
+        @Html.Partial("_Notifications")
+        @{
+            var controller = ViewContext.RouteData.Values["controller"].ToString();
+            var action = ViewContext.RouteData.Values["action"].ToString();
+            if (controller != "Account" && controller != "User" &&
+                controller != "Genre" && action != "Upload")
+            {
+                    @Html.Partial("Player")
+            }
+        }
         <div id="body">
             @RenderBody()
         </div>
@@ -53,7 +68,7 @@
                     <div class="widgets-wrapper">
                         <div class="widgets widgets">
                             <div id="nav_menu-18" class="widget clearfix widget_nav_menu">
-                                <div class="header clearfix"><h3>About</h3></div>
+                               <h3>About</h3>
                                 <div class="menu-valenti-footer-menu-container">
                                     <ul id="menu-valenti-footer-menu" class="menu">
                                         <li id="menu-item-41550" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-41550">@Html.ActionLink("Home", "Index", "Home")
@@ -70,7 +85,7 @@
                     <div class="widgets-wrapper">
                         <div class="widgets widgets">
                             <div id="nav_menu-19" class="widget clearfix widget_nav_menu">
-                                <div class="header clearfix"><h3>Contact Us</h3></div>
+                                <h3>Contact Us</h3>
                                 <div class="menu-advertise-container">
                                     <ul id="menu-advertise" class="menu list-inline">
                                         <li><a class="social-icon" href="https://www.facebook.com/profile.php?id=100016119730958/"> <img class="social-icon" src="\Content\Images\Logos\facebook_icon.png" alt="Facebook"></a></li>
@@ -87,7 +102,7 @@
                     <div class="widgets-wrapper">
                         <div class="widgets widgets">
                             <div id="nav_menu-20" class="widget clearfix widget_nav_menu">
-                                <div class="header clearfix"><h3>Who Are We?</h3></div>
+                                <h3>Who Are We?</h3>
                                 <div class="menu-our-team-2-container">
                                     <ul id="menu-our-team-2" class="menu">
                                         <li id="menu-item-62861" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-62861">@Html.ActionLink("About Us", "", "")
@@ -96,7 +111,7 @@
                                         <li id="menu-item-69402" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-69402"><a href="https://softuni.bg/">SoftUni</a></li>
                                     </ul>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,7 +120,7 @@
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="/Content/Player/player.js"></script>
+    @Scripts.Render("~/bundles/player")
     @RenderSection("scripts", required: false)
 </body>
 </html>

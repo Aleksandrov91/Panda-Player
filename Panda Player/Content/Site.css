@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url(http://www.androidguys.com/wp-content/uploads/2016/06/Black-Texture-Wallpaper-for-Desktop.jpg);
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -56,6 +57,8 @@ body {
 
 #waveform {
     background: rgba(0,0,0,0.8);
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
 }
 
 h1 {
@@ -70,17 +73,28 @@ h2 {
 h3 {
     font-size: 14px;
     margin: 10px;
+    margin: auto;
 }
 
+h4,
+.h4{
+    font-size: 18px;
+}
 
-button {
-    background: #eee;
-    border: 1px solid #ddd;
-    border-bottom: 4px solid #ccc;
-    cursor: pointer;
-    font-size: 20px;
-    margin-top: 10px;
-    padding: 10px;
+#loginForm {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    position: center;
+}
+#registerForm{
+    width: 50%;
+}
+
+form {
+    width: 70%;
+    margin: 0 auto;
+    text-align: center; 
 }
 
     button:active {
@@ -108,3 +122,100 @@ li {
         font-weight: bold;
     }
 
+/*Playlist toggle*/
+#sidebar-wrapper {
+    margin-left: -250px;
+    top: 135px;
+    width: 250px;
+    left: 0;
+    background: #000;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.4s ease 0s;
+}
+
+#wrapper.active #sidebar-wrapper {
+    margin-left: -250px;
+    top: 135px;
+    left: 250px;
+    width: 250px;
+    background: #000;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.4s ease 0s;
+}
+
+#menu-toggle {
+    text-decoration: none;
+    color: #fff;
+    padding-right: 15px;
+}
+
+.col-md-2 control-label {
+    text-align: right;
+    margin-bottom: 0;
+    padding-top: 9px;
+    width: 16.66666667%;
+    float: left;
+    font-weight: bold;
+    display: inline-block;
+}
+
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+    text-align: center;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    display: block;
+    margin: 0;
+}
+
+
+#regButton{
+    margin: 0;
+    margin-left: 20px;
+    align-self: center;
+    position: relative;
+}
+
+#menu-valenti-footer-menu {
+    text-decoration: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:active {
+    color: greenyellow;
+    text-decoration: underline;
+}
+
+.widget-panel mid col-sm-4 {
+    position: center;
+    align-self: center;
+}
+
+/*
+#createAccountTitle{
+    position: center;
+}*/

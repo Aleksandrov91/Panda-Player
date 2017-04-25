@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Panda_Player.Extensions;
 using Panda_Player.Models.Manage.Admin;
 using System.IO;
+using Panda_Player.Models.ViewModels;
 
 namespace Panda_Player.Controllers
 {
@@ -18,12 +19,14 @@ namespace Panda_Player.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [HttpGet]
         // GET: Songs
         public ActionResult MySongs()
         {
             var currentUser = this.User.Identity.GetUserId();
             var userSongs = db.Songs
                 .Where(s => s.Uploader.Id == currentUser)
+                .OrderByDescending(d => d.UploadDate)
                 .Include(u => u.Uploader)
                 .Include(s => s.Tags)
                 .ToList();
@@ -32,9 +35,40 @@ namespace Panda_Player.Controllers
                 .Where(a => a.Creator.Id == currentUser)
                 .ToList();
 
-            ViewBag.Playlists = playlists;
+            var songsPerPage = userSongs.Take(5).ToList();
 
-            return View(userSongs);
+            var lastPage = Math.Ceiling((decimal)userSongs.Count() / 5);
+
+            var model = new ListAllSongsViewModel
+            {
+                Songs = songsPerPage,
+                UserPlaylists = playlists,
+                LastPage = lastPage
+            };
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult MySongs(ListAllSongsViewModel model)
+        {
+            var currentUser = this.User.Identity.GetUserId();
+            var userSongs = db.Songs
+                .Where(s => s.Uploader.Id == currentUser)
+                .OrderByDescending(d => d.UploadDate)
+                .Include(u => u.Uploader)
+                .Include(s => s.Tags)
+                .ToList();
+
+            var playlists = db.Playlists
+                .Where(a => a.Creator.Id == currentUser)
+                .ToList();
+
+            var currentPageSongs = userSongs.Skip((model.CurrentPage - 1) * 5).Take(5).ToList();
+            model.Songs = currentPageSongs;
+            model.UserPlaylists = playlists;
+
+            return PartialView("SongPartial", model);
         }
 
         // GET: Songs/Details
@@ -298,6 +332,11 @@ namespace Panda_Player.Controllers
 
         private void SetSongTagsOnUpload(Song currentSong, SongUploadEditViewModel song, ApplicationDbContext db)
         {
+            if (song.Tags == null)
+            {
+                song.Tags = string.Empty;
+            }
+
             var tagsStringSplit = song.Tags.Split(" ,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .OrderBy(t => t)
                 .Select(t => t.ToLower())
@@ -321,6 +360,11 @@ namespace Panda_Player.Controllers
 
         private void SetSongTagsOnUpload(Song currentSong, SongUploadViewModel song, ApplicationDbContext db)
         {
+            if (song.Tags == null)
+            {
+                song.Tags = string.Empty;
+            }
+
             var tagsStringSplit = song.Tags.Split(" ,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .OrderBy(t => t)
                 .Select(t => t.ToLower())
@@ -328,7 +372,7 @@ namespace Panda_Player.Controllers
 
             currentSong.Tags.Clear();
 
-            foreach(var tagString in tagsStringSplit)
+            foreach (var tagString in tagsStringSplit)
             {
                 Tag tag = db.Tags.FirstOrDefault(t => t.Name == tagString);
 
