@@ -211,7 +211,6 @@ namespace Panda_Player.Controllers
         [Authorize]
         public ActionResult LoadPlaylist(int? id)
         {
-
             var playlist = db.Playlists.Include(song => song.Songs).FirstOrDefault(a => a.Id == id);
             var playlistSongs = playlist.Songs.ToList();
             var playlistName = playlist.PlaylistName;
@@ -261,8 +260,7 @@ namespace Panda_Player.Controllers
                 PlaylistSongs = playlistSongs,
                 PlaylistName = playlistName,
                 
-            };
-            
+            };            
 
             return PartialView("LoadPlaylist");
         }

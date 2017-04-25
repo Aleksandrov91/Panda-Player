@@ -341,6 +341,7 @@
     <Content Include="Views\Songs\MySongs.cshtml" />
     <Content Include="Views\Playlists\MyPlaylists.cshtml" />
     <Content Include="Views\Shared\_PlayList.cshtml" />
+    <Content Include="Views\Playlists\LoadPlaylist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
