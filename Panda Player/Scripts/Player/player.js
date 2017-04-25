@@ -17,6 +17,22 @@ $('body').on('click', '.playlist', function () {
     });
 });
 
+var LoadPlaylistName = function () {
+
+    var sId = $("#songId").val();
+    var pId = $("#playlistId").val();
+
+    $.ajax({
+        type: "GET",
+        url: (sId) ? "/Playlist/LoadPlaylist" : "/Playlists/DeleteConfirmed",
+        data: (sId) ? { id: sId } : { id: pId },
+        success: function () {
+            $("#myModal").modal("hide");
+            window.location.reload();
+        }
+    })
+}
+
 // on playlist parsed with event playlist-ready
 var myList;
 wavesurfer.on('playlist-ready', function () {

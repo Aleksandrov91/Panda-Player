@@ -29,11 +29,11 @@ window.PlaylistParser = {
         var playlist = [];
         if (this.playlistType == 'm3u' || 'audio/mpegurl') {
             playlist = this.playlistFile.replace(/^.*#.*$|#EXTM3U|#EXTINF:/mg, '').split('\n');
-        } else if (this.playlistType == 'pls' || this.playlistType == 'audio/x-scpls') {
+        } else if (this.playlistType === 'pls' || this.playlistType === 'audio/x-scpls') {
             // to do
-        } else if (this.playlistType == 'smil' || this.playlistType == 'application/smil') {
+        } else if (this.playlistType === 'smil' || this.playlistType === 'application/smil') {
             // to do
-        } else if (this.playlistType == 'json' || this.playlistType == 'application/json') {
+        } else if (this.playlistType === 'json' || this.playlistType === 'application/json') {
             // to do
         } else {
             throw new Error('No valid playlist file provided, valid formats are m3u pls smil json or their valid mime types');
