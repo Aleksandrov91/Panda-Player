@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url(http://www.androidguys.com/wp-content/uploads/2016/06/Black-Texture-Wallpaper-for-Desktop.jpg);
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -56,6 +57,8 @@ body {
 
 #waveform {
     background: rgba(0,0,0,0.8);
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
 }
 
 h1 {
@@ -72,6 +75,15 @@ h3 {
     margin: 10px;
 }
 
+#loginForm {
+    width: 50%;
+    margin: 0 auto;
+}
+
+form {
+    width: 50%;
+    margin: 0 auto;
+}
 
 button {
     background: #eee;
