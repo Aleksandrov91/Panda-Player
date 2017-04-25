@@ -266,7 +266,7 @@ namespace Panda_Player.Controllers
 
             return PartialView("LoadPlaylist");
         }
-
+                      
         [HttpPost]
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
