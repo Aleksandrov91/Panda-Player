@@ -14,14 +14,6 @@ namespace Panda_Player.Models.PandaPlayer
            
         }
 
-        //public SongViewModel(string artist, string title, string uploaderId, int categoryId)
-        //{
-        //    this.Artist = artist;
-        //    this.Title = title;
-        //    this.UploaderId = uploaderId;
-        //    this.CategoryId = categoryId;
-        //}
-
         public int Id { get; set; }
         
         [Required]
@@ -48,6 +40,9 @@ namespace Panda_Player.Models.PandaPlayer
 
         public ICollection<Song> Songs { get; set; }
 
+
+        [Required]
+        [Display(Name = "Genre *")]
         public int Genre { get; set; }
 
         //public int GenreId { get; set; }

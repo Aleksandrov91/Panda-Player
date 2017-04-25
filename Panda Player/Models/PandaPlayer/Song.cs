@@ -46,6 +46,8 @@ namespace Panda_Player.Models.PandaPlayer
             return this.Uploader.UserName.Equals(name);
         }
 
+        [Required]
+        [Display(Name = "Genre *")]
         public int GenreId { get; set; }
 
         public virtual Genre Genre { get; set; }

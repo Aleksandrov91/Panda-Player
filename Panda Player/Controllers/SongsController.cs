@@ -236,11 +236,18 @@ namespace Panda_Player.Controllers
                 return RedirectToAction("MySongs");
             }
 
+            currentSong.Id = song.Id;
             currentSong.Artist = song.Artist;
             currentSong.Title = song.Title;
             currentSong.Description = song.Description;
             currentSong.GenreId = song.GenreId;
             this.SetSongTagsOnUpload(currentSong, song, db);
+
+            if (currentSong.Artist == null || currentSong.Title == null)
+            {
+                this.AddNotification("Fill all requred fields, marked with \"*\"", NotificationType.ERROR);
+                return RedirectToAction("Edit");
+            }
 
             db.SaveChanges();
 
