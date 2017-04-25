@@ -237,6 +237,7 @@
     <Compile Include="Models\PandaPlayer\SongUploadEditViewModel.cs" />
     <Compile Include="Models\PandaPlayer\SongUploadViewModel.cs" />
     <Compile Include="Models\PandaPlayer\SongViewModel.cs" />
+    <Compile Include="Models\PandaPlayer\UserAccessControl.cs" />
     <Compile Include="Models\ViewModels\PlaylistViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
