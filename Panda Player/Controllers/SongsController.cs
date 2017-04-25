@@ -332,6 +332,11 @@ namespace Panda_Player.Controllers
 
         private void SetSongTagsOnUpload(Song currentSong, SongUploadEditViewModel song, ApplicationDbContext db)
         {
+            if (song.Tags == null)
+            {
+                song.Tags = string.Empty;
+            }
+
             var tagsStringSplit = song.Tags.Split(" ,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .OrderBy(t => t)
                 .Select(t => t.ToLower())
@@ -355,6 +360,11 @@ namespace Panda_Player.Controllers
 
         private void SetSongTagsOnUpload(Song currentSong, SongUploadViewModel song, ApplicationDbContext db)
         {
+            if (song.Tags == null)
+            {
+                song.Tags = string.Empty;
+            }
+
             var tagsStringSplit = song.Tags.Split(" ,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .OrderBy(t => t)
                 .Select(t => t.ToLower())
@@ -362,7 +372,7 @@ namespace Panda_Player.Controllers
 
             currentSong.Tags.Clear();
 
-            foreach(var tagString in tagsStringSplit)
+            foreach (var tagString in tagsStringSplit)
             {
                 Tag tag = db.Tags.FirstOrDefault(t => t.Name == tagString);
 

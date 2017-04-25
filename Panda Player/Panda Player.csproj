@@ -240,6 +240,7 @@
     <Compile Include="Models\ViewModels\IndexViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAllPlaylistsViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAllSongsViewModel.cs" />
+    <Compile Include="Models\PandaPlayer\UserAccessControl.cs" />
     <Compile Include="Models\ViewModels\PlaylistViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -267,10 +268,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Dockerfile" />
-    <None Include=".dockerignore">
-      <DependentUpon>Dockerfile</DependentUpon>
-    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
