@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Panda_Player.Models;
 
 @if (Request.IsAuthenticated)
 {
@@ -21,8 +22,13 @@
             <li>
                 <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; margin-right:7px; margin-top:3px" />
             </li>
-            <li>               
-                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })               
+            <li>    
+                    @{ 
+                        var db = new ApplicationDbContext();
+                        var userEmail = User.Identity.GetUserName();
+                        var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
+                    }
+                    @Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
             @*<li>
                 <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:40px" />
