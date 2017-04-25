@@ -18,7 +18,14 @@
 <div>
     <h4>Playlist</h4>
     <hr />
+
+    @*This button Load M3u file with current playlist from player.js *@
+    <button class="btn btn-primary playlist">
+        <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+        Load Playlist
+    </button>
     <dl class="dl-horizontal">
+        
         <dt>
             @Html.DisplayNameFor(model => model.PlaylistName)
         </dt>
@@ -44,7 +51,7 @@
             {
                 <li>@song.Artist - @song.Title</li>  @Ajax.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { songId = song.Id, playlistId = Model.Id }, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "body" })
             }
-        </ul>
+        </ul>   
     </div>
 
 </div>
