@@ -10,5 +10,7 @@ namespace Panda_Player.Models.ViewModels
         public List<Playlist> Playlists { get; set; }
 
         public List<Playlist> UserPlaylists { get; set; }
+
+        public Song LastAddedSong { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model Panda_Player.Models.ViewModels.ListAllPlaylistsViewModel
 @{
-    ViewBag.Title = "My Playlists";
+    ViewBag.Title = "SearchPlaylists";
 
     if (Request.IsAjaxRequest())
     {
@@ -12,19 +12,14 @@
     }
 }
 @Scripts.Render("~/bundles/paging")
-<br/>
-@Html.Partial("_Notifications")
-<h2>My Playlists</h2>
 
-<p>
-    @Ajax.ActionLink("Create New", "Create", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
-</p>
+<h2>SearchPlaylists</h2>
 
-<div id="PlaylistDiv">
+<div id="SearchPlaylists">
     @Html.Partial("PlaylistPartial", Model)
 </div>
 <div>
-    @using (Ajax.BeginForm("MyPlaylists", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "PlaylistDiv" }, new { id = "page" }))
+    @using (Ajax.BeginForm("SearchPlaylists", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SearchPlaylists" }, new { id = "page" }))
     {
         <input type="hidden" id="CurrentPage" name="CurrentPage" value="@Model.CurrentPage" />
         <input type="hidden" id="LastPage" name="LastPage" value="@Model.LastPage" />
@@ -32,7 +27,3 @@
     <input type="button" class="btn btn-primary" id="Previous" value="Previous" />
     <input type="button" class="btn btn-primary" id="Next" value="Next" />
 </div>
-
-<input type="hidden" id="playlistId" />
-@Html.Partial("_ModalPopup")
-

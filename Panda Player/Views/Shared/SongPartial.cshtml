@@ -1,4 +1,9 @@
 ﻿@model Panda_Player.Models.ViewModels.ListAllSongsViewModel
+    @if (Model.Songs.Count == 0)
+    {
+        <h1>No Songs Found!</h1>
+        return;
+    }
 <div class="row">
     <div class="row">
         @foreach (var song in Model.Songs)

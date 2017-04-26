@@ -94,6 +94,7 @@ namespace Panda_Player.Controllers
 
             SongDetailsModel currSong = new SongDetailsModel();
 
+            currSong.Id = song.Id;
             currSong.Artist = song.Artist;
             currSong.Title = song.Title;
             currSong.Genre = db.Genres.Where(g => g.Id == song.GenreId).Select(g => g.Name).First();
@@ -175,7 +176,7 @@ namespace Panda_Player.Controllers
                     db.Songs.Add(currentSong);
                     db.SaveChanges();
 
-                    this.AddNotification("The song has been upload successfully.", NotificationType.SUCCESS);
+                    this.AddNotification($"The song {song.Artist} - {song.Title} has been upload successfully.", NotificationType.SUCCESS);
                     return RedirectToAction("MySongs", "Songs");
                 }
 

@@ -19,10 +19,11 @@ var Delete = function () {
     $.ajax({
         type: "POST",
         url: (sId) ? "/Songs/DeleteConfirmed" : "/Playlists/DeleteConfirmed",
-        data: (sId) ? { id: sId } : { id: pId },
-        success: function () {
-            $("#myModal").modal("hide");            
-            window.location.reload();            
-        }
-    })    
+            data: (sId) ? { id: sId } : { id: pId },
+            success: function (data) {
+                $("#myModal").modal("hide");
+                $('.modal-backdrop').remove();
+                $('#body').load(data.Url);
+            }
+    })   
 }
