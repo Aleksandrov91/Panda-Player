@@ -1,7 +1,7 @@
 ﻿var wavesurfer = WaveSurfer.create({
     container: '#waveform',
-    waveColor: 'red',
-    progressColor: 'purple',
+    waveColor: '#000000',
+    progressColor: '#1ca532',
 });
 
 // load default track
@@ -35,11 +35,17 @@ var LoadPlaylistName = function () {
 
 // on playlist parsed with event playlist-ready
 var myList;
+var allList;
 wavesurfer.on('playlist-ready', function () {
     myList = myPlaylist.getPlaylist();
+    allList = myPlaylist;
+    var myRegexp = /(.*?_)/g;
+
     for (var i = 0; i < myList.length; i++) {
+        var song = myList[i].replace(myRegexp, '');
+        var songNumber = `${i + 1}. `;
         if (myList[i]) {
-            $('.playlistbox').append('<li class="playTrack" data-id="' + i + '">' + myList[i] + '</li>');
+            $('.playlistbox').append('<li class="playTrack" data-id="' + i + '">' + songNumber + song + '</li>');
         }
     }
     console.log(myList);
