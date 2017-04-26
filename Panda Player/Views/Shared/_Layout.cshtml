@@ -29,6 +29,32 @@
                     <img  id="pandaLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png"/>
                    @Ajax.ActionLink(" ", " ", " ", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
                 </a>
+                <ul>
+                    <li>
+                        <a class="navbar-brand" style="margin-left:40px">
+                            @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
+                        </a>
+                    </li>
+                    <li>
+                        @using (Ajax.BeginForm("Search", null,
+new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "body",
+    InsertionMode = InsertionMode.Replace,
+}, new { id = "searchForm", type = "songs" }))
+                        {
+                            <input type="text" name="query" placeholder="Live Search" oninput="$('#searchForm').submit()" />
+                            <div>
+                                <span>@Html.RadioButton("type", "songs", true) Songs</span>
+                                <span>@Html.RadioButton("type", "playlists") Playlists</span>
+                            </div>
+                        }
+                    </li>
+                    <li>
+                        @Ajax.ActionLink("Genres", "Genres", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                    </li>
+                </ul>
             </div>
             <div id="searchBarContainer">
                 @using (Ajax.BeginForm("Search", null,
@@ -50,17 +76,16 @@
         </div>
     </nav>
     <div class="container body-content">
-        @Html.Partial("_Notifications")
         @{
             var controller = ViewContext.RouteData.Values["controller"].ToString();
             var action = ViewContext.RouteData.Values["action"].ToString();
             if (controller != "Account" && controller != "User" &&
                 controller != "Genre" && action != "Upload")
             {
-                    @Html.Partial("Player")
+                @Html.Partial("Player")
             }
         }
-        <div id="body">
+        <div id="body" class="body">
             @RenderBody()
         </div>
         <hr />
@@ -70,7 +95,7 @@
                     <div class="widgets-wrapper">
                         <div class="widgets widgets">
                             <div id="nav_menu-18" class="widget clearfix widget_nav_menu">
-                               <h3>About</h3>
+                                <h3>About</h3>
                                 <div class="menu-valenti-footer-menu-container">
                                     <ul id="menu-valenti-footer-menu" class="menu">
                                         <li id="menu-item-41550" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-41550">@Html.ActionLink("Home", "Index", "Home")
@@ -126,3 +151,16 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
+<div class="dim"></div>
+
+
+<script>
+    $body = $("body");
+
+    $(document).on({
+        ajaxStart: function () { $body.addClass("loading"); },
+        ajaxStop: function () { $body.removeClass("loading"); }
+    });
+</script>

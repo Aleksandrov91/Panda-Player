@@ -9,7 +9,7 @@
 });
 
 // load default track
-wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
+//wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
 
 // load M3U playlist    
 var myPlaylist = wavesurfer.Playlist;
@@ -39,11 +39,17 @@ var LoadPlaylistName = function () {
 
 // on playlist parsed with event playlist-ready
 var myList;
+var allList;
 wavesurfer.on('playlist-ready', function () {
     myList = myPlaylist.getPlaylist();
+    allList = myPlaylist;
+    var myRegexp = /(.*?_)/g;
+
     for (var i = 0; i < myList.length; i++) {
+        var song = myList[i].replace(myRegexp, '');
+        var songNumber = `${i + 1}. `;
         if (myList[i]) {
-            $('.playlistbox').append('<li class="playTrack" data-id="' + i + '">' + myList[i] + '</li>');
+            $('.playlistbox').append('<li class="playTrack" data-id="' + i + '">' + songNumber + song + '</li>');
         }
     }
     console.log(myList);
