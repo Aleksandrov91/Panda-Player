@@ -60,7 +60,7 @@ namespace Panda_Player.Controllers
 
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
 
-            //ConvertToM3u(playlist);
+            ConvertToM3u(playlist);
 
             if (playlist == null)
             {
@@ -212,14 +212,10 @@ namespace Panda_Player.Controllers
             this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
             return Json(new { Success = true, Url = "Playlists/MyPlaylists" });
         }
-
-        [Authorize]
-        public ActionResult LoadPlaylist(int? id)
+        
+        public void ConvertToM3u(Playlist playlist)
         {
-
-            var playlist = db.Playlists.Include(song => song.Songs).FirstOrDefault(a => a.Id == id);
             var playlistSongs = playlist.Songs.ToList();
-            var playlistName = playlist.PlaylistName;
 
             var result = new StringBuilder();
 
@@ -256,19 +252,8 @@ namespace Panda_Player.Controllers
             }
 
             System.IO.File.WriteAllText(myPlayList, result.ToString());
-
-            var model = new LoadPlaylistSongsViewModel
-            {
-                Playlist = playlist,
-                PlaylistSongs = playlistSongs,
-                PlaylistName = playlistName,
-                
-            };
-            
-
-            return PartialView("LoadPlaylist");
         }
-                      
+
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);

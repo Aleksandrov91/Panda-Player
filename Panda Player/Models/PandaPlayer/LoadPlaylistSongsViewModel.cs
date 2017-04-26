@@ -8,6 +8,12 @@ namespace Panda_Player.Models.PandaPlayer
 
         public string PlaylistName { get; set; }
 
+        public string Author { get; set; }
+
+        public string Title { get; set; }
+
+        public string SongPath { get; set; }
+
         public List<Song> PlaylistSongs { get; set; }
 
     }
