@@ -176,7 +176,7 @@ namespace Panda_Player.Controllers
                     db.Songs.Add(currentSong);
                     db.SaveChanges();
 
-                    this.AddNotification("The song has been upload successfully.", NotificationType.SUCCESS);
+                    this.AddNotification($"The song {song.Artist} - {song.Title} has been upload successfully.", NotificationType.SUCCESS);
                     return RedirectToAction("MySongs", "Songs");
                 }
 

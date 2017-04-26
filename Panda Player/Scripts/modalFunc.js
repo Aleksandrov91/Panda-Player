@@ -14,11 +14,10 @@ var Delete = function () {
         type: "POST",
         url: (sId) ? "/Songs/DeleteConfirmed" : "/Playlists/DeleteConfirmed",
             data: (sId) ? { id: sId } : { id: pId },
-            success: function () {
+            success: function (data) {
                 $("#myModal").modal("hide");
-                window.location.reload();
+                $('.modal-backdrop').remove();
+                $('#body').load(data.Url);
             }
-    })
-
-    
+    })   
 }

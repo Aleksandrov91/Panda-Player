@@ -26,27 +26,27 @@ textarea {
 
 /*Set social media icons opacity*/
 .social-icon {
-        opacity: 0.7;
-        width: 30px;
-    }
+    opacity: 0.7;
+    width: 30px;
+}
 
-        .social-icon :hover {
-            opacity: 1 !important;
-            width: 35px !important;
-        }
+    .social-icon :hover {
+        opacity: 1 !important;
+        width: 35px !important;
+    }
 
 .menu {
     opacity: 1;
     list-style: none;
 }
-.menu.social-icon {
-    
-    list-style-type: none;
-    display: inline;
-    width: auto;
-    float: left;
-    display: flex;
-}
+
+    .menu.social-icon {
+        list-style-type: none;
+        display: inline;
+        width: auto;
+        float: left;
+        display: flex;
+    }
 
 /*Set playlist media default css*/
 body {
@@ -77,7 +77,7 @@ h3 {
 }
 
 h4,
-.h4{
+.h4 {
     font-size: 18px;
 }
 
@@ -87,25 +87,26 @@ h4,
     box-sizing: border-box;
     position: center;
 }
-#registerForm{
+
+#registerForm {
     width: 50%;
 }
 
 form {
     width: 70%;
     margin: 0 auto;
-    text-align: center; 
+    text-align: center;
 }
 
-    button:active {
-        outline: none;
-        border-top: 4px solid #eee;
-        border-bottom: 2px solid #777;
-    }
+button:active {
+    outline: none;
+    border-top: 4px solid #eee;
+    border-bottom: 2px solid #777;
+}
 
-    button:focus {
-        outline: none;
-    }
+button:focus {
+    outline: none;
+}
 
 ul {
     display: block;
@@ -173,6 +174,7 @@ h6,
 .h6 {
     text-align: center;
 }
+
 h1,
 h2,
 h3,
@@ -190,7 +192,7 @@ h6,
 }
 
 
-#regButton{
+#regButton {
     margin: 0;
     margin-left: 20px;
     align-self: center;
@@ -215,7 +217,7 @@ a:active {
     align-self: center;
 }
 
-.dropdown-menu{
+.dropdown-menu {
     width: 100%;
     text-align: center;
 }
@@ -232,3 +234,35 @@ a:active {
 #createAccountTitle{
     position: center;
 }*/
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.dim {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8 ) url('Images/Logos/ajax-loader.gif') 50% 50% no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+    /* Anytime the body has the loading class, our
+   modal element will be visible */
+    body.loading .dim {
+        display: block;
+    }
+
+.modal-open {
+    overflow: scroll;
+}

@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using Panda_Player.Models;
 using Panda_Player.Models.PandaPlayer;
@@ -23,29 +22,32 @@ namespace Panda_Player.Controllers
         public ActionResult MyPlaylists()
         {
             var currentUserId = this.User.Identity.GetUserId();
-            var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
-            var playlistsPerPage = myPlaylists.Take(5).ToList();
+            var userPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
+            var playlistsPerPage = userPlaylists.Take(6).ToList();
 
-            var lastPage = Math.Ceiling((decimal)myPlaylists.Count() / 5);
-            var model = new ListAllPlaylistsViewModel
+            var lastPage = Math.Ceiling((decimal)userPlaylists.Count() / 6);
+
+            var playlistsModel = new ListAllPlaylistsViewModel
             {
                 Playlists = playlistsPerPage,
                 LastPage = lastPage
             };
 
-            return PartialView(model);
+            return PartialView(playlistsModel);
         }
 
         [HttpPost]
-        public ActionResult MyPlaylists(ListAllPlaylistsViewModel model)
+        public ActionResult MyPlaylists(ListAllPlaylistsViewModel playlistsModel)
         {
             var currentUserId = this.User.Identity.GetUserId();
-            var myPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
-            var currentPagePlaylists = myPlaylists.Skip((model.CurrentPage - 1) * 5).Take(5).ToList();
-            model.Playlists = currentPagePlaylists;
+            var userPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
+            var currentPagePlaylists = userPlaylists.Skip((playlistsModel.CurrentPage - 1) * 6).Take(6).ToList();
 
-            return PartialView("PlaylistPartial", model);
+            playlistsModel.Playlists = currentPagePlaylists;
+
+            return PartialView("PlaylistPartial", playlistsModel);
         }
+
         // GET: Playlists/Details
         [Authorize]
         public ActionResult Details(int? id)
@@ -53,7 +55,7 @@ namespace Panda_Player.Controllers
             if (id == null)
             {
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
@@ -63,7 +65,7 @@ namespace Panda_Player.Controllers
             if (playlist == null)
             {
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             if (!playlist.IsPublic)
@@ -71,7 +73,7 @@ namespace Panda_Player.Controllers
                 if (!IsAuthorizedToOperate(playlist))
                 {
                     this.AddNotification("Playlist is not public!", NotificationType.ERROR);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MyPlaylists");
                 }
             }
 
@@ -95,17 +97,19 @@ namespace Panda_Player.Controllers
         {
             if (ModelState.IsValid)
             {
-                string authorId = this.User.Identity.GetUserId();
-                var author = db.Users.Find(authorId);
+                string creatorId = this.User.Identity.GetUserId();
+                var creator = db.Users.Find(creatorId);
 
-                playlist.Creator = author;
+                playlist.Creator = creator;
 
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
 
+                this.AddNotification($"Successfully created {playlist.PlaylistName} playlist", NotificationType.SUCCESS);
                 return RedirectToAction("MyPlaylists");
             }
 
+            this.AddNotification("Check your data and try again.", NotificationType.ERROR);
             return View(playlist);
         }
 
@@ -116,7 +120,7 @@ namespace Panda_Player.Controllers
             if (id == null)
             {
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             Playlist playlist = db.Playlists.Find(id);
@@ -124,13 +128,13 @@ namespace Panda_Player.Controllers
             if (playlist == null)
             {
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             if (!IsAuthorizedToOperate(playlist))
             {
                 this.AddNotification("You are not authorized to edit this playlist!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
 
@@ -162,6 +166,7 @@ namespace Panda_Player.Controllers
                 db.Entry(playlistToEdit).State = EntityState.Modified;
                 db.SaveChanges();
 
+                this.AddNotification($"Succesfully edited {model.PlaylistName} playlist", NotificationType.SUCCESS);
                 return RedirectToAction("MyPlaylists");
             }
 
@@ -174,7 +179,7 @@ namespace Panda_Player.Controllers
             if (id == null)
             {
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
 
@@ -183,13 +188,13 @@ namespace Panda_Player.Controllers
             if (playlist == null)
             {
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             if (!IsAuthorizedToOperate(playlist))
             {
                 this.AddNotification("You are not authorized to delete this playlist!", NotificationType.ERROR);
-                return RedirectToAction("Index");
+                return RedirectToAction("MyPlaylists");
             }
 
             return View(playlist);
@@ -205,7 +210,7 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
 
             this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
-            return Json(new { Success = true });
+            return Json(new { Success = true, Url = "Playlists/MyPlaylists" });
         }
 
         [Authorize]
@@ -216,13 +221,10 @@ namespace Panda_Player.Controllers
             var playlistSongs = playlist.Songs.ToList();
             var playlistName = playlist.PlaylistName;
 
-            
-
             var result = new StringBuilder();
 
             result.AppendLine("#EXTM3U");
             result.AppendLine("");
-
 
             foreach (var song in playlistSongs)
             {
@@ -267,14 +269,15 @@ namespace Panda_Player.Controllers
             return PartialView("LoadPlaylist");
         }
                       
-        [HttpPost]
         public ActionResult DeleteFromPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);
             var song = playlist.Songs.FirstOrDefault(s => s.Id == songId);
+
             playlist.Songs.Remove(song);
             db.SaveChanges();
-            
+
+            this.AddNotification($"{song} has been successfully removed from {playlist}", NotificationType.WARNING);
             return RedirectToAction("MyPlaylists");
         }
 
