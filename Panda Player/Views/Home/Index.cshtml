@@ -1,7 +1,7 @@
 ﻿@model Panda_Player.Models.ViewModels.IndexViewModel
 @{
     ViewBag.Title = "Home Page";
-    //var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
+    var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
     if (Request.IsAjaxRequest())
     {
         Layout = null;
