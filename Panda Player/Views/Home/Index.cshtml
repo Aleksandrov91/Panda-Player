@@ -13,7 +13,7 @@
             @*setTimeout(function () { wavesurfer.load('@Model.LastAddedSong.SongPath'); }, 1000);*@
         </script>
     }
-
+    
 }
 @Html.Partial("_Notifications")
 <h1 class="playlists">Playlists</h1>
@@ -22,8 +22,9 @@
     @foreach (var playlist in Model.Playlists)
     {
         <div class="col-md-4">
-            <a href="~/Playlists/Details/@playlist.Id">
+            <a>
                 <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:200px; height:200px;" class="img-responsive">
+                @Ajax.ActionLink(" ", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                 <h4>@playlist.PlaylistName</h4>
             </a>
             @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
@@ -59,7 +60,7 @@
                             <ul class="dropdown-menu">
                                 @foreach (var playlist in Model.UserPlaylists)
                                 {
-                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST" })</li>
+                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", OnSuccess = "success" })</li>
                                 }
                                 <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
                             </ul>
@@ -75,5 +76,8 @@
 </div>
 <br />
 
-<input type="hidden" id="songId" />
-@Html.Partial("_ModalPopup")
+<script>
+    function success(data) {
+        $('#body').load(data.Url);
+    }
+</script>

@@ -262,7 +262,8 @@ namespace Panda_Player.Controllers
             playlist.Songs.Remove(song);
             db.SaveChanges();
 
-            this.AddNotification($"{song} has been successfully removed from {playlist}", NotificationType.WARNING);
+            this.AddNotification($"{song.Artist} - {song.Title} has been successfully removed from {playlist.PlaylistName}", NotificationType.WARNING);
+            //return Json(new { returnUrl = "Home/Index" });
             return RedirectToAction("MyPlaylists");
         }
 

@@ -25,7 +25,7 @@
                             <ul class="dropdown-menu">
                                 @foreach (var playlist in Model.UserPlaylists)
                                 {
-                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST" })</li>
+                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", OnSuccess = "success" })</li>
                                 }
                                 <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
                             </ul>
@@ -44,3 +44,9 @@
         }
     </div>
 </div>
+
+<script>
+    function success(data) {
+        $('#body').load(data.Url);
+    }
+</script>
