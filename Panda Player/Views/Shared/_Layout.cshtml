@@ -14,6 +14,7 @@
     @Scripts.Render("~/bundles/wavesurfer.playlist")
     <link href="/Content/font-awesome.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/mapUrl.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -29,6 +30,32 @@
                     <img  id="pandaLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png"/>
                     @Ajax.ActionLink(" ", " ", " ", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
                 </a>
+                <ul>
+                    <li onclick="mapUrl('Home', 'Index')">
+                        <a class="navbar-brand" style="margin-left:40px">
+                            @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
+                        </a>
+                    </li>
+                    <li>
+                        @using (Ajax.BeginForm("Search", null,
+new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "body",
+    InsertionMode = InsertionMode.Replace,
+}, new { id = "searchForm", type = "songs" }))
+                        {
+                            <input type="text" name="query" placeholder="Live Search" oninput="$('#searchForm').submit()" />
+                            <div>
+                                <span>@Html.RadioButton("type", "songs", true) Songs</span>
+                                <span>@Html.RadioButton("type", "playlists") Playlists</span>
+                            </div>
+                        }
+                    </li>
+                    <li>
+                        @Ajax.ActionLink("Genres", "Genres", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                    </li>
+                </ul>
             </div>
             <div id="searchBarContainer">
                 @using (Ajax.BeginForm("Search", null,
