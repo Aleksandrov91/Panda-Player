@@ -424,6 +424,8 @@ namespace Panda_Player.Controllers.Admin
             {
                 playlists = db.Playlists
                     .Where(u => u.Creator.Id == id)
+                    .ToArray()
+                    .Where(p => p.PlaylistName.ToLower().Contains(search.ToLower()))
                     .OrderBy(p => p.PlaylistName)
                     .Skip((page - 1) * playlistsPerPage)
                     .Take(playlistsPerPage)
