@@ -296,7 +296,7 @@
     <Content Include="Scripts\playlistToggle.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Uploads\Images\Profile Pictures\default-avatar.png" />
+    <Content Include="Content\Images\default-avatar.png" />
     <Content Include="Uploads\Playlists\currentPlaylist.m3u" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -361,6 +361,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\ProfilePics\" />
+    <Folder Include="Uploads\Images\Profile Pictures\" />
     <Folder Include="Views\Images\" />
     <Folder Include="Views\Tag\" />
   </ItemGroup>
