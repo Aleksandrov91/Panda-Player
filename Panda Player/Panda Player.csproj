@@ -254,7 +254,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\Logos\funky_panda.gif" />
     <Content Include="Content\Images\Logos\paw.png" />
-    <Content Include="Content\Images\ProfilePics\default-avatar.png" />
     <Content Include="Content\Images\Logos\facebook_icon.png" />
     <Content Include="Content\Images\Logos\instagram_icon.png" />
     <Content Include="Content\Images\Logos\linkedin_icon.png" />
@@ -298,6 +297,7 @@
     <Content Include="Scripts\playlistToggle.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Uploads\Images\Profile Pictures\default-avatar.png" />
     <Content Include="Uploads\Playlists\currentPlaylist.m3u" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -338,7 +338,6 @@
     <Content Include="Views\Shared\_Notifications.cshtml" />
     <Content Include="Views\User\List.cshtml" />
     <Content Include="Views\Shared\Player.cshtml" />
-    <Content Include="Views\Manage\Upload.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Genre\List.cshtml" />
     <Content Include="Views\Genre\Create.cshtml" />
@@ -362,6 +361,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\ProfilePics\" />
     <Folder Include="Views\Images\" />
     <Folder Include="Views\Tag\" />
   </ItemGroup>

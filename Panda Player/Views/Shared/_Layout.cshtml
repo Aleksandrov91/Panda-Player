@@ -20,8 +20,12 @@
     <div class="navbar navbar-default navbar-fixed-top" style="background: transparent">
         <div class="container">
             <div class="navbar-header" style="width:1200px">
-
-                @Ajax.ActionLink("Panda Player", " ", " ", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
+                <ul>
+                    <li onclick="mapUrl('Home', 'Index')">
+                        @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
+                    </li>
+                </ul>
+                
 
                 <img id="pandaLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png" />
 

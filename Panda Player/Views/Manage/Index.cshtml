@@ -27,10 +27,17 @@
     <dl class="dl-horizontal">
         <dt>Profile picture:</dt>
         <dd>
+            
             <div class="row">
                 <div class="col-md-2">
-                    <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' />
-                    @Html.ActionLink("Change Picture", "Upload", "Manage")
+                    <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:120px; height:118px" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <input id="ImagePath" class="form-control" title="Upload Image" type="file" name="file" accept=".jpg,.jpeg,.png,.gif" style="visibility:hidden" />
+                    <a href="" onclick="document.getElementById('ImagePath').click(); return false;">Change picture</a>
+                    <input id="Add" type="submit" value="Upload" class="btn btn-default" />
                 </div>
             </div>
     </dl>
