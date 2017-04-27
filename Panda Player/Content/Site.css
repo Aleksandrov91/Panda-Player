@@ -181,11 +181,12 @@ li {
 }
 
 #wrapper.active #sidebar-wrapper {
+    opacity: 0.9;
     margin-left: -250px;
     top: 135px;
     left: 250px;
     width: 250px;
-    background: #000;
+    background: #0B0E09;
     position: fixed;
     height: 100%;
     overflow-y: auto;

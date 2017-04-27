@@ -25,6 +25,9 @@ $('body').on('click', '.playlist', function () {
 var myList;
 //var allList;
 wavesurfer.on('playlist-ready', function () {
+
+    $('.playlistbox').empty();
+
     myList = myPlaylist.getPlaylist();
     //allList = myPlaylist;
     var myRegexp = /(.*?_)/g;

@@ -230,7 +230,6 @@
     <Compile Include="Models\Manage\SetPasswordViewModel.cs" />
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Image.cs" />
-    <Compile Include="Models\PandaPlayer\LoadPlaylistSongsViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Playlist.cs" />
     <Compile Include="Models\PandaPlayer\Song.cs" />
     <Compile Include="Models\PandaPlayer\SongDetailsModel.cs" />
