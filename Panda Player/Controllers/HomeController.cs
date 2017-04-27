@@ -28,8 +28,7 @@ namespace Panda_Player.Controllers
                 .OrderByDescending(a => a.DateCreated)
                 .Where(p => p.IsPublic)
                 .Take(6).ToList();
-
-            var lastAddedSong = lastAddedSongs[lastAddedSongs.Count - 1];
+            var lastAddedSong = lastAddedSongs[0];
 
             var indexModel = new IndexViewModel
             {
@@ -37,7 +36,7 @@ namespace Panda_Player.Controllers
                 Playlists = lastAddedPlaylists,
                 Songs = lastAddedSongs,
                 UserPlaylists = userPlaylists,
-                LastAddedSong = lastAddedSong
+               LastAddedSong = lastAddedSong
             };
 
             

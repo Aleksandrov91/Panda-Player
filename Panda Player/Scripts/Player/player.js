@@ -1,7 +1,11 @@
 ﻿var wavesurfer = WaveSurfer.create({
     container: '#waveform',
-    waveColor: '#000000',
+    waveColor: '#225622',
     progressColor: '#1ca532',
+    hideScrollbar: true,
+    scrollParent: true,
+    maxCanvasWidth: 4000,
+    scrollParent: true
 });
 
 // load default track

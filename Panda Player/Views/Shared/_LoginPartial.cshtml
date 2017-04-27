@@ -3,8 +3,8 @@
 
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right" style="margin-right:30px">
@@ -28,7 +28,8 @@
                         var userEmail = User.Identity.GetUserName();
                         var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
                     }
-                    @Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                    @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })           
             </li>
             <li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>        
             <li>@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
