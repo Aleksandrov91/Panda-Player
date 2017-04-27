@@ -40,7 +40,7 @@ namespace Panda_Player.Controllers
                 LastAddedSong = lastAddedSong
             };
 
-            
+
             return View(indexModel);
         }
 
