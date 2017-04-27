@@ -417,7 +417,7 @@ namespace Panda_Player.Controllers
                 
             }
 
-            var defImg = "~/Uploads/Images/Profile Pictures/default-avatar.png";
+            var defImg = "~/Content/Images/default-avatar.png";
             return File(defImg, "image/png");
 
         }
