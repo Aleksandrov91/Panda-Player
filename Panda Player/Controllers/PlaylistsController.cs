@@ -244,12 +244,7 @@ namespace Panda_Player.Controllers
             if (!System.IO.File.Exists($"{myPlayList}"))
             {
                 System.IO.File.Create($"{myPlayList}");
-            }
-
-            if (!System.IO.File.Exists($"{myPlayList}"))
-            {
-                System.IO.File.Create($"{myPlayList}");
-            }
+            }           
 
             System.IO.File.WriteAllText(myPlayList, result.ToString());
         }

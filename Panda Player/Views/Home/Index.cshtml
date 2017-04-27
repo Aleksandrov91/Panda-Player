@@ -27,7 +27,6 @@
                 <h4>@playlist.PlaylistName</h4>
             </a>
             @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
-
         </div>
     }
 </div>
