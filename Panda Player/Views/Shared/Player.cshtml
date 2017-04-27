@@ -1,5 +1,5 @@
-﻿<body onload="setTimeout(play, delay)">
-</body>
+﻿<body onload="setTimeout(play, delay)"></body>
+
 <div id="waveform">
     <button class="btn btn-primary" onclick="wavesurfer.playPause()">
         <i class="fa fa-play-circle-o" aria-hidden="true"></i>
@@ -13,6 +13,7 @@
         PlayList
     </button>
 </div>
+
 @Html.Partial("_Playlist")
 
 <script>
