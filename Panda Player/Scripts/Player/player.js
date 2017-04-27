@@ -25,6 +25,9 @@ $('body').on('click', '.playlist', function () {
 var myList;
 //var allList;
 wavesurfer.on('playlist-ready', function () {
+
+    $('.playlistbox').empty();
+
     myList = myPlaylist.getPlaylist();
     //allList = myPlaylist;
     var myRegexp = /(.*?_)/g;
@@ -37,16 +40,19 @@ wavesurfer.on('playlist-ready', function () {
         }
     }
 
-    var count = myList[0];
-    wavesurfer.load(count);
+    var counter = 0;
+    wavesurfer.load(myList[counter]);
     setTimeout(play, delay);
 
-    wavesurfer.on('finish', function () {   
-        wavesurfer.load(myList[1]);
-        setTimeout(play, delay);
-        console.log("YEa")
-    });
-    
+    /// play all song in playlist
+    var reqursion = wavesurfer.on('finish', function () {
+        counter++;
+        if (counter < myList.length) {
+            wavesurfer.load(myList[counter]);
+            setTimeout(play, delay);
+            return reqursion;
+        }
+    });  
 });
 
 // on waveform ready
@@ -58,14 +64,15 @@ wavesurfer.on('waveform-ready', function () {
 $('body').on('click', '.playTrack', function () {
     wavesurfer.load(myList[$(this).data('id')]);
     setTimeout(play, delay);
+        
+    var counter = $(this).data('id');
 
-    var count = myList[$(this)];
-    console.log(count);
-
-    wavesurfer.on('finish', function () {
-        count++;
-        wavesurfer.load(myList[2]);
-        setTimeout(play, delay);
-        console.log("YEa")
-    });
+    var reqursion = wavesurfer.on('finish', function () {
+        counter++;
+        if (counter < myList.length) {
+            wavesurfer.load(myList[counter]);
+            setTimeout(play, delay);
+            return reqursion;
+        }
+    }); 
 });
