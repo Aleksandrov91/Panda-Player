@@ -1,6 +1,7 @@
 ﻿html {
     height:100%;
 }
+
 body {
     min-height:100%;
     position:relative;
@@ -15,6 +16,7 @@ body {
 .body-content {
     /*padding-left: 15px;
     padding-right: 15px;*/
+    margin-top: 50px;
     padding-bottom: 160px;
 }
 
@@ -36,7 +38,7 @@ textarea {
 .social-icon {
         opacity: 0.7;
         width: 35px;
-    }
+}
 
 .social-icon :hover {
     opacity: 1 !important;
@@ -56,16 +58,19 @@ textarea {
     display: flex;
 }
 
-    .menu.social-icon {
-        list-style-type: none;
-        display: inline;
-        width: auto;
-        float: left;
-        display: flex;
-    }
+.menu.social-icon {
+    list-style-type: none;
+    display: inline;
+    width: auto;
+    float: left;
+    display: flex;
+}
 
 /*Set playlist media default css*/
 body {
+
+    background:;
+    color: white;
     padding-left: 15px;
     font: 15px rationale, helvetica, arial, freesans, clean, sans-serif;
     /*margin: 20px auto;
@@ -92,6 +97,10 @@ body {
 }
 */
 
+.searchbar-container{
+    float: left;
+}
+
 .wave {
     min-width: 100%;
     opacity: 1;
@@ -111,13 +120,18 @@ h2 {
 
 h3 {
     font-size: 14px;
+    font-weight: bold;
     margin: 10px;
     margin: auto;
 }
 
 h4,
 .h4 {
-    font-size: 18px;
+    font-size: 1em;
+}
+
+.menu-valenti-footer-menu li a {
+    font-size: 0.5em;
 }
 
 #loginForm {
@@ -166,7 +180,7 @@ li {
         font-weight: bold;
     }
 
-/*Playlist toggle*/
+/*Playlist SIDEBAAAAR*/
 #sidebar-wrapper {
     margin-left: -250px;
     top: 135px;
@@ -249,11 +263,14 @@ h6,
 
 a:link {
     text-decoration: none;
+    font-size: 0.8em;
 }
 
+a:hover {
+    color: forestgreen;
+}
 a:active {
-    color: greenyellow;
-    text-decoration: underline;
+    color: forestgreen;
 }
 
 .widget-panel mid col-sm-4 {
@@ -301,48 +318,50 @@ a:active {
 
 #searchForm {
     width:100%;
+
 }
 
 #searchBarContainer {
-    margin-left: 60px;
-    margin-top: 50px;
+    margin-left: 200px;
+    margin-top: 0px;
+    display: inline-block;
 }
 
 #searchOptions{
  font-size:0.9em;
+
 }
-/*
-.searchBarWrap{
-    
-}
-    */
+
 .container-fluid {
     width: 80%;
+    display: inline-block;
 }
+
 .container-fluid > * {
     display: inline-block;
     text-align:center;
 }
 
 .navbar-brand {
-    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png);
-    height: 50px;
-    width: 50px;
+  display: inline-block;
+  padding-top: 40px;
 }
 
 #pandaLogo {
-    padding: 0px;
-    width:85px;
-    height: 85px;
-    position: fixed;
-   
+    width: 85px;
+    padding-top: 0px;
+    display: inline;
+    position: inherit;
 }
 
 nav.navbar.navbar-default {
     background: transparent;
     border: none;
     font-size: 0.95em;
-    position: sticky;
+}
+
+.navbar-menu {
+    display: inline-block;
 }
 
 ul.dropdown-menu{
@@ -355,23 +374,28 @@ footer {
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 1rem;
+    padding: 1em;
     background-color: #efefef;
-    text-align: center;
+    width: 80%;
+    text-align: justify;
+    background: transparent;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
     background: transparent;
 }
 
-.btn{
-    background: transparent;
-}
 .btn:hover {
     background: transparent;
 }
+
 .btn:current {
     background: transparent;
 }
 
-        /*
+ /*
     .dropdown-menu .li :hover {
         background-color: darkolivegreen;
         color: darkolivegreen;
@@ -390,6 +414,7 @@ footer {
    with position:fixed. Width, height, top and left speak
    for themselves. Background we set to 80% white with
    our animation centered, and no-repeating */
+
 .dim {
     display: none;
     position: fixed;
@@ -407,11 +432,11 @@ body.loading {
     overflow: hidden;
 }
 
-    /* Anytime the body has the loading class, our
-   modal element will be visible */
-    body.loading .dim {
-        display: block;
-    }
+/* Anytime the body has the loading class, our
+modal element will be visible */
+body.loading .dim {
+    display: block;
+}
 
 .modal-open {
     overflow: scroll;
