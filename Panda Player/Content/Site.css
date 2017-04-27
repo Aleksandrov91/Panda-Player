@@ -1,6 +1,12 @@
-﻿body {
-    padding-top: 50px;
+﻿html {
+    height:100%;
+}
+body {
+    min-height:100%;
+    position:relative;
+    font-family: rationale;
     padding-bottom: 20px;
+    color: rgb(12, 135, 77);
     background-image: url(http://www.androidguys.com/wp-content/uploads/2016/06/Black-Texture-Wallpaper-for-Desktop.jpg);
 }
 
@@ -8,6 +14,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 160px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -30,9 +37,22 @@ textarea {
         width: 35px;
     }
 
+.social-icon :hover {
+    opacity: 1 !important;
+    width: 35px !important;
+}
+
 .menu {
     opacity: 1;
     list-style: none;
+}
+
+.menu.social-icon {
+    list-style-type: none;
+    display: inline;
+    width: auto;
+    float: left;
+    display: flex;
 }
 
     .menu.social-icon {
@@ -45,13 +65,36 @@ textarea {
 
 /*Set playlist media default css*/
 body {
-    font: 15px helvetica,arial,freesans,clean,sans-serif;
-    /*margin: 20px auto;*/
+    padding-left: 15px;
+    font: 15px rationale, helvetica, arial, freesans, clean, sans-serif;
+    /*margin: 20px auto;
+         position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+    */
     /*text-align: center;*/
 }
 
+/*
 #waveform {
     background: rgba(0,0,0,0.8);
+    opacity: 0.9;
+    border: 1px, solid;
+    border-color: lightgreen;
+    border-radius: 5px;
+    min-width:  100%;
+    position: center;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+}
+*/
+
+.wave {
+    min-width: 100%;
+    opacity: 1;
+    position: center;
     overflow-x: hidden !important;
     overflow-y: hidden !important;
 }
@@ -78,17 +121,20 @@ h4,
 
 #loginForm {
     width: 100%;
-    margin: 0;
+    margin: 0px;
     box-sizing: border-box;
     position: center;
 }
 
 #registerForm {
     width: 50%;
+    display: inline-block;
+    align-self: center;
+    margin-left: 330px;
 }
 
 form {
-    width: 70%;
+    width: 50%;
     margin: 0 auto;
     text-align: center;
 }
@@ -216,9 +262,109 @@ a:active {
 
 .dropdown-menu {
     width: 100%;
+}
+
+#bs-example-navbar-collapse-1 {
+    float:right;
+}
+
+@font-face {
+    font-family: 'rationale';
+    src: URL('/font/Rationale-Regular.ttf') format('ttf');
+}
+
+.form-horizontal {
+    display: inline-block;
+    align-self: center;
+    margin-left: 288px
+}
+
+#h4-register {
+    margin-left: -45px;
+}
+
+#regButton :hover {
+    background-color: greenyellow;
+    color: greenyellow;
+
+}
+
+.dropdown-menu li a:hover {
+    background-color: darkgreen;
+}
+
+#searchBar{                         /*SEARCHBAR*/
     text-align: center;
 }
+
+#searchForm {
+    width:100%;
+}
+
+#searchBarContainer {
+    margin-left: 60px;
+    margin-top: 50px;
+}
+
 /*
+.searchBarWrap{
+    
+}
+    */
+
+.container-fluid {
+    width: 80%;
+}
+.container-fluid > * {
+    display: inline-block;
+    text-align:center;
+}
+
+.navbar-brand {
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png);
+    height: 50px;
+    width: 50px;
+}
+
+#pandaLogo {
+    padding: 0px;
+    width: 65px;
+    height: 65px;
+}
+
+nav.navbar.navbar-default {
+    background: transparent;
+    border: none;
+    font-size: 0.95em;
+}
+
+ul.dropdown-menu{
+    opacity: 0.7;
+}
+
+/*footer CSS*/
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #efefef;
+    text-align: center;
+    background: transparent;
+}
+
+.btn{
+    background: transparent;
+}
+.btn:hover {
+    background: transparent;
+}
+.btn:current {
+    background: transparent;
+}
+
+        /*
     .dropdown-menu .li :hover {
         background-color: darkolivegreen;
         color: darkolivegreen;

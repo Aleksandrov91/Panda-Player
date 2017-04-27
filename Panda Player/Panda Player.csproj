@@ -250,12 +250,15 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-min.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.html" />
     <Content Include="Content\Images\Logos\ajax-loader.gif" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\ProfilePics\default-avatar.png" />
     <Content Include="Content\Images\Logos\facebook_icon.png" />
     <Content Include="Content\Images\Logos\instagram_icon.png" />
     <Content Include="Content\Images\Logos\linkedin_icon.png" />
     <Content Include="Content\Images\Logos\twitter_icon.png" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Scripts\Player\player.js" />
     <Content Include="Scripts\Player\playlistparser.js" />
     <Content Include="Scripts\Player\wavesurfer.min.js" />
@@ -270,6 +273,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -283,6 +291,7 @@
     <Content Include="Scripts\modalFunc.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\paging.js" />
+    <Content Include="Scripts\playlistToggle.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Uploads\Playlists\currentPlaylist.m3u" />

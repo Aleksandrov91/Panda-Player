@@ -40,11 +40,17 @@ WaveSurfer.Playlist = {
         return this.playlistData;
     },
 
+    //getAllPlaylist: function () {
+    //   return this.allPlaylist;
+    //},
+
     loadPlaylist: function(playlistFile) {
         // check if playlist type is given
         var playlist = [];
+        //var all = [];
 
         if (this.playlistType == 'm3u' || this.playlistType == 'audio/mpegurl') {
+            //all = playlistFile.split('\n');
             playlist = playlistFile.replace(/^.*#.*$|#EXTM3U|#EXTINF:/mg, '').split('\n');
         } else {
             throw new Error('No valid playlist file provided');
@@ -61,6 +67,7 @@ WaveSurfer.Playlist = {
             }
         }
         this.playlistData = outputArray;
+        //this.allPlaylist = all;
         return;
     }
 };
