@@ -5,6 +5,7 @@ body {
     min-height:100%;
     position:relative;
     font-family: rationale;
+   
     padding-bottom: 20px;
     color: rgb(12, 135, 77);
     background-image: url(http://www.androidguys.com/wp-content/uploads/2016/06/Black-Texture-Wallpaper-for-Desktop.jpg);
@@ -12,8 +13,8 @@ body {
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    /*padding-left: 15px;
+    padding-right: 15px;*/
     padding-bottom: 160px;
 }
 
@@ -295,6 +296,7 @@ a:active {
 
 #searchBar{                         /*SEARCHBAR*/
     text-align: center;
+    height: 25px;
 }
 
 #searchForm {
@@ -306,12 +308,14 @@ a:active {
     margin-top: 50px;
 }
 
+#searchOptions{
+ font-size:0.9em;
+}
 /*
 .searchBarWrap{
     
 }
     */
-
 .container-fluid {
     width: 80%;
 }
@@ -328,14 +332,17 @@ a:active {
 
 #pandaLogo {
     padding: 0px;
-    width: 65px;
-    height: 65px;
+    width:85px;
+    height: 85px;
+    position: fixed;
+   
 }
 
 nav.navbar.navbar-default {
     background: transparent;
     border: none;
     font-size: 0.95em;
+    position: sticky;
 }
 
 ul.dropdown-menu{
@@ -391,7 +398,7 @@ footer {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba( 255, 255, 255, .8 ) url('Images/Logos/ajax-loader.gif') 50% 50% no-repeat;
+    background: rgba( 255, 255, 255, .8 ) url('Images/Logos/funky_panda.gif') 50% 50% no-repeat;
 }
 
 /* When the body has the loading class, we turn
@@ -408,4 +415,9 @@ body.loading {
 
 .modal-open {
     overflow: scroll;
+}
+
+.col-md-4, .col-md-4  h4{
+    width: 200px;
+    text-align: center;
 }

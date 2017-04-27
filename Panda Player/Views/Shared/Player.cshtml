@@ -1,20 +1,35 @@
-﻿<body onload="setTimeout(play, delay)">
-</body>
+﻿<body onload="setTimeout(play, delay)"></body>
+
 <div id="waveform">
-    <button class="btn btn-primary" onclick="wavesurfer.playPause()">
-        <i class="fa fa-play-circle-o fa-lg" aria-hidden="true"></i>
-        
-        /
-        <i class="fa fa-pause-circle  fa-lg" aria-hidden="true"></i>
-       
+    <button id="playPause" class="btn btn-primary" onclick="wavesurfer.playPause()">
+        <i class="fa fa-pause-circle-o fa-2x" aria-hidden="true"></i>
     </button>
-    <button id="menu-toggle" class="btn btn-primary">
-        <i class="fa fa-bars  fa-lg" aria-hidden="true"></i>
+    <button id="menu-toggle" class="btn btn-primary">        
+        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+    </button>
+    <button id="mute" class="btn btn-primary" onclick="wavesurfer.toggleMute()">
+        <div id="muteToggle" class="toggleMute">
+            <i class="fa fa-volume-up fa-2x" aria-hidden="true" id="mute-hide"></i>
+        </div>
     </button>
 </div>
+
 @Html.Partial("_Playlist")
 
 <script>
+
+    $(function () {
+        $('#mute').click(function () {
+            $(this).find('i').toggleClass('fa fa-volume-up fa-2x fa fa-volume-off fa-2x');
+        });
+    });
+
+    $(function () {
+        $('#playPause').click(function () {
+            $(this).find('i').toggleClass('fa fa-play-circle-o fa-2x fa fa-pause-circle-o fa-2x');
+        });
+    });
+
     function play() {
         wavesurfer.play();
     }

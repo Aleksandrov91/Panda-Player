@@ -11,10 +11,7 @@
 var Delete = function () {
 
     var sId = $("#songId").val();
-    var pId = $("#playlistId").val();
-    var req = $.post("#myModal").done(function (data) {
-        data.Success
-    });    
+    var pId = $("#playlistId").val();    
 
     $.ajax({
         type: "POST",

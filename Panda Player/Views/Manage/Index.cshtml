@@ -4,24 +4,37 @@
     ViewBag.Title = "Manage";
 }
 
+@{
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>My profile</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+<h4>Change profile settings</h4>
+<hr />
+
 @using (Html.BeginForm("Upload", "Manage", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <h2>My profile</h2>
-
-    <p class="text-success">@ViewBag.StatusMessage</p>
-
-        <h4>Change profile settings</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>Profile picture:</dt>
-            <dd>
-                <div class="row">
-                    <div class="col-md-2">
-                            <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' />
-                            @Html.ActionLink("Change Picture", "Upload", "Manage")          
-                    </div>
+    <dl class="dl-horizontal">
+        <dt>Profile picture:</dt>
+        <dd>
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' />
+                    @Html.ActionLink("Change Picture", "Upload", "Manage")
                 </div>
-        </dl>
+            </div>
+    </dl>
+}
         <br />
         <dl class="dl-horizontal">
             <dt>Email Adress:</dt>
@@ -31,7 +44,7 @@
                         @User.Identity.GetUserName()
                     </div>
                 </div>
-                
+
             </dd>
         </dl>
 
@@ -52,11 +65,11 @@
                         }
                         ]
                     </div>
-                   
-                </div>        
+
+                </div>
             </dd>
         </dl>
 
-}
+
 
 

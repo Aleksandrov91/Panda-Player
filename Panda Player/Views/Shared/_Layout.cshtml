@@ -28,7 +28,7 @@
                 </button>
                 <a class="navbar-brand" style="margin-left:40px"> 
                     <img  id="pandaLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png"/>
-                   @Ajax.ActionLink(" ", " ", " ", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
+                    @Ajax.ActionLink(" ", " ", " ", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
                 </a>
                 <ul>
                     <li onclick="mapUrl('Home', 'Index')">
@@ -67,8 +67,23 @@ new AjaxOptions
                 }, new { id = "searchForm", }))
                 {
                     <input type="text" id="searchBar" name="query" placeholder="Search" oninput="$('#searchForm').submit()" />
+                    <div id="searchOptions">
+                        <span>@Html.RadioButton("type", "songs", true) Songs    </span>
+                        <span>@Html.RadioButton("type", "playlists") Playlists</span>
+                    </div>
                 }
             </div>
+            <div id="navbar-menu-container">
+                <div>
+                    @Ajax.ActionLink("Genres", "Genres", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                </div>
+                <div>
+                @Ajax.ActionLink("Songs", "", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                </div>
+                <div>
+                    @Ajax.ActionLink("Playlists", "", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                </div>
+             </div>  
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 @Html.Partial("_LoginPartial")
             </div>

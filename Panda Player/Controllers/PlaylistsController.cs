@@ -244,12 +244,7 @@ namespace Panda_Player.Controllers
             if (!System.IO.File.Exists($"{myPlayList}"))
             {
                 System.IO.File.Create($"{myPlayList}");
-            }
-
-            if (!System.IO.File.Exists($"{myPlayList}"))
-            {
-                System.IO.File.Create($"{myPlayList}");
-            }
+            }           
 
             System.IO.File.WriteAllText(myPlayList, result.ToString());
         }
@@ -262,7 +257,8 @@ namespace Panda_Player.Controllers
             playlist.Songs.Remove(song);
             db.SaveChanges();
 
-            this.AddNotification($"{song} has been successfully removed from {playlist}", NotificationType.WARNING);
+            this.AddNotification($"{song.Artist} - {song.Title} has been successfully removed from {playlist.PlaylistName}", NotificationType.WARNING);
+            //return Json(new { returnUrl = "Home/Index" });
             return RedirectToAction("MyPlaylists");
         }
 
