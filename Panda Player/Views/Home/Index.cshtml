@@ -23,7 +23,7 @@
     {
         <div class="col-md-4">
             <a href="~/Playlists/Details/@playlist.Id">
-                <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
+                <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:200px; height:200px;" class="img-responsive">
                 <h4>@playlist.PlaylistName</h4>
             </a>
             @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })

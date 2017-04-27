@@ -251,8 +251,9 @@
     <Content Include="Content\bootstrap-min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.html" />
-    <Content Include="Content\Images\Logos\ajax-loader.gif" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\Logos\funky_panda.gif" />
+    <Content Include="Content\Images\Logos\paw.png" />
     <Content Include="Content\Images\ProfilePics\default-avatar.png" />
     <Content Include="Content\Images\Logos\facebook_icon.png" />
     <Content Include="Content\Images\Logos\instagram_icon.png" />
