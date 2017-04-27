@@ -71,7 +71,7 @@
                         </div>
                         if (song.IsUploader(User.Identity.Name) || this.User.IsInRole("Admin"))
                         {
-                            @Ajax.ActionLink("Edit", "Edit", new { id = song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                            @Ajax.ActionLink("Edit", "Edit", "Songs", new { id = song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
                             @Html.Hidden("item-to-delete", "", new { @id = song.Id })
                             <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@song.Id, '@($"{song.Artist} - {song.Title}")')" data-item-description="@song.Title">
                                 <i class="glyphicon glyphicon-trash"></i>

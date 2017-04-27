@@ -93,7 +93,7 @@ namespace Panda_Player.Controllers
             }
 
             SongDetailsModel currSong = new SongDetailsModel();
-
+            currSong.Id = song.Id;
             currSong.Artist = song.Artist;
             currSong.Title = song.Title;
             currSong.Genre = db.Genres.Where(g => g.Id == song.GenreId).Select(g => g.Name).First();

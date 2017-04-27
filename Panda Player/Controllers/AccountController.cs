@@ -78,6 +78,16 @@ namespace Panda_Player.Controllers
 
                 if (user != null)
                 {
+                    // Check if user is banned
+                    if (user.UserAccessControl.BanEndTime > DateTime.Now)
+                    {
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        this.AddNotification($"Your account has been banned!", NotificationType.ERROR);
+                        this.AddNotification($"You can log in again after '{user.UserAccessControl.BanEndTime.ToLongDateString()} {user.UserAccessControl.BanEndTime.ToLongTimeString()}'!", NotificationType.INFO);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    
                     var validCredentials = await UserManager.FindAsync(model.Email, model.Password);
 
                     // When a user is lockedout, this check is done to ensure that even if the credentials are valid

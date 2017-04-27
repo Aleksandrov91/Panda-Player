@@ -1,0 +1,88 @@
+﻿@model Panda_Player.Models.ViewModels.Admin.UserBanViewModel
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+@{
+    ViewBag.Title = "Ban User";
+}
+
+<div class="container body-content span-8 offset-2">
+    <div class="well">
+        <h2>@ViewBag.Title</h2>
+
+        @using (Html.BeginForm("BanUser", "User", FormMethod.Post, new { @class = "form-horizontal", name = "frm", id = "frm" }))
+        {
+            @section scripts {
+                @Scripts.Render("~/bundles/bootstrap-datetimepicker")
+            }
+
+            @section styles {
+                @Styles.Render("~/Content/bootstrap-datetimepicker")
+            }
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control col-sm-4", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FullName, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control col-sm-4", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PlaylistCount, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.PlaylistCount, new { @class = "form-control col-sm-4", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.UploadedSongsCount, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.UploadedSongsCount, new { @class = "form-control col-sm-4", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.BanEndDate, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.BanEndDate, new { @class = "form-control col-sm-4"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+                    @Html.ActionLink("Cancel", "List", "User", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="Ban" class="btn btn-danger" />
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script>
+    $('#Ban').click(function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        $('#frm').submit();
+    });
+</script>
+
+<script>
+    $(function () {
+        $('#BanEndDate').datetimepicker(
+            {
+                format: 'DD-MMM-YYYY HH:mm',
+                sideBySide: true,
+                showTodayButton: true
+            });
+    });
+</script>

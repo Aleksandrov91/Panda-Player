@@ -215,7 +215,9 @@
     <Compile Include="Models\Identity\RegisterViewModel.cs" />
     <Compile Include="Models\Identity\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Identity\SendCodeViewModel.cs" />
-    <Compile Include="Models\Identity\UserDetailsViewModel.cs" />
+    <Compile Include="Models\PandaPlayer\Image.cs" />
+    <Compile Include="Models\ViewModels\Admin\UserBanViewModel.cs" />
+    <Compile Include="Models\ViewModels\Admin\UserDetailsViewModel.cs" />
     <Compile Include="Models\Identity\VerifyCodeViewModel.cs" />
     <Compile Include="Models\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="Models\Manage\Admin\DeleteUserViewModel.cs" />
@@ -229,14 +231,15 @@
     <Compile Include="Models\Manage\ManageLoginsViewModel.cs" />
     <Compile Include="Models\Manage\SetPasswordViewModel.cs" />
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
-    <Compile Include="Models\PandaPlayer\Image.cs" />
     <Compile Include="Models\PandaPlayer\LoadPlaylistSongsViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Playlist.cs" />
     <Compile Include="Models\PandaPlayer\Song.cs" />
-    <Compile Include="Models\PandaPlayer\SongDetailsModel.cs" />
-    <Compile Include="Models\PandaPlayer\SongUploadEditViewModel.cs" />
-    <Compile Include="Models\PandaPlayer\SongUploadViewModel.cs" />
-    <Compile Include="Models\PandaPlayer\SongViewModel.cs" />
+    <Compile Include="Models\ViewModels\Admin\UserPlaylistsViewModel.cs" />
+    <Compile Include="Models\ViewModels\SongDetailsModel.cs" />
+    <Compile Include="Models\ViewModels\SongUploadEditViewModel.cs" />
+    <Compile Include="Models\ViewModels\SongUploadViewModel.cs" />
+    <Compile Include="Models\ViewModels\SongViewModel.cs" />
+    <Compile Include="Models\ViewModels\Admin\UserSongsViewModel.cs" />
     <Compile Include="Models\ViewModels\IndexViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAllPlaylistsViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAllSongsViewModel.cs" />
@@ -248,20 +251,31 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\Images\ProfilePics\default-avatar.png" />
     <Content Include="Content\Images\Logos\facebook_icon.png" />
     <Content Include="Content\Images\Logos\instagram_icon.png" />
     <Content Include="Content\Images\Logos\linkedin_icon.png" />
     <Content Include="Content\Images\Logos\twitter_icon.png" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\Player\player.js" />
     <Content Include="Scripts\Player\playlistparser.js" />
     <Content Include="Scripts\Player\wavesurfer.min.js" />
     <Content Include="Scripts\Player\wavesurfer.playlist.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
@@ -269,6 +283,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -341,20 +360,18 @@
     <Content Include="Views\Songs\MySongs.cshtml" />
     <Content Include="Views\Playlists\MyPlaylists.cshtml" />
     <Content Include="Views\Shared\_PlayList.cshtml" />
+    <Content Include="Views\User\SongsEdit.cshtml" />
+    <Content Include="Views\User\SongToBeEdited.cshtml" />
+    <Content Include="Views\User\SongDetails.cshtml" />
+    <Content Include="Views\User\PlaylistToBeEdited.cshtml" />
+    <Content Include="Views\User\PlaylistsList.cshtml" />
+    <Content Include="Views\User\PlaylistDetails.cshtml" />
+    <Content Include="Views\User\BanUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Images\" />
     <Folder Include="Views\Tag\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

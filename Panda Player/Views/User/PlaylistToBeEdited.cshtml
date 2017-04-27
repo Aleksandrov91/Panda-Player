@@ -1,0 +1,47 @@
+﻿@model Panda_Player.Models.ViewModels.PlaylistViewModel
+@using Panda_Player.Models;
+
+@using (Html.BeginForm("PlaylistToBeEdited" + "", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Playlist</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlaylistName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PlaylistName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PlaylistName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsPublic)
+                    @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @{
+        var db = new ApplicationDbContext();
+        var userId = db.Playlists.Where(p => p.Id == Model.Id).Select(u => u.Creator.Id).FirstOrDefault();
+    }
+    @Html.ActionLink("Back to user playlist", "PlaylistsList", new { id = userId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

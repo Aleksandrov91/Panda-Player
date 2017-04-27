@@ -21,7 +21,7 @@
                     <td>@genre.Name</td>
                     <td>@genre.Songs.Count</td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Genre", new { @id = genre.Id }, null)
+                        @Html.ActionLink("Edit", "Edit", "Genre", new { @id = genre.Id }, null) |
                         @Html.ActionLink("Delete", "Delete", "Genre", new { @id = genre.Id }, null)
                     </td>
                 </tr>
