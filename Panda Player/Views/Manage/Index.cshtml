@@ -4,47 +4,79 @@
     ViewBag.Title = "Manage";
 }
 
+@{
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>My profile</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+<h4>Change profile settings</h4>
+<hr />
+
 @using (Html.BeginForm("Upload", "Manage", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <h2>My profile</h2>
-
-    <p class="text-success">@ViewBag.StatusMessage</p>
-    <div>
-        <h4>Change profile settings</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>Profile picture:</dt>
-            <dd>
-                <div class="row">
-                    <div class="col-md-2">
-                            <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' />
-                            @Html.ActionLink("Change Picture", "Upload", "Manage")          
-                    </div>
+    <dl class="dl-horizontal">
+        <dt>Profile picture:</dt>
+        <dd>
+            
+            <div class="row">
+                <div class="col-md-2">
+                    <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:120px; height:118px" />
                 </div>
-        </dl>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <input id="ImagePath" class="form-control" title="Upload Image" type="file" name="file" accept=".jpg,.jpeg,.png,.gif" style="visibility:hidden" />
+                    <a href="" onclick="document.getElementById('ImagePath').click(); return false;">Change picture</a>
+                    <input id="Add" type="submit" value="Upload" class="btn btn-default" />
+                </div>
+            </div>
+    </dl>
+}
+        <br />
         <dl class="dl-horizontal">
             <dt>Email Adress:</dt>
             <dd>
-                @User.Identity.GetUserName()
+                <div class="row">
+                    <div class="col-md-2">
+                        @User.Identity.GetUserName()
+                    </div>
+                </div>
+
             </dd>
         </dl>
 
         <dl class="dl-horizontal">
+
             <dt>Password:</dt>
             <dd>
-                [
-                @if (Model.HasPassword)
-                {
-                    @Html.ActionLink("Change your password", "ChangePassword")
-                }
-                else
-                {
-                    @Html.ActionLink("Create", "SetPassword")
-                }
-                ]
+                <div class="row">
+                    <div class="col-md-4">
+                        [
+                        @if (Model.HasPassword)
+                        {
+                            @Html.ActionLink("Change your password", "ChangePassword")
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Create", "SetPassword")
+                        }
+                        ]
+                    </div>
+
+                </div>
             </dd>
         </dl>
-    </div>
-}
+
+
 
 

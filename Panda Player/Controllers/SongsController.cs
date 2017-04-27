@@ -93,6 +93,7 @@ namespace Panda_Player.Controllers
             }
 
             SongDetailsModel currSong = new SongDetailsModel();
+
             currSong.Id = song.Id;
             currSong.Artist = song.Artist;
             currSong.Title = song.Title;
@@ -175,7 +176,7 @@ namespace Panda_Player.Controllers
                     db.Songs.Add(currentSong);
                     db.SaveChanges();
 
-                    this.AddNotification("The song has been upload successfully.", NotificationType.SUCCESS);
+                    this.AddNotification($"The song {song.Artist} - {song.Title} has been upload successfully.", NotificationType.SUCCESS);
                     return RedirectToAction("MySongs", "Songs");
                 }
 
@@ -321,7 +322,7 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
 
             this.AddNotification("Song has been deleted successfully.", NotificationType.SUCCESS);
-            return Json(new { Success = true });
+            return Json(new { Success = true, Url = "Songs/MySongs" });
         }
 
         public ActionResult AddSongToPlaylist(int songId, int playlistId)
@@ -334,7 +335,7 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
 
             this.AddNotification($"Song has been added to {playlist.PlaylistName} Playlist.", NotificationType.SUCCESS);
-            return null;
+            return Json(new { Success = true, Url = "Songs/MySongs" });
         }
 
         private void SetSongTagsOnUpload(Song currentSong, SongUploadEditViewModel song, ApplicationDbContext db)

@@ -3,8 +3,8 @@
 
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right" style="margin-right:30px">
@@ -20,7 +20,7 @@
             }
 
             <li>
-                <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; margin-right:7px; margin-top:3px" />
+                <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; height:38px; margin-right:7px; margin-top:7px" />
             </li>
             <li>    
                     @{ 
@@ -28,16 +28,13 @@
                         var userEmail = User.Identity.GetUserName();
                         var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
                     }
-                    @Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                    @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })           
             </li>
-            @*<li>
-                <img class="img-responsive" src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:40px" />
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>*@
             <li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>        
-            <li>@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
-            <li>@Ajax.ActionLink("My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
-            <li>@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body"})</li>
+            <li onclick="mapUrl('Songs', 'MySongs')">@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
+            <li onclick="mapUrl('Playlists', 'MyPlaylists')">@Ajax.ActionLink("My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
+            <li onclick="mapUrl('Playlists', 'Create')">@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body"})</li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
         </ul>
     }

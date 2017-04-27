@@ -15,51 +15,80 @@
     @Scripts.Render("~/bundles/wavesurfer.playlist")
     <link href="/Content/font-awesome.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/mapUrl.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default" style="margin-top:-50px">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" style="margin-left:40px"> 
-                    @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
-                    <br />
-                    @using (Ajax.BeginForm("Search", null,
-                        new AjaxOptions
-                        {
-                            HttpMethod = "POST",
-                            UpdateTargetId = "body",
-                            InsertionMode = InsertionMode.Replace,
-                        }, new { id = "searchForm" }))
-                    {
-                        <input type="text" name="query" placeholder="Live Search" oninput="$('#searchForm').submit()" />
-                    }
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                @Html.Partial("_LoginPartial")
-            </div>
+    <div class="navbar navbar-default navbar-fixed-top" style="background: transparent">
+        <div class="container">
+            <div class="navbar-header" style="width:1200px">
+                <ul>
+                    <li onclick="mapUrl('Home', 'Index')">
+                        @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
+                    </li>
+                </ul>
+                
 
+                <img id="pandaLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png" />
 
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="width:910px;">
+                    <ul class="nav navbar-nav" style="margin-top:20px;padding-left:300px">
+                        <li>
+                            @using (Ajax.BeginForm("Search", null,
+                            new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                UpdateTargetId = "body",
+                                InsertionMode = InsertionMode.Replace,
+                            }, new { id = "searchForm", }))
+                                                        {
+                            <input type="text" id="searchBar" name="query" placeholder="Search" oninput="$('#searchForm').submit()" />
+                            <div id="searchOptions">
+                                <span>@Html.RadioButton("type", "songs", true) Songs</span>
+                                <span>@Html.RadioButton("type", "playlists") Playlists</span>
+                            </div>
+                            }
+                        </li>
+                        <li>
+                            @Ajax.ActionLink("Genres", "Genres", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                        </li>
+                        <li>
+                            @Ajax.ActionLink("Songs", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+
+                        </li>
+                        <li>
+                            @Ajax.ActionLink("Playlists", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+
+                        </li>
+                        <li class="searchbar-container">
+                            @Html.Partial("_LoginPartial")
+                        </li>
+                    </ul>
+
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
         </div>
-    </nav>
+    </div>
+
     <div class="container body-content">
-        @Html.Partial("_Notifications")
-        @{
-            var controller = ViewContext.RouteData.Values["controller"].ToString();
-            var action = ViewContext.RouteData.Values["action"].ToString();
-            if (controller != "Account" && controller != "User" &&
-                controller != "Genre" && action != "Upload")
-            {
+        <div id="player">
+            @{
+                var controller = ViewContext.RouteData.Values["controller"].ToString();
+                var action = ViewContext.RouteData.Values["action"].ToString();
+                if (controller != "Account" && controller != "User" &&
+                    controller != "Genre" && action != "Upload")
+                {
                     @Html.Partial("Player")
+                }
             }
-        }
-        <div id="body">
+        </div>
+
+        <div id="body" class="body">
             @RenderBody()
         </div>
         <hr />
@@ -69,9 +98,10 @@
                     <div class="widgets-wrapper">
                         <div class="widgets widgets">
                             <div id="nav_menu-18" class="widget clearfix widget_nav_menu">
-                               <h3>About</h3>
                                 <div class="menu-valenti-footer-menu-container">
                                     <ul id="menu-valenti-footer-menu" class="menu">
+                                        <h3>About</h3>
+                                        <br />
                                         <li id="menu-item-41550" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-41550">@Html.ActionLink("Home", "Index", "Home")
                                         <li id="menu-item-41551" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-41551">@Html.ActionLink("Contact us", "", "")
                                         <li id="menu-item-41554" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-41554">@Html.ActionLink("Terms of Service", "", "")
@@ -86,9 +116,10 @@
                     <div class="widgets-wrapper">
                         <div class="widgets widgets">
                             <div id="nav_menu-19" class="widget clearfix widget_nav_menu">
-                                <h3>Contact Us</h3>
                                 <div class="menu-advertise-container">
                                     <ul id="menu-advertise" class="menu list-inline">
+                                        <h3>Contact Us</h3>
+                                        <br />
                                         <li><a class="social-icon" href="https://www.facebook.com/profile.php?id=100016119730958/"> <img class="social-icon" src="\Content\Images\Logos\facebook_icon.png" alt="Facebook"></a></li>
                                         <li><a class="social-icon" href="https://www.linkedin.com/in/coding-pandas-96a1bb139/?locale=en_US/"> <img class="social-icon" src="\Content\Images\Logos\linkedin_icon.png" alt="LinkedIn"></a></li>
                                         <li><a class="social-icon" href="http://instagram.com/"> <img class="social-icon" src="\Content\Images\Logos\instagram_icon.png" alt="Instagram"></a></li>
@@ -103,9 +134,10 @@
                     <div class="widgets-wrapper">
                         <div class="widgets widgets">
                             <div id="nav_menu-20" class="widget clearfix widget_nav_menu">
-                                <h3>Who Are We?</h3>
                                 <div class="menu-our-team-2-container">
                                     <ul id="menu-our-team-2" class="menu">
+                                        <h3>Who Are We?</h3>
+                                        <br />
                                         <li id="menu-item-62861" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-62861">@Html.ActionLink("About Us", "", "")
                                         <li id="menu-item-59976" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-59976"><a href="https://github.com/orgs/">Our GitHub</a></li>
                                         <li id="menu-item-59975" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-59975"><a href="https://softuni.bg/trainings/1511/software-technologies-february-2017">Our Course</a></li>
@@ -125,3 +157,16 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
+<div class="dim"></div>
+
+
+<script>
+    $body = $("body");
+
+    $(document).on({
+        ajaxStart: function () { $body.addClass("loading"); },
+        ajaxStop: function () { $body.removeClass("loading"); }
+    });
+</script>
