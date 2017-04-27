@@ -30,7 +30,7 @@
                 <img id="pandaLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png" />
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="width:910px;">
-                    <ul class="nav navbar-nav" style="margin-top:20px;padding-left:200px">
+                    <ul class="nav navbar-nav" style="margin-top:20px;padding-left:300px">
                         <li>
                             @using (Ajax.BeginForm("Search", null,
                             new AjaxOptions
@@ -51,11 +51,11 @@
                             @Ajax.ActionLink("Genres", "Genres", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                         </li>
                         <li>
-                            @Ajax.ActionLink("Songs", "", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                            @Ajax.ActionLink("Songs", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>
                         <li>
-                            @Ajax.ActionLink("Playlists", "", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                            @Ajax.ActionLink("Playlists", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>
                         <li class="searchbar-container">

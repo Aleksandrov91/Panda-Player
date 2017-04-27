@@ -291,6 +291,12 @@ a:active {
     src: URL('/font/Rationale-Regular.ttf') format('ttf');
 }
 
+.navbar-right{
+    display: inline block;
+    width: 150px;
+    position: absolute;
+}
+
 .form-horizontal {
     display: inline-block;
     align-self: center;
