@@ -260,6 +260,9 @@
     <Content Include="Content\Images\Logos\linkedin_icon.png" />
     <Content Include="Content\Images\Logos\twitter_icon.png" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="Scripts\jquery.history.js" />
+    <Content Include="Scripts\jquery.showLoading.js" />
+    <Content Include="Scripts\mapUrl.js" />
     <Content Include="Scripts\Player\player.js" />
     <Content Include="Scripts\Player\playlistparser.js" />
     <Content Include="Scripts\Player\wavesurfer.min.js" />
