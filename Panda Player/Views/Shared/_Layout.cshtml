@@ -77,6 +77,11 @@ new AjaxOptions
     </div>
 
     <div class="container body-content">
+
+        <div id="player">
+            @Html.Partial("Player")
+
+        </div>
         <div>
             @{
                 var controller = ViewContext.RouteData.Values["controller"].ToString();
