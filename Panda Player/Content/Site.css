@@ -97,6 +97,9 @@ body {
 }
 */
 
+.container{
+}
+
 .searchbar-container{
     float: left;
 }
@@ -467,4 +470,21 @@ body.loading .dim {
 .col-md-4, .col-md-4  h4{
     width: 200px;
     text-align: center;
+}
+
+.navbar navbar-default navbar-fixed-top{
+    border: none;
+}
+.nav navbar-nav navbar-right {
+    position: absolute;
+    margin-left: 100px;
+}
+.bs-example-navbar-collapse-1{
+    font-size: 15px;
+}
+nav navbar-nav li{
+    font-size: 1.2em;
+}
+.navbar-brand{
+    font-size: 1.5em;
 }
