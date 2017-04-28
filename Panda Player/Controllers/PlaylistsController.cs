@@ -50,7 +50,6 @@ namespace Panda_Player.Controllers
         }
 
         // GET: Playlists/Details
-        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
