@@ -101,6 +101,7 @@ namespace Panda_Player.Controllers.Admin
         {
             if (id == null)
             {
+                this.AddNotification("No id specified!", NotificationType.ERROR);
                 return Redirect("/User/List");
             }
 
@@ -110,6 +111,7 @@ namespace Panda_Player.Controllers.Admin
 
             if (user == null)
             {
+                this.AddNotification("No user found!", NotificationType.ERROR);
                 return Redirect("/User/List");
             }
 
@@ -124,12 +126,19 @@ namespace Panda_Player.Controllers.Admin
         [HttpPost]
         public ActionResult Edit(string id, EditUserViewModel viewModel)
         {
+            if (id == null)
+            {
+                this.AddNotification("No id specified!", NotificationType.ERROR);
+                return Redirect("/User/List");
+            }
+
             var db = new ApplicationDbContext();
 
             var user = db.Users.Find(id);
 
             if (user == null)
             {
+                this.AddNotification("No user found!", NotificationType.ERROR);
                 return Redirect("/User/List");
             }
 
@@ -156,6 +165,7 @@ namespace Panda_Player.Controllers.Admin
                 return RedirectToAction("Index", "Home");
             }
 
+            this.AddNotification($"User '{viewModel.User.FullName}' edited!", NotificationType.SUCCESS);
             return Redirect("/User/List");
         }
 
@@ -184,7 +194,9 @@ namespace Panda_Player.Controllers.Admin
                 viewModel.UploadedSongsCount = user.UploadedSongs.Count;
                 viewModel.PlaylistCount = user.Playlists.Count;
 
-                this.AddNotification("Deleting the user will delete all songs and playlists created by him!", NotificationType.WARNING);
+                this.AddNotification($"Deleting the user '{viewModel.FullName}' will delete all songs and playlists created by him!", NotificationType.WARNING);
+                this.AddNotification($"Total songs '{viewModel.UploadedSongsCount}'!", NotificationType.INFO);
+                this.AddNotification($"Total playlists '{viewModel.PlaylistCount}'!", NotificationType.INFO);
 
                 return View(viewModel);
             }
@@ -228,9 +240,10 @@ namespace Panda_Player.Controllers.Admin
 
                 db.Users.Remove(user);
                 db.SaveChanges();
+
+                this.AddNotification($"User '{user.FullName}' deleted!", NotificationType.INFO);
             }
 
-            this.AddNotification("User and all data have been deleted successfully!", NotificationType.INFO);
             return Redirect("/User/List");
         }
 
@@ -293,6 +306,11 @@ namespace Panda_Player.Controllers.Admin
                 viewModel.Songs = userSongs;
                 viewModel.Uploader = db.Users.Where(i => i.Id == id).Select(u => u.FullName).FirstOrDefault();
 
+                if (userSongs.Count == 0)
+                {
+                    this.AddNotification($"User '{user.FullName}' has not uploaded any songs!", NotificationType.INFO);
+                }
+
                 return View(viewModel);
             }
         }
@@ -340,6 +358,7 @@ namespace Panda_Player.Controllers.Admin
         public ActionResult SongToBeEdited(SongUploadEditViewModel song)
         {
             var currentSong = db.Songs.FirstOrDefault(s => s.Id == song.Id);
+
             if (currentSong == null)
             {
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
@@ -361,7 +380,8 @@ namespace Panda_Player.Controllers.Admin
 
             db.SaveChanges();
 
-            this.AddNotification("The Song has been updated successfully.", NotificationType.SUCCESS);
+            this.AddNotification($"Song '{song.Artist} - {song.Title}' was updated.", NotificationType.SUCCESS);
+
             return RedirectToAction($"SongDetails/{currentSong.Id}");
         }
 
@@ -441,6 +461,13 @@ namespace Panda_Player.Controllers.Admin
                 Math.Ceiling((double)db.Playlists.Where(u => u.Creator.Id == id).ToList().Where(p => p.PlaylistName.ToLower().Contains(search.ToLower())).ToList().Count / playlistsPerPage) ;
             ViewBag.TotalPlaylistsFound = db.Playlists.Where(u => u.Creator.Id == id).ToList().Where(p => p.PlaylistName.ToLower().Contains(search.ToLower())).ToList().Count;
 
+            if (playlists.Count == 0)
+            {
+                var userName = db.Playlists.Where(u => u.Creator.Id == id).Select(n => n.Creator.FullName).FirstOrDefault();
+
+                this.AddNotification($"User '{userName}' has not uploaded any playlsts!", NotificationType.INFO);
+            }
+
             return View(viewModel);
         }
 
@@ -492,6 +519,7 @@ namespace Panda_Player.Controllers.Admin
                 db.Entry(playlistToEdit).State = EntityState.Modified;
                 db.SaveChanges();
 
+                this.AddNotification($"Plylist {model.PlaylistName} edited.", NotificationType.INFO);
                 return RedirectToAction($"PlaylistDetails/{playlistToEdit.Id}");
             }
 
@@ -511,7 +539,6 @@ namespace Panda_Player.Controllers.Admin
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
 
             //ConvertToM3u(playlist);
-
             if (playlist == null)
             {
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
@@ -537,6 +564,8 @@ namespace Panda_Player.Controllers.Admin
             var song = playlist.Songs.FirstOrDefault(s => s.Id == songId);
             playlist.Songs.Remove(song);
             db.SaveChanges();
+
+            this.AddNotification($"Song '{song.Artist} - {song.Title}' deleted from '{playlist.PlaylistName}' playlist.", NotificationType.INFO);
 
             return RedirectToAction($"PlaylistDetails/{playlistId}");
         }
@@ -596,6 +625,7 @@ namespace Panda_Player.Controllers.Admin
             using (var db = new ApplicationDbContext())
             {
                 var ids = db.Users.Select(i => i.Id).ToList();
+
                 if (!ids.Contains(userBanViewModel.Id))
                 {
                     this.AddNotification("User not found!", NotificationType.ERROR);
@@ -610,8 +640,6 @@ namespace Panda_Player.Controllers.Admin
 
                 if (userBanViewModel.BanEndDate != currBanDate && userBanViewModel.BanEndDate > DateTime.Now)
                 {
-                    this.AddNotification($"User '{userBanViewModel.FullName}' successfully banned till '{userBanViewModel.BanEndDate.ToLongDateString()} {userBanViewModel.BanEndDate.ToLongTimeString()}'!", NotificationType.INFO);
-
                     // Save new ban date to user
                     currUser.UserAccessControl.BanEndTime = userBanViewModel.BanEndDate;
 
@@ -619,6 +647,8 @@ namespace Panda_Player.Controllers.Admin
                     var entity = db.Entry(currUser.UserAccessControl);
                     entity.Property(b => b.BanEndTime).IsModified = true;
                     db.SaveChanges();
+
+                    this.AddNotification($"User '{userBanViewModel.FullName}' successfully banned till '{userBanViewModel.BanEndDate.ToLongDateString()} {userBanViewModel.BanEndDate.ToLongTimeString()}'!", NotificationType.INFO);
 
                     return Redirect("/User/List");
                 }

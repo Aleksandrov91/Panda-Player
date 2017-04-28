@@ -33,6 +33,11 @@ namespace Panda_Player.Controllers
                 LastPage = lastPage
             };
 
+            if (userPlaylists.Count == 0)
+            {
+                this.AddNotification($"You have not created any playlists yet.", NotificationType.INFO);
+            }
+
             return PartialView(playlistsModel);
         }
 
@@ -113,7 +118,7 @@ namespace Panda_Player.Controllers
             return View(playlist);
         }
 
-        // GET: Playlists/Edit/5
+        // GET: Playlists/Edit/
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -137,7 +142,6 @@ namespace Panda_Player.Controllers
                 return RedirectToAction("MyPlaylists");
             }
 
-
             var model = new PlaylistViewModel
             {
                 Id = playlist.Id,
@@ -148,7 +152,7 @@ namespace Panda_Player.Controllers
             return PartialView(model);
         }
 
-        // POST: Playlists/Edit/5
+        // POST: Playlists/Edit/
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -159,6 +163,12 @@ namespace Panda_Player.Controllers
             if (ModelState.IsValid)
             {
                 var playlistToEdit = db.Playlists.Find(model.Id);
+
+                if (playlistToEdit == null)
+                {
+                    this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                    return RedirectToAction("MyPlaylists");
+                }
 
                 playlistToEdit.PlaylistName = model.PlaylistName;
                 playlistToEdit.IsPublic = model.IsPublic;
@@ -173,7 +183,7 @@ namespace Panda_Player.Controllers
             return View(model);
         }
 
-        // GET: Playlists/Delete/5
+        // GET: Playlists/Delete/
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -181,7 +191,6 @@ namespace Panda_Player.Controllers
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
                 return RedirectToAction("MyPlaylists");
             }
-
 
             Playlist playlist = db.Playlists.Find(id);
 
@@ -200,16 +209,23 @@ namespace Panda_Player.Controllers
             return View(playlist);
         }
 
-        // POST: Playlists/Delete/5
+        // POST: Playlists/Delete/
         [HttpPost]
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             Playlist playlist = db.Playlists.Find(id);
+
+            if (playlist == null)
+            {
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("MyPlaylists");
+            }
+
             db.Playlists.Remove(playlist);
             db.SaveChanges();
 
-            this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
+            this.AddNotification($"Playlist '{playlist.PlaylistName}' has been deleted.", NotificationType.INFO);
             return Json(new { Success = true, Url = "Playlists/MyPlaylists" });
         }
         
@@ -259,6 +275,7 @@ namespace Panda_Player.Controllers
 
             this.AddNotification($"{song.Artist} - {song.Title} has been successfully removed from {playlist.PlaylistName}", NotificationType.WARNING);
             //return Json(new { returnUrl = "Home/Index" });
+
             return RedirectToAction("MyPlaylists");
         }
 

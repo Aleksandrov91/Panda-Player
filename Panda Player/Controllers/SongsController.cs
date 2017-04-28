@@ -46,6 +46,11 @@ namespace Panda_Player.Controllers
                 LastPage = lastPage
             };
 
+            if (userSongs.Count == 0)
+            {
+                this.AddNotification($"You have not uploaded any songs yet.", NotificationType.INFO);
+            }
+
             return PartialView(model);
         }
 
@@ -176,15 +181,24 @@ namespace Panda_Player.Controllers
                     db.Songs.Add(currentSong);
                     db.SaveChanges();
 
-                    this.AddNotification($"The song {song.Artist} - {song.Title} has been upload successfully.", NotificationType.SUCCESS);
+                    this.AddNotification($"Song {song.Artist} - {song.Title} has been upload.", NotificationType.INFO);
+
                     return RedirectToAction("MySongs", "Songs");
                 }
 
-                this.AddNotification("The File must be only mp3 or wav.", NotificationType.ERROR);
+                this.AddNotification("Invalid file type!", NotificationType.ERROR);
+                this.AddNotification("Valid file types:", NotificationType.INFO);
+                this.AddNotification("* mpeg", NotificationType.INFO);
+                this.AddNotification("* mp3", NotificationType.INFO);
+                this.AddNotification("* wav", NotificationType.INFO);
+                this.AddNotification("* flac", NotificationType.INFO);
+                this.AddNotification("* wv", NotificationType.INFO);
+                
                 return RedirectToAction("Upload");
             }
 
-            this.AddNotification("The file cannot be null", NotificationType.ERROR);
+            this.AddNotification("Please select file.", NotificationType.ERROR);
+
             return RedirectToAction("Upload");
         }
 
@@ -231,6 +245,7 @@ namespace Panda_Player.Controllers
         public ActionResult Edit(SongUploadEditViewModel song)
         {
             var currentSong = db.Songs.FirstOrDefault(s => s.Id == song.Id);
+
             if (currentSong == null)
             {
                 this.AddNotification("Song does not exist", NotificationType.ERROR);
@@ -252,11 +267,12 @@ namespace Panda_Player.Controllers
 
             db.SaveChanges();
 
-            this.AddNotification("The Song has been updated successfully.", NotificationType.SUCCESS);
+            this.AddNotification($"Song '{song.Artist} - {song.Title}' has been updated.", NotificationType.INFO);
+
             return RedirectToAction($"Details/{currentSong.Id}");
         }
 
-        // GET: Songs/Delete/5
+        // GET: Songs/Delete/
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -288,16 +304,10 @@ namespace Panda_Player.Controllers
             return View(song);
         }
 
-        // POST: Songs/Delete/5
+        // POST: Songs/Delete/
         [HttpPost]
-        public ActionResult DeleteConfirmed(int? id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            if (id == null)
-            {
-                this.AddNotification("Song does not exist!", NotificationType.ERROR);
-                return RedirectToAction("MySongs");
-            }
-
             string uploadDir = Server.MapPath("~/");
             Song song = db.Songs.Find(id);
 
@@ -309,7 +319,7 @@ namespace Panda_Player.Controllers
 
             if (!IsAuthorizedToOperate(song))
             {
-                this.AddNotification("You are not allowed to delete this song!", NotificationType.ERROR);
+
                 return RedirectToAction("MySongs");
             }
 
@@ -321,7 +331,8 @@ namespace Panda_Player.Controllers
             db.Songs.Remove(song);
             db.SaveChanges();
 
-            this.AddNotification("Song has been deleted successfully.", NotificationType.SUCCESS);
+            this.AddNotification($"Song '{song.Artist} - {song.Title}' has been deleted.", NotificationType.INFO);
+
             return Json(new { Success = true, Url = "Songs/MySongs" });
         }
 
@@ -334,7 +345,7 @@ namespace Panda_Player.Controllers
 
             db.SaveChanges();
 
-            this.AddNotification($"Song has been added to {playlist.PlaylistName} Playlist.", NotificationType.SUCCESS);
+            this.AddNotification($"Song '{song.Artist} - {song.Title}'has been added to {playlist.PlaylistName} playlist.", NotificationType.INFO);
             return Json(new { Success = true, Url = "Songs/MySongs" });
         }
 

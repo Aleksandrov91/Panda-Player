@@ -126,13 +126,10 @@ namespace Panda_Player.Controllers
                             db.SaveChanges();
                         }
 
-                        string message;
-
                         if (await UserManager.IsLockedOutAsync(user.Id))
                         {
                             string lockotTime = UserManager.DefaultAccountLockoutTimeSpan.Minutes.ToString();
-
-                            message = string.Format($"Your account has been locked out for {lockotTime} minutes due to multiple failed login attempts.");
+                            this.AddNotification($"Your account has been locked out for {lockotTime} minutes due to multiple failed login attempts.", NotificationType.INFO);
                         }
                         else
                         {
@@ -142,10 +139,8 @@ namespace Panda_Player.Controllers
 
                             int attemptsLeft = maxAttempts - accessFailedCount;
 
-                            message = string.Format($"Invalid credentials. You have {attemptsLeft} more attempt(s) before your account gets locked out.");
+                            this.AddNotification($"Invalid credentials.You have {attemptsLeft} more attempt(s) before your account gets locked out.", NotificationType.INFO);
                         }
-
-                        ModelState.AddModelError("", message);
                     }
                     else if (validCredentials == null)
                     {
@@ -158,9 +153,12 @@ namespace Panda_Player.Controllers
                         // When token is verified correctly, clear the access failed count used for lockout
                         await UserManager.ResetAccessFailedCountAsync(user.Id);
 
-                        // Update date of last successfull login
                         var db = new ApplicationDbContext();
                         var currUser = db.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+                        // User greeting
+                        this.AddNotification($"Welcome back '{currUser.FullName}'! NJoy ythe party.", NotificationType.SUCCESS);
+
+                        // Update date of last successfull login
                         currUser.UserAccessControl.LastLogin = DateTime.Now;
 
                         db.Users.Attach(currUser);
