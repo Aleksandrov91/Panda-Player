@@ -1,7 +1,7 @@
 ﻿@model Panda_Player.Models.ViewModels.IndexViewModel
 @{
     ViewBag.Title = "Home Page";
-    var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
+
     if (Request.IsAjaxRequest())
     {
         Layout = null;
@@ -22,15 +22,14 @@
         <div class="col-md-4">
             <a>
                 <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:200px; height:200px;" class="img-responsive">
-                @Ajax.ActionLink(" ", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                 <h4 class="media-title">@playlist.PlaylistName</h4>
             </a>
-            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", OnSuccess = "success" }, new { @class = "btn btn-default" })
+            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
         </div>
     }
 </div>
 <div class="pull-right">
-    @Ajax.ActionLink("View All", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+    @Ajax.ActionLink("View All", "List", "Home", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
 </div>
 <br />
 
@@ -76,7 +75,7 @@
     </div>
 </div>
 <div class="pull-right">
-    @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+    @Ajax.ActionLink("View All", "List", "Home", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
 </div>
 <br />
 

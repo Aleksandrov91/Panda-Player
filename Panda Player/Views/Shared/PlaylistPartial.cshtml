@@ -16,7 +16,7 @@
             @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "body" }, new { @class = "btn btn-default" })           
             @if (User.Identity.IsAuthenticated && (playlist.IsCreator(User.Identity.Name) || this.User.IsInRole("Admin")))
             {                
-                @Ajax.ActionLink("Edit", "Edit", new { id = playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                @Ajax.ActionLink("Edit", "Edit", "Playlists", new { id = playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
                 @Html.Hidden("item-to-delete", "", new { @id = playlist.Id })
                 <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@playlist.Id, '@($"{playlist.PlaylistName}")')">
                     <i class="glyphicon glyphicon-trash"></i>

@@ -10,11 +10,10 @@
     else
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
-        @*<script>
-            setTimeout(function () { wavesurfer.load('@Model.SongPath'); }, 1000);
-        </script>*@
     }
 }
+
+@Html.Partial("_Notifications")
 
 @using (Html.BeginForm("Upload", "Songs", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

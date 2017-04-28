@@ -226,6 +226,7 @@
     <Compile Include="Models\Identity\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Identity\SendCodeViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Image.cs" />
+    <Compile Include="Models\PandaPlayer\LoadPlaylistSongsViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\UserBanViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\UserDetailsViewModel.cs" />
     <Compile Include="Models\Identity\VerifyCodeViewModel.cs" />
@@ -387,7 +388,6 @@
     <Content Include="Views\Home\SearchSongs.cshtml" />
     <Content Include="Views\Home\SearchPlaylists.cshtml" />
     <Content Include="Views\Home\Genres.cshtml" />
-    <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\User\SongsEdit.cshtml" />
     <Content Include="Views\User\SongToBeEdited.cshtml" />
     <Content Include="Views\User\SongDetails.cshtml" />
@@ -398,9 +398,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
     <Folder Include="Content\Images\ProfilePics\" />
     <Folder Include="Uploads\Images\Profile Pictures\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Images\" />
     <Folder Include="Views\Tag\" />
   </ItemGroup>
