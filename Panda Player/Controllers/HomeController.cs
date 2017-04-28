@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Panda_Player.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -28,17 +28,13 @@ namespace Panda_Player.Controllers
                 .OrderByDescending(a => a.DateCreated)
                 .Where(p => p.IsPublic)
                 .Take(6).ToList();
-            var lastAddedSong = lastAddedSongs[0];
 
             var indexModel = new IndexViewModel
             {
-
                 Playlists = lastAddedPlaylists,
                 Songs = lastAddedSongs,
                 UserPlaylists = userPlaylists,
-                LastAddedSong = lastAddedSong
             };
-
 
             return View(indexModel);
         }
@@ -242,5 +238,7 @@ namespace Panda_Player.Controllers
 
             return new List<Playlist>();
         }
+
+
     }
 }

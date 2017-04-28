@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Panda_Player.Models.ViewModels
 {
-    public class ListAllPlaylistsViewModel
+    public class ListAllPlaylistsViewModel : BaseViewModel
     {
         public ListAllPlaylistsViewModel()
         {

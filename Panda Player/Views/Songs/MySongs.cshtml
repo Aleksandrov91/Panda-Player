@@ -10,6 +10,9 @@
     else
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
+        @*<script>
+            setTimeout(function () { wavesurfer.load('@Model.SongPath'); }, 1000);
+        </script>*@
     }
 
 }
@@ -18,7 +21,7 @@
 <h2>My Songs</h2>
 
 <p>
-    @Html.ActionLink("Upload New Song", "Upload")
+    @Ajax.ActionLink("Upload New Song", "Upload", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 
 
@@ -26,7 +29,7 @@
     @Html.Partial("SongPartial")
 </div>
 <div>
-    @using (Ajax.BeginForm("MySongs", null, new AjaxOptions { HttpMethod = "POST" }, new { id = "page" }))
+    @using (Ajax.BeginForm("MySongs", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SongDiv" }, new { id = "page" }))
     {
         <input type="hidden" id="CurrentPage" name="CurrentPage" value="@Model.CurrentPage" />
         <input type="hidden" id="LastPage" name="LastPage" value="@Model.LastPage" />
@@ -39,4 +42,11 @@
 <input type="hidden" id="songId" />
 @Html.Partial("_ModalPopup")
 
+<script>    
+    if ($('#player').is(':hidden')) {
+        $('#player').show();
+        wavesurfer.load('@Model.Path');
+        setTimeout(play, delay);
+    }
+</script>
 

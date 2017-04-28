@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Panda_Player.Models.ViewModels;
+using System.Collections.Generic;
 
 namespace Panda_Player.Models.PandaPlayer
 {
-    public class LoadPlaylistSongsViewModel
+    public class LoadPlaylistSongsViewModel : BaseViewModel
     {
         public Playlist Playlist { get; set; }
 

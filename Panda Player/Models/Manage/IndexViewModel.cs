@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
+using Panda_Player.Models.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace Panda_Player.Models.Manage
 {
-    public class IndexViewModel
+    public class IndexViewModel : BaseViewModel
     {
         public bool HasPassword { get; set; }
         public bool HasProfilePic { get; set; }

@@ -15,7 +15,7 @@ using Panda_Player.Models.ViewModels;
 namespace Panda_Player.Controllers
 {
     [Authorize]
-    public class SongsController : Controller
+    public class SongsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -141,7 +141,7 @@ namespace Panda_Player.Controllers
                 if (validTypes.Contains(file.ContentType))
                 {
                     var currentUser = this.User.Identity.GetUserId();
-                    var songsPath = "~/Uploads/";
+                    var songsPath = "~/Uploads/Songs/";
                     var mappedPath = HttpContext.Server.MapPath(songsPath);
                     var uploadFilename = Path.GetFileName(file.FileName);
                     var randomHash = Guid.NewGuid().ToString().Substring(0, 6);
@@ -164,7 +164,7 @@ namespace Panda_Player.Controllers
                         Title = song.Title,
                         Description = song.Description,
                         UploaderId = currentUser,
-                        SongPath = $"/Uploads/{fileName}",
+                        SongPath = $"/Uploads/Songs/{fileName}",
                         UploadDate = DateTime.Now,
                         GenreId = song.Genre,                      
                     };
@@ -333,7 +333,7 @@ namespace Panda_Player.Controllers
 
             this.AddNotification($"Song '{song.Artist} - {song.Title}' has been deleted.", NotificationType.INFO);
 
-            return Json(new { Success = true, Url = "Songs/MySongs" });
+            return Json(new { Success = true, Url = "/Songs/MySongs" });
         }
 
         public ActionResult AddSongToPlaylist(int songId, int playlistId)
@@ -346,7 +346,7 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
 
             this.AddNotification($"Song '{song.Artist} - {song.Title}'has been added to {playlist.PlaylistName} playlist.", NotificationType.INFO);
-            return Json(new { Success = true, Url = "Songs/MySongs" });
+            return Json(new { Success = true, Url = "/Songs/MySongs" });
         }
 
         private void SetSongTagsOnUpload(Song currentSong, SongUploadEditViewModel song, ApplicationDbContext db)

@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Panda_Player.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace Panda_Player.Models.Manage
 {
-    public class SetPasswordViewModel
+    public class SetPasswordViewModel : BaseViewModel
     {
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

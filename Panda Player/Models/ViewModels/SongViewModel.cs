@@ -1,4 +1,5 @@
 ﻿using Panda_Player.Models.Manage.Admin;
+using Panda_Player.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Panda_Player.Models.PandaPlayer
 {
-    public class SongViewModel
+    public class SongViewModel : BaseViewModel
     {
         public SongViewModel()
         {

@@ -1,4 +1,4 @@
-﻿@model Panda_Player.Models.PandaPlayer.Playlist
+﻿@model Panda_Player.Models.ViewModels.PlaylistViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -56,3 +56,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+
+    if ($('#player').is(':hidden')) {
+        $('#player').show();
+        @*wavesurfer.load('@Model.Path');*@
+        setTimeout(play, delay);
+    }
+</script>
