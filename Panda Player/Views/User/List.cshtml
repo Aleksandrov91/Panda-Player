@@ -1,16 +1,31 @@
-﻿@model ICollection<Panda_Player.Models.Identity.UserDetailsViewModel>
+﻿@model ICollection<Panda_Player.Models.ViewModels.Admin.UserDetailsViewModel>
 
-@{
-    ViewBag.Title = "User List";
-}
-
-<h2>User List</h2>
+<p>
+    <div class="text-center">
+        <span style="font-size: 20px">
+            User List
+        </span>
+        <br />
+        @if (Request.QueryString["search"] != "")
+        {
+            <span style="font-size: 15px">Matching results: @ViewBag.TotalUsersFound</span>
+        }
+    </div>
+    <div class="page-header">
+        <h2 class="text-center">
+            User list - page @ViewBag.CurrPage of @ViewBag.TotalPages pages
+        </h2>
+    </div>
+</p>
 
 <table class="table">
     <tr>
-        <th>User Name</th>
         <th>Email</th>
+        <th>Name</th>
         <th>Role</th>
+        <th>Last Login Date</th>
+        <th>Total Songs</th>
+        <th>Total Playlists</th>
         <th>Actions</th>
     </tr>
 
@@ -19,6 +34,10 @@
         if (user.Roles.Contains("Admin"))
         {
             @:<tr class="info">
+        }
+        else if (user.BanEndDate > DateTime.Now)
+        {
+            @:<tr class="danger">
         }
         else
         {
@@ -35,14 +54,54 @@
                 @Html.DisplayFor(u => user.Roles)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { Id = user.Id }) |
-                @Html.ActionLink("Details", "Details", new { Id = user.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = user.Id })
+                @Html.DisplayFor(u => user.LastLoginnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(u => user.TotalSongs)
+            </td>
+            <td>
+                @Html.DisplayFor(u => user.TotalPlaylists)
+            </td>
+            <td class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Edit<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Data", "Edit", new { id = user.Id })</li>
+                        <li>@Html.ActionLink("Songs", "SongsEdit", new  { id = user.Id })</li>
+                        <li>@Html.ActionLink("Playlists", "PlaylistsList", new { id = user.Id })</li>
+                    </ul> | 
+                @Html.ActionLink("Delete", "Delete", new { id = user.Id }) |
+                @Html.ActionLink("Ban", "BanUser", new { id = user.Id })
             </td>
         @:</tr>
     }
 
 </table>
+
+@{
+    var currentSearch = Request.QueryString["search"];
+
+    var currentSearchQuery = currentSearch != "" ? "&search=" + currentSearch : string.Empty;
+}
+
+<p class="page-header text-center ">
+    <a href="/User/List?page=@(ViewBag.CurrPage - 1)@currentSearchQuery" class="btn btn-info @(ViewBag.CurrPage == 1 ? "disabled" : string.Empty)"><< Previous </a>
+    <a href="/User/List?page=@(ViewBag.CurrPage + 1)@currentSearchQuery" class="btn btn-info @(ViewBag.CurrPage == ViewBag.TotalPages ? "disabled" : string.Empty) ">Next >></a>
+    <div>
+        Select Page:
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <a href="/User/List?page=@i@currentSearchQuery" class="text-center" style="margin-left: 5px; margin-right: 5px; margin-top: 3px; margin-bottom: 3px">@i</a>
+        }
+    </div>
+    @using (Html.BeginForm("List", "User", FormMethod.Get))
+    {
+        <div class="text-center" style="margin: 15px">
+            <span style="font-size: 20px">Search for user by name:</span>
+            <input type="text" class="form-control" name="search" id="searchBox" style="display: inline-block" value="@Request.QueryString["search"]" />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    }
+</p></table>
 
 <script>
     $('#player').hide();

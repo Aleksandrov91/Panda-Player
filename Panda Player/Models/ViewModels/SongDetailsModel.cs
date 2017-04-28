@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Panda_Player.Models.PandaPlayer
+namespace Panda_Player.Models.ViewModels
 {
     public class SongDetailsModel : BaseViewModel
     {

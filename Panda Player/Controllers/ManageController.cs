@@ -366,7 +366,7 @@ namespace Panda_Player.Controllers
                     ApplicationDbContext db = new ApplicationDbContext();
 
                     var currentUser = this.User.Identity.GetUserId();
-                    var imagePath = "~/Content/Images/ProfilePics/";
+                    var imagePath = "~/Uploads/Images/Profile Pictures/";
                     var mappedPath = HttpContext.Server.MapPath(imagePath);
                     var uploadFilename = Path.GetFileName(file.FileName);
                     var randomHash = Guid.NewGuid().ToString().Substring(0, 6);
@@ -378,8 +378,7 @@ namespace Panda_Player.Controllers
 
                     var loggedUser = db.Users.Find(currentUser);
                     
-            
-                   
+                      
                     if (!Directory.Exists(mappedPath))
                     {
                         Directory.CreateDirectory(mappedPath);
@@ -418,8 +417,8 @@ namespace Panda_Player.Controllers
                 
             }
 
-            var defImg = "~/Content/Images/ProfilePics/default-avatar.png";
-            return File(defImg, "image/jpg");
+            var defImg = "~/Content/Images/default-avatar.png";
+            return File(defImg, "image/png");
 
         }
 

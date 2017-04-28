@@ -18,28 +18,15 @@ $('body').on('click', '.playlist', function () {
     });
 });
 
-var LoadPlaylistName = function () {
-
-    var sId = $("#songId").val();
-    var pId = $("#playlistId").val();
-
-    $.ajax({
-        type: "GET",
-        url: (sId) ? "/Playlist/LoadPlaylist" : "/Playlists/DeleteConfirmed",
-        data: (sId) ? { id: sId } : { id: pId },
-        success: function () {
-            $("#myModal").modal("hide");
-            window.location.reload();
-        }
-    })
-}
-
 // on playlist parsed with event playlist-ready
 var myList;
-var allList;
+//var allList;
 wavesurfer.on('playlist-ready', function () {
+
+    $('.playlistbox').empty();
+
     myList = myPlaylist.getPlaylist();
-    allList = myPlaylist;
+    //allList = myPlaylist;
     var myRegexp = /(.*?_)/g;
 
     for (var i = 0; i < myList.length; i++) {
@@ -49,7 +36,20 @@ wavesurfer.on('playlist-ready', function () {
             $('.playlistbox').append('<li class="playTrack" data-id="' + i + '">' + songNumber + song + '</li>');
         }
     }
-    console.log(myList);
+
+    var counter = 0;
+    wavesurfer.load(myList[counter]);
+    setTimeout(play, delay);
+
+    /// play all song in playlist
+    var reqursion = wavesurfer.on('finish', function () {
+        counter++;
+        if (counter < myList.length) {
+            wavesurfer.load(myList[counter]);
+            setTimeout(play, delay);
+            return reqursion;
+        }
+    });  
 });
 
 // on waveform ready
@@ -60,4 +60,16 @@ wavesurfer.on('waveform-ready', function () {
 // on playlist track click
 $('body').on('click', '.playTrack', function () {
     wavesurfer.load(myList[$(this).data('id')]);
+    setTimeout(play, delay);
+        
+    var counter = $(this).data('id');
+
+    var reqursion = wavesurfer.on('finish', function () {
+        counter++;
+        if (counter < myList.length) {
+            wavesurfer.load(myList[counter]);
+            setTimeout(play, delay);
+            return reqursion;
+        }
+    }); 
 });

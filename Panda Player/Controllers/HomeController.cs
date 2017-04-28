@@ -35,7 +35,7 @@ namespace Panda_Player.Controllers
                 Songs = lastAddedSongs,
                 UserPlaylists = userPlaylists,
             };
-            
+
             return View(indexModel);
         }
 

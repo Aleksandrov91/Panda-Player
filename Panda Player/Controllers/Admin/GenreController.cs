@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Panda_Player.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class GenreController : Controller
     {
         // GET: Genre
@@ -61,11 +62,11 @@ namespace Panda_Player.Controllers.Admin
                 db.Genres.Add(genre);
                 db.SaveChanges();
 
-                this.AddNotification("New genre successfully created!", NotificationType.SUCCESS);
+                this.AddNotification($"New genre '{genre.Name}' created!", NotificationType.SUCCESS);
                 return RedirectToAction("List");
             }
 
-            this.AddNotification("Genre with that name already exists!", NotificationType.ERROR);
+            this.AddNotification($"Genre with name '{genre.Name}' already exists!", NotificationType.ERROR);
             return View(genre);
         }
 
@@ -84,7 +85,7 @@ namespace Panda_Player.Controllers.Admin
 
             if (genre == null)
             {
-                this.AddNotification("Invalid genre ID!", NotificationType.ERROR);
+                this.AddNotification("Invalid genre!", NotificationType.ERROR);
                 return RedirectToAction("List");
             }
 
@@ -118,11 +119,11 @@ namespace Panda_Player.Controllers.Admin
                 updateGenreId.Name = genre.Name;
                 db.SaveChanges();
 
-                this.AddNotification("Genre successfully edited!", NotificationType.SUCCESS);
+                this.AddNotification("Genre edited!", NotificationType.SUCCESS);
                 return RedirectToAction("List");
             }
 
-            this.AddNotification("Genre with that name already exists!", NotificationType.ERROR);
+            this.AddNotification($"Genre with name '{genre.Name}' already exists!", NotificationType.ERROR);
             return View(genre);
         }
 
@@ -145,7 +146,7 @@ namespace Panda_Player.Controllers.Admin
                 return RedirectToAction("List");
             }
 
-            this.AddNotification("Deleting the genre will delete all songs in it!", NotificationType.WARNING);
+            this.AddNotification($"Deleting genre {genre.Name} will delete all songs in it!", NotificationType.WARNING);
             return View(genre);
         }
 
@@ -154,9 +155,22 @@ namespace Panda_Player.Controllers.Admin
         [ActionName("Delete")]
         public ActionResult DeleteConfirmed(int? id)
         {
+            if (id == null)
+            {
+                this.AddNotification("No id specified!", NotificationType.ERROR);
+                return RedirectToAction("List");
+            }
+
             var db = new ApplicationDbContext();
 
             var genre = db.Genres.FirstOrDefault(g => g.Id == id);
+
+            if (genre == null)
+            {
+                this.AddNotification("Invalid genre ID!", NotificationType.ERROR);
+                return RedirectToAction("List");
+            }
+
             var songs = db.Songs.ToList();
             
             var songsToRemove = new List<Song>();
@@ -169,7 +183,7 @@ namespace Panda_Player.Controllers.Admin
             db.Genres.Remove(genre);
             db.SaveChanges();
 
-            this.AddNotification("Genre successfully deleted.", NotificationType.INFO);
+            this.AddNotification($"Genre {genre.Name} successfully deleted.", NotificationType.INFO);
             return RedirectToAction("List");
         }
 

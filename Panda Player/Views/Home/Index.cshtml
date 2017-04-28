@@ -10,7 +10,7 @@
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
-    
+
 }
 
 @Html.Partial("_Notifications")
@@ -21,12 +21,11 @@
     {
         <div class="col-md-4">
             <a>
-                <img src="~/Content/Images/best-workout-playlist.jpg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
+                <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:200px; height:200px;" class="img-responsive">
                 @Ajax.ActionLink(" ", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                 <h4>@playlist.PlaylistName</h4>
             </a>
             @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", OnSuccess = "success" }, new { @class = "btn btn-default" })
-
         </div>
     }
 </div>
@@ -63,6 +62,14 @@
                                 <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
                             </ul>
                         </div>
+                        if (song.IsUploader(User.Identity.Name) || this.User.IsInRole("Admin"))
+                        {
+                            @Ajax.ActionLink("Edit", "Edit", "Songs", new { id = song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                            @Html.Hidden("item-to-delete", "", new { @id = song.Id })
+                            <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@song.Id, '@($"{song.Artist} - {song.Title}")')" data-item-description="@song.Title">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        }
                     }
                 </div>
             </div>
