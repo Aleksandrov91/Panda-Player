@@ -16,7 +16,7 @@ body {
 .body-content {
     /*padding-left: 15px;
     padding-right: 15px;*/
-    margin-top: 50px;
+    margin-top: 150px;
     padding-bottom: 160px;
 }
 
@@ -96,6 +96,9 @@ body {
     overflow-y: hidden !important;
 }
 */
+
+.container{
+}
 
 .searchbar-container{
     float: left;
@@ -392,6 +395,7 @@ footer {
 
 .btn {
     background: transparent;
+    padding: 10px;
 }
 
 .btn:hover {
@@ -402,7 +406,23 @@ footer {
     background: transparent;
 }
 
- /*
+#playPause, #menu-toggle, #mute {
+    background-color: black;
+    opacity: 0.7;
+    padding: 10px;
+    width: 45px;
+    height: 45px;
+    border: 1px, solid, green;
+}
+.media-title{
+    color:pink;
+}
+
+.playlists-title, latest-songs-title {
+
+}
+
+/*
     .dropdown-menu .li :hover {
         background-color: darkolivegreen;
         color: darkolivegreen;
@@ -415,13 +435,11 @@ footer {
 #createAccountTitle{
     position: center;
 }*/
-
 /* Start by setting display:none to make this hidden.
    Then we position it in relation to the viewport window
    with position:fixed. Width, height, top and left speak
    for themselves. Background we set to 80% white with
    our animation centered, and no-repeating */
-
 .dim {
     display: none;
     position: fixed;
@@ -452,4 +470,21 @@ body.loading .dim {
 .col-md-4, .col-md-4  h4{
     width: 200px;
     text-align: center;
+}
+
+.navbar navbar-default navbar-fixed-top{
+    border: none;
+}
+.nav navbar-nav navbar-right {
+    position: absolute;
+    margin-left: 100px;
+}
+.bs-example-navbar-collapse-1{
+    font-size: 15px;
+}
+nav navbar-nav li{
+    font-size: 1.2em;
+}
+.navbar-brand{
+    font-size: 1.5em;
 }
