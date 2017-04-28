@@ -23,7 +23,7 @@
         <div class="container">
             <div class="navbar-header" style="width:1200px">
                 <ul>
-                    <li onclick="mapUrl('Home', 'Index')">
+                    <li onclick="mapUrl('Home', 'Index')" style="font-size: 1.5em">
                         @Ajax.ActionLink("Panda Player", "Index", "Home", new { area = "" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }, new { @class = "navbar-brand" })
                     </li>
                 </ul>
@@ -31,8 +31,8 @@
 
                 <img id="pandaLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Emoji_u1f43c.svg/2000px-Emoji_u1f43c.svg.png" />
 
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="width:910px;">
-                    <ul class="nav navbar-nav" style="margin-top:20px;padding-left:300px">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" style="margin-top:20px; padding-left:300px; font-size:1.2em">
                         <li>
                             @using (Ajax.BeginForm("Search", null,
 new AjaxOptions

@@ -97,11 +97,13 @@ body {
 }
 */
 
-.container{
+.container, navbar navbar-default navbar-fixed-top{
+    border: none;
 }
 
 .searchbar-container{
     float: left;
+    position: relative;
 }
 
 .wave {
@@ -295,9 +297,9 @@ a:active {
     src: URL('/font/Rationale-Regular.ttf') format('ttf');
 }
 
-.navbar-right{
+.navbar-right {
     display: inline block;
-    width: 150px;
+    width: 100px;
     position: absolute;
 }
 
@@ -352,9 +354,10 @@ a:active {
     text-align:center;
 }
 
-.navbar-brand {
-  display: inline-block;
-  padding-top: 40px;
+.navbar-brand{
+    display: inline-block;
+    padding-top: 40px;
+    font-size: 1.5em;
 }
 
 #pandaLogo {
@@ -475,9 +478,9 @@ body.loading .dim {
 .navbar navbar-default navbar-fixed-top{
     border: none;
 }
-.nav navbar-nav navbar-right {
-    position: absolute;
-    margin-left: 100px;
+.nav navbar-nav navbar-right{
+    display: right;
+    margin-left: 70px;
 }
 .bs-example-navbar-collapse-1{
     font-size: 15px;
@@ -485,6 +488,5 @@ body.loading .dim {
 nav navbar-nav li{
     font-size: 1.2em;
 }
-.navbar-brand{
-    font-size: 1.5em;
-}
+
+/*style="width:910px;*/
