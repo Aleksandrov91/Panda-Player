@@ -77,18 +77,22 @@ new AjaxOptions
     </div>
 
     <div class="container body-content">
-        <div>
-            @{
-                var controller = ViewContext.RouteData.Values["controller"].ToString();
-                var action = ViewContext.RouteData.Values["action"].ToString();
 
-                if (controller != "Account" && controller != "User" &&
-            controller != "Genre" && action != "Upload")
-                {
+        @{
+            var controller = ViewContext.RouteData.Values["controller"].ToString();
+            var action = ViewContext.RouteData.Values["action"].ToString();
 
-                }
+            if (controller != "Account" && controller != "User" &&
+        controller != "Genre" && action != "Upload")
+            {
+
             }
         }
+
+        <div id="player">
+            @Html.Partial("Player")
+        </div>
+
         <div id="body" class="body">
             @RenderBody()
         </div>

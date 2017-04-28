@@ -1,10 +1,7 @@
-﻿@model Panda_Player.Models.Manage.IndexViewModel
-@using Microsoft.AspNet.Identity
+﻿@model Panda_Player.Models.ViewModels.IndexViewModel
 @{
-    ViewBag.Title = "Manage";
-}
-
-@{
+    ViewBag.Title = "Home Page";
+    var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
     if (Request.IsAjaxRequest())
     {
         Layout = null;
@@ -13,70 +10,80 @@
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
+
 }
 
-<h2>My profile</h2>
+@Html.Partial("_Notifications")
+<h1 class="playlists-title">Latest Playlists</h1>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
+<div class="row">
+    @foreach (var playlist in Model.Playlists)
+    {
+        <div class="col-md-4">
+            <a>
+                <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:200px; height:200px;" class="img-responsive">
+                <h4 class="media-title">@playlist.PlaylistName</h4>
+            </a>
+            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", OnSuccess = "success" }, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>
+<div class="pull-right">
+    @Ajax.ActionLink("View All", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+</div>
+<br />
 
-<h4>Change profile settings</h4>
-<hr />
-
-@using (Html.BeginForm("Upload", "Manage", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <dl class="dl-horizontal">
-        <dt>Profile picture:</dt>
-        <dd>
-            
-            <div class="row">
-                <div class="col-md-2">
-                    <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' style="width:120px; height:118px" />
+<h1 class="latest-songs-title">Last Added Songs</h1>
+<div class="row">
+    <div class="row">
+        @foreach (var song in Model.Songs)
+        {
+            <div class="col-md-4">
+                <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
+                    <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
+                    <h4 class="media-title">@song.Artist - @song.Title</h4>
+                </a>
+                <div>
+                    <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+                    @if (User.Identity.IsAuthenticated)
+                {
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                Add to playlist
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach (var playlist in Model.UserPlaylists)
+                                {
+                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", OnSuccess = "success" })</li>
+                                }
+                                <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
+                            </ul>
+                        </div>
+                        if (song.IsUploader(User.Identity.Name) || this.User.IsInRole("Admin"))
+                        {
+                            @Ajax.ActionLink("Edit", "Edit", "Songs", new { id = song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
+                            @Html.Hidden("item-to-delete", "", new { @id = song.Id })
+                            <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@song.Id, '@($"{song.Artist} - {song.Title}")')" data-item-description="@song.Title">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        }
+                    }
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-4">
-                    <input id="ImagePath" class="form-control" title="Upload Image" type="file" name="file" accept=".jpg,.jpeg,.png,.gif" style="visibility:hidden" />
-                    <a href="" onclick="document.getElementById('ImagePath').click(); return false;">Change picture</a>
-                    <input id="Add" type="submit" value="Upload" class="btn btn-default" />
-                </div>
-            </div>
-    </dl>
-}
-        <br />
-        <dl class="dl-horizontal">
-            <dt>Email Adress:</dt>
-            <dd>
-                <div class="row">
-                    <div class="col-md-2">
-                        @User.Identity.GetUserName()
-                    </div>
-                </div>
+        }
+    </div>
+</div>
+<div class="pull-right">
+    @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+</div>
+<br />
 
-            </dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-
-            <dt>Password:</dt>
-            <dd>
-                <div class="row">
-                    <div class="col-md-4">
-                        [
-                        @if (Model.HasPassword)
-                        {
-                            @Html.ActionLink("Change your password", "ChangePassword")
-                        }
-                        else
-                        {
-                            @Html.ActionLink("Create", "SetPassword")
-                        }
-                        ]
-                    </div>
-
-                </div>
-            </dd>
-        </dl>
 <script>
+    function success(data) {
+        console.log(data);
+        $('#body').load(data.Url);
+    }
 
     if ($('#player').is(':hidden')) {
         $('#player').show();
@@ -84,6 +91,3 @@
         setTimeout(play, delay);
     }
 </script>
-
-
-
