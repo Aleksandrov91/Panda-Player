@@ -1,13 +1,14 @@
 ﻿using Panda_Player.Models.Manage.Admin;
+using Panda_Player.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Panda_Player.Models.PandaPlayer
+namespace Panda_Player.Models.ViewModels
 {
-    public class SongDetailsModel
+    public class SongDetailsModel : BaseViewModel
     {
         public int Id { get; set; }
 

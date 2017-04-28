@@ -1,0 +1,47 @@
+﻿@model Panda_Player.Models.PandaPlayer.Playlist
+@using Panda_Player.Models;
+<h2>Details</h2>
+
+<div>
+    <h4>Playlist</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaylistName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaylistName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPublic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPublic)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Songs)
+        </dt>
+    </dl>
+    <div>
+        <ul>
+            @foreach (var song in Model.Songs)
+            {
+                <li>@song.Artist - @song.Title</li>  
+                @Ajax.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { songId = song.Id, playlistId = Model.Id }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "window.location.reload()" })
+            }
+        </ul>
+    </div>
+
+</div>
+
+<div>
+@{
+    var db = new ApplicationDbContext();
+    var userId = db.Playlists.Where(p => p.Id == Model.Id).Select(u => u.Creator.Id).FirstOrDefault();
+}
+@Html.ActionLink("Back to user playlist", "PlaylistsList", new { id = userId }, null)
+</div>
+

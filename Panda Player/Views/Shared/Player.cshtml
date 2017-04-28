@@ -1,6 +1,4 @@
-﻿<body onload="setTimeout(play, delay)"></body>
-
-<div id="waveform">
+﻿<div id="waveform">
     <button id="playPause" class="btn btn-primary" onclick="wavesurfer.playPause()">
         <i class="fa fa-pause-circle-o fa-5x" aria-hidden="true"></i>
     </button>
@@ -30,10 +28,15 @@
         });
     });
 
+    $(document).ready(function () {
+        wavesurfer.load('@ViewBag.LastSong')
+        setTimeout(play, delay)
+    });
+
     function play() {
         wavesurfer.play();
-    }
 
+    }
     var delay = 3000;
 
     setTimeout(play, delay)

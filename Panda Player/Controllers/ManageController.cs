@@ -16,7 +16,7 @@ using System.IO;
 namespace Panda_Player.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private UserManager _userManager;
@@ -417,7 +417,7 @@ namespace Panda_Player.Controllers
                 
             }
 
-            var defImg = "~/Uploads/Images/Profile Pictures/default-avatar.png";
+            var defImg = "~/Content/Images/default-avatar.png";
             return File(defImg, "image/png");
 
         }

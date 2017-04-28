@@ -1,0 +1,100 @@
+﻿@model Panda_Player.Models.ViewModels.Admin.UserPlaylistsViewModel
+
+<div id="result">
+    @Html.Partial("_Notifications")
+</div>
+
+<p>
+    <div class="text-center">
+        <span style="font-size: 20px">
+            Playlists created by
+            @Html.DisplayFor(model => model.Creator)
+        </span>
+        <br />
+        @Html.ActionLink("Back to user list", "List", "User")
+        <br />
+        @if (Request.QueryString["search"] != "" || Request.QueryString["search"] != null)
+        {
+            <span style="font-size: 15px">Matching results: @ViewBag.TotalPlaylistsFound</span>
+        }
+    </div>
+    <div class="page-header">
+        <h2 class="text-center">
+            Playlist list - page @ViewBag.CurrPage of @ViewBag.TotalPages pages
+        </h2>
+    </div>
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaylistName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPublic)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model.PlaylistsList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaylistName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPublic)
+            </td>
+            
+            <td>
+                @Html.ActionLink("Edit", "PlaylistToBeEdited", "User", new { id = item.Id }, null) |
+                @Html.ActionLink("Details", "PlaylistDetails", "User", new { id = item.Id }, null) |
+                @Html.Hidden("item-to-delete", "", new { @id = item.Id })
+                <a href="#" class="btn btn-danger btn-sm" onclick="ConfirmDelete(@item.Id, '@($"{item.PlaylistName} created by  {item.Creator.FullName}")')" data-item-description="@item.PlaylistName">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+@{
+    var currentSearch = Request.QueryString["search"];
+
+    var currentSearchQuery = currentSearch != "" ? "&search=" + currentSearch : string.Empty;
+}
+
+<p class="page-header text-center ">
+    <a href="/User/PlaylistsList/@ViewBag.UserId?page=@(ViewBag.CurrPage - 1)@currentSearchQuery" class="btn btn-info @(ViewBag.CurrPage == 1 ? "disabled" : string.Empty)"><< Previous </a>
+    <a href="/User/PlaylistsList/@ViewBag.UserId?page=@(ViewBag.CurrPage + 1)@currentSearchQuery" class="btn btn-info @(ViewBag.CurrPage == ViewBag.TotalPages ? "disabled" : string.Empty) ">Next >></a>
+    <div>
+        Select Page:
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <a href="/User/PlaylistsList/@ViewBag.UserId?page=@i@currentSearchQuery" class="text-center" style="margin-left: 5px; margin-right: 5px; margin-top: 3px; margin-bottom: 3px">@i</a>
+        }
+    </div>
+    @using (Html.BeginForm("PlaylistsList", "User", FormMethod.Get))
+    {
+        <div class="text-center" style="margin: 15px">
+            <span style="font-size: 20px">Search for playlist by name:</span>
+            <input type="text" class="form-control" name="search" id="searchBox" style="display: inline-block" value="@Request.QueryString["search"]" />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    }
+</p>
+
+<input type="hidden" id="playlistId" />
+@Html.Partial("_ModalPopup")
+

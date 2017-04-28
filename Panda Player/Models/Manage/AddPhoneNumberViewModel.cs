@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Panda_Player.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace Panda_Player.Models.Manage
 {
-    public class AddPhoneNumberViewModel
+    public class AddPhoneNumberViewModel : BaseViewModel
     {
         [Required]
         [Phone]

@@ -9,10 +9,11 @@ using System.Text;
 using Panda_Player.Models.ViewModels;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Panda_Player.Controllers
 {
-    public class PlaylistsController : Controller
+    public class PlaylistsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -32,6 +33,11 @@ namespace Panda_Player.Controllers
                 Playlists = playlistsPerPage,
                 LastPage = lastPage
             };
+
+            if (userPlaylists.Count == 0)
+            {
+                this.AddNotification($"You have not created any playlists yet.", NotificationType.INFO);
+            }
 
             return PartialView(playlistsModel);
         }
@@ -60,6 +66,7 @@ namespace Panda_Player.Controllers
 
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
 
+
             ConvertToM3u(playlist);
 
             if (playlist == null)
@@ -77,7 +84,17 @@ namespace Panda_Player.Controllers
                 }
             }
 
-            return View(playlist);
+            var model = new PlaylistDetailsViewModel
+            {
+                Id = playlist.Id,
+                Name = playlist.PlaylistName,
+                IsPublic = playlist.IsPublic,
+                CreatedDate = playlist.DateCreated,
+                Creator = playlist.Creator.FullName,
+                SongsInPlaylist = playlist.Songs
+            };
+
+            return View(model);
         }
 
         // GET: Playlists/Create
@@ -93,27 +110,33 @@ namespace Panda_Player.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PlaylistName,IsPublic")] Playlist playlist)
+        public ActionResult Create(PlaylistViewModel model)
         {
             if (ModelState.IsValid)
             {
                 string creatorId = this.User.Identity.GetUserId();
                 var creator = db.Users.Find(creatorId);
 
-                playlist.Creator = creator;
+                var playlist = new Playlist
+                {
+                    PlaylistName = model.PlaylistName,
+                    IsPublic = model.IsPublic,
+                    Creator = creator,
+                    DateCreated = DateTime.Now
+                };
 
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
 
-                this.AddNotification($"Successfully created {playlist.PlaylistName} playlist", NotificationType.SUCCESS);
+                this.AddNotification($"Successfully created {model.PlaylistName} playlist", NotificationType.SUCCESS);
                 return RedirectToAction("MyPlaylists");
             }
 
             this.AddNotification("Check your data and try again.", NotificationType.ERROR);
-            return View(playlist);
+            return View(model);
         }
 
-        // GET: Playlists/Edit/5
+        // GET: Playlists/Edit/
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -137,7 +160,6 @@ namespace Panda_Player.Controllers
                 return RedirectToAction("MyPlaylists");
             }
 
-
             var model = new PlaylistViewModel
             {
                 Id = playlist.Id,
@@ -148,7 +170,7 @@ namespace Panda_Player.Controllers
             return PartialView(model);
         }
 
-        // POST: Playlists/Edit/5
+        // POST: Playlists/Edit/
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -159,6 +181,12 @@ namespace Panda_Player.Controllers
             if (ModelState.IsValid)
             {
                 var playlistToEdit = db.Playlists.Find(model.Id);
+
+                if (playlistToEdit == null)
+                {
+                    this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                    return RedirectToAction("MyPlaylists");
+                }
 
                 playlistToEdit.PlaylistName = model.PlaylistName;
                 playlistToEdit.IsPublic = model.IsPublic;
@@ -173,7 +201,7 @@ namespace Panda_Player.Controllers
             return View(model);
         }
 
-        // GET: Playlists/Delete/5
+        // GET: Playlists/Delete/
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -181,7 +209,6 @@ namespace Panda_Player.Controllers
                 this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
                 return RedirectToAction("MyPlaylists");
             }
-
 
             Playlist playlist = db.Playlists.Find(id);
 
@@ -200,19 +227,26 @@ namespace Panda_Player.Controllers
             return View(playlist);
         }
 
-        // POST: Playlists/Delete/5
+        // POST: Playlists/Delete/
         [HttpPost]
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             Playlist playlist = db.Playlists.Find(id);
+
+            if (playlist == null)
+            {
+                this.AddNotification("Invalid playlist id!", NotificationType.ERROR);
+                return RedirectToAction("MyPlaylists");
+            }
+
             db.Playlists.Remove(playlist);
             db.SaveChanges();
 
-            this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
-            return Json(new { Success = true, Url = "Playlists/MyPlaylists" });
+            this.AddNotification($"Playlist '{playlist.PlaylistName}' has been deleted.", NotificationType.INFO);
+            return Json(new { Success = true, Url = "/Playlists/MyPlaylists" });
         }
-        
+
         public void ConvertToM3u(Playlist playlist)
         {
             var playlistSongs = playlist.Songs.ToList();
@@ -259,6 +293,7 @@ namespace Panda_Player.Controllers
 
             this.AddNotification($"{song.Artist} - {song.Title} has been successfully removed from {playlist.PlaylistName}", NotificationType.WARNING);
             //return Json(new { returnUrl = "Home/Index" });
+
             return RedirectToAction("MyPlaylists");
         }
 

@@ -4,6 +4,7 @@
 }
 
 @*<h2>@ViewBag.Title.</h2>*@
+@Html.Partial("_Notifications")
 
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "registerForm" }))
     {
@@ -45,3 +46,7 @@
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }
+
+<script>
+    $('#player').hide();
+</script>

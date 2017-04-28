@@ -1,4 +1,4 @@
-﻿@model Panda_Player.Models.PandaPlayer.Playlist
+﻿@model Panda_Player.Models.ViewModels.PlaylistDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -29,11 +29,11 @@
     <dl class="dl-horizontal">
 
         <dt>
-            @Html.DisplayNameFor(model => model.PlaylistName)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PlaylistName)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
@@ -44,21 +44,40 @@
             @Html.DisplayFor(model => model.IsPublic)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Songs)
+            @Html.DisplayNameFor(model => model.Creator)
         </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Creator)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SongsInPlaylist)
+        </dt>
+        <dd>
+            <ul>
+                @foreach (var song in Model.SongsInPlaylist)
+                {
+                    <li>@song.Artist - @song.Title (@Ajax.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { songId = song.Id, playlistId = Model.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }))</li>               
+                }
+            </ul>
+        </dd>
     </dl>
-    <div>
-        <ul>
-            @foreach (var song in Model.Songs)
-            {
-                <li>@song.Artist - @song.Title</li>
-                    @Ajax.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { songId = song.Id, playlistId = Model.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace })
-            }
-        </ul>
-    </div>
-
 </div>
 <p>
     @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
     @Ajax.ActionLink("Back My Playlists", "MyPlaylists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
+
+<script>
+
+    if ($('#player').is(':hidden')) {
+        $('#player').show();
+        wavesurfer.load('@Model.Path');
+        setTimeout(play, delay);
+    }
+</script>
