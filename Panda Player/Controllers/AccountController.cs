@@ -153,7 +153,7 @@ namespace Panda_Player.Controllers
                         var db = new ApplicationDbContext();
                         var currUser = db.Users.Where(u => u.Email == model.Email).FirstOrDefault();
                         // User greeting
-                        this.AddNotification($"Welcome back '{currUser.FullName}'! NJoy ythe party.", NotificationType.SUCCESS);
+                        this.AddNotification($"Welcome back '{currUser.FullName}'! NJoy the party.", NotificationType.SUCCESS);
 
                         // Update date of last successfull login
                         currUser.UserAccessControl.LastLogin = DateTime.Now;

@@ -7,7 +7,7 @@
         {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right" style="margin-right:30px">
+        <ul class="nav navbar-nav navbar-right">
             @if (User.IsInRole("Admin"))
             {
                 <li class="dropdown">
