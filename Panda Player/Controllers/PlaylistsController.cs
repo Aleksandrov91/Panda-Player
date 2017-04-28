@@ -83,7 +83,6 @@ namespace Panda_Player.Controllers
             {
                 Id = playlist.Id,
                 Name = playlist.PlaylistName,
-                IsPublic = playlist.IsPublic,
                 CreatedDate = playlist.DateCreated,
                 Creator = playlist.Creator.FullName,
                 SongsInPlaylist = playlist.Songs

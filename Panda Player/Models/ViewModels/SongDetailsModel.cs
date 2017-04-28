@@ -3,6 +3,7 @@
     using Panda_Player.Models.PandaPlayer;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class SongDetailsModel : BaseViewModel
     {
@@ -18,6 +19,7 @@
 
         public ICollection<Playlist> Playlists { get; set; }
 
+        [Display(Name ="Date added")]
         public DateTime UploadDate { get; set; }
 
         public string UploaderId { get; set; }

@@ -10,8 +10,6 @@ namespace Panda_Player.Models.ViewModels
 
         public string Name { get; set; }
 
-        public bool IsPublic { get; set; }
-
         public DateTime CreatedDate { get; set; }
 
         public string Creator { get; set; }
