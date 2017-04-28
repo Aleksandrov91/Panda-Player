@@ -16,12 +16,22 @@
 @Scripts.Render("~/bundles/paging")
 
 @Html.Partial("_Notifications")
+<h2 class="mySongs-title">My Songs</h2>
+<div id="uploadASong">
+    <a onclick="mapUrl('Songs', 'Upload')">
+        @Ajax.ActionLink("Upload New Song", "Upload", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    </a>
+</div>
 
-<h2>My Songs</h2>
+<<<<<<< .mine
 
+
+
+=======
 <p onclick="mapUrl('Songs', 'Upload')">
     @Ajax.ActionLink("Upload New Song", "Upload", "Songs", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
+>>>>>>> .theirs
 
 
 <div id="SongDiv">

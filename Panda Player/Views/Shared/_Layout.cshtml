@@ -49,14 +49,14 @@
                                 </div>
                             }
                         </li>
-                        <li>
+                        <li onclick="mapUrl('Home', 'Genres')">
                             @Ajax.ActionLink("Genres", "Genres", "Home", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                         </li>
-                        <li>
+                        <li onclick="mapUrl('Home', 'Songs')">
                             @Ajax.ActionLink("Songs", "List", "Home", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>
-                        <li>
+                        <li onclick="mapUrl('Home', 'Playlists')">
                             @Ajax.ActionLink("Playlists", "List", "Home", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>

@@ -20,7 +20,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <div class="form-horizontal">
+    <div class="form-horizontal" id="uploadASong">
         <h2>Upload a song</h2>
         <hr />
         <h1>@ViewBag.Error</h1>
@@ -83,8 +83,8 @@
     </div>
 }
 
-<div>
-    @Ajax.ActionLink("Back to My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+<div id="backButton">
+    @Ajax.ActionLink("Back", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </div>
 
 @section Scripts {

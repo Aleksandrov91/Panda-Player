@@ -9,6 +9,7 @@ body {
     padding-bottom: 20px;
     color: rgb(12, 135, 77);
     background-image: url(http://www.androidguys.com/wp-content/uploads/2016/06/Black-Texture-Wallpaper-for-Desktop.jpg);
+    background-attachment: fixed;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -67,33 +68,10 @@ textarea {
 
 /*Set playlist media default css*/
 body {
-    background:;
     color: white;
     padding-left: 15px;
     font: 15px rationale, helvetica, arial, freesans, clean, sans-serif;
-    /*margin: 20px auto;
-         position: relative;
-  margin: 0;
-  padding-bottom: 6rem;
-  min-height: 100%;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-    */
-    /*text-align: center;*/
 }
-
-/*
-#waveform {
-    background: rgba(0,0,0,0.8);
-    opacity: 0.9;
-    border: 1px, solid;
-    border-color: lightgreen;
-    border-radius: 5px;
-    min-width:  100%;
-    position: center;
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
-}
-*/
 
 .container, navbar navbar-default navbar-fixed-top {
     border: none;
@@ -114,6 +92,7 @@ body {
 
 h1 {
     margin: 5px;
+    text-align: center;
 }
 
 h2 {
@@ -124,14 +103,11 @@ h2 {
 h3 {
     font-size: 14px;
     font-weight: bold;
+    color: rgb(34, 139, 34);
     margin: 10px;
     margin: auto;
 }
 
-h4,
-.h4 {
-    font-size: 1em;
-}
 
 .menu-valenti-footer-menu li a {
     font-size: 0.5em;
@@ -179,9 +155,9 @@ li {
     margin: 5px 0px;
 }
 
-    li:hover, li.active {
-        font-weight: bold;
-    }
+li:hover, li.active {
+    font-weight: bold;
+}
 
 /*Playlist SIDEBAAAAR*/
 #sidebar-wrapper {
@@ -222,7 +198,7 @@ li {
     margin-bottom: 0;
     padding-top: 9px;
     width: 16.66666667%;
-    float: left;
+    /*float: left;*/
     font-weight: bold;
     display: inline-block;
 }
@@ -254,15 +230,44 @@ h6,
 }
 
 
+#loginButton {
+    margin: 0;
+    margin-left: 20px;
+    align-self: center;
+    position: relative;
+    color: rgb(64, 153, 64);
+    font-weight: bold;
+}
+
+#loginButton :hover {
+    background-color: rgb(64, 153, 64);
+    font-weight: bold;
+    color: white;
+}
+
 #regButton {
     margin: 0;
     margin-left: 20px;
     align-self: center;
     position: relative;
+    color: rgb(64, 153, 64);
+    font-weight: bold;
+}
+
+#regButton :hover {
+    background-color: rgb(64, 153, 64);
+    font-weight: bold;
+    color: white;
 }
 
 #menu-valenti-footer-menu {
     text-decoration: none;
+    text-align: left;
+}
+
+.menu-our-team-2-container {
+    text-decoration: none;
+    text-align: right;
 }
 
 a:link {
@@ -312,11 +317,6 @@ a:active {
     margin-left: -45px;
 }
 
-#regButton :hover {
-    background-color: greenyellow;
-    color: greenyellow;
-}
-
 .dropdown-menu li a:hover {
     background-color: darkgreen;
 }
@@ -345,10 +345,10 @@ a:active {
     display: inline-block;
 }
 
-    .container-fluid > * {
-        display: inline-block;
-        text-align: center;
-    }
+.container-fluid > * {
+    display: inline-block;
+    text-align: center;
+}
 
 .navbar-brand {
     display: inline-block;
@@ -385,7 +385,7 @@ footer {
     left: 0;
     padding: 1em;
     background-color: #efefef;
-    width: 80%;
+    width: 1200px;
     text-align: justify;
     background: transparent;
     margin-left: auto;
@@ -393,17 +393,55 @@ footer {
 }
 
 .btn {
-    background: transparent;
-    padding: 10px;
+    background: transparent;            /*HERE*/
+    color: white;
+    padding: 5px;
 }
 
-    .btn:hover {
+.btn:hover {
+background-color: rgb(64, 153, 64);
+font-weight: bold;
+color: white;
+
+}
+
+.btn:current {
+background: transparent;
+}
+
+
+.btn btn-primary {
+background: transparent;
+color: white;
+padding: 5px;
+}
+
+.btn btn-primary:hover {
+    background-color: rgb(64, 153, 64);
+    font-weight: bold;
+    color: white;
+}
+
+.btn btn-primary:current {
+    background: transparent;
+}
+
+    .btn btn-default {
         background: transparent;
+        color: white;
+        padding: 5px;
     }
 
-    .btn:current {
-        background: transparent;
-    }
+        .btn btn-default:hover {
+            background-color: rgb(64, 153, 64);
+            font-weight: bold;
+            color: white;
+        }
+
+        .btn btn-default:current {
+            background: transparent;
+        }
+
 
 #playPause, #menu-toggle, #mute {
     background-color: black;
@@ -415,12 +453,17 @@ footer {
 }
 
 .media-title {
-    color: pink;
+    color: rgb(59, 132, 59);
 }
 
-.playlists-title, latest-songs-title {
+.playlists-title, .allPlaylists-title, .latest-songs-title, .media-title {
+    color: rgb(53, 122, 53);
+    font-weight: bold;
 }
 
+.myPlaylists-title, .mySongs-title{
+    text-align:center;
+}
 /*
     .dropdown-menu .li :hover {
         background-color: darkolivegreen;
@@ -458,9 +501,9 @@ body.loading {
 
     /* Anytime the body has the loading class, our
 modal element will be visible */
-    body.loading .dim {
-        display: block;
-    }
+body.loading .dim {
+    display: block;
+}
 
 .modal-open {
     overflow: scroll;
@@ -469,6 +512,7 @@ modal element will be visible */
 .col-md-4, .col-md-4 h4 {
     width: 200px;
     text-align: center;
+    margin-right: 15px;
 }
 
 .navbar navbar-default navbar-fixed-top {
@@ -488,4 +532,27 @@ nav navbar-nav li {
     font-size: 1.2em;
 }
 
-/*style="width:910px;*/
+.col-md-4{
+    margin: 0px;
+    padding: 0px;
+}
+
+.row img{
+  margin: auto;
+}
+
+.row{
+margin-top: 30px;
+margin-bottom: 50px;
+text-align:center;
+}
+
+#uploadASong {
+    margin-left: 0px;
+}
+
+#backButton, #addPlaylistButton, uploadASong{
+    font-size: 1.5em;
+    color: forestgreen;
+    font-weight: bold;
+}
