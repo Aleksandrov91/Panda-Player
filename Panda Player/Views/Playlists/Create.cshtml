@@ -13,44 +13,76 @@
     }
 }
 
-<h2>Create</h2>
+@Html.Partial("_Notifications")
 
 @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Playlist</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PlaylistName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PlaylistName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PlaylistName, "", new { @class = "text-danger" })
+    <h4>Playlist</h4>
+    <br />
+    <dl class="dl-horizontal">
+        <dt>@Html.LabelFor(model => model.PlaylistName, htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.PlaylistName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PlaylistName, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
+            
+        </dd>
+        <dt>@Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>
+            <div class="row">
+                <div class="col-md-2">
                     @Html.EditorFor(model => model.IsPublic)
                     @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+                    <br />
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+            
+        </dd>
+    </dl>
+
+    @*<div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Playlist</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                        @Html.LabelFor(model => model.PlaylistName, htmlAttributes: new { @class = "control-label col-md-2" })         
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PlaylistName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PlaylistName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsPublic)
+                            @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+        
+    </div>*@
 }
 
 <div>
-    @Ajax.ActionLink("Back to My Playlists", "MyPlaylists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Ajax.ActionLink("Back to My Playlists", "MyPlaylists", "Playlists", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </div>
 
 @section Scripts {
@@ -61,7 +93,7 @@
 
     if ($('#player').is(':hidden')) {
         $('#player').show();
-        @*wavesurfer.load('@Model.Path');*@
+        wavesurfer.load('@Model.Path');
         setTimeout(play, delay);
     }
 </script>

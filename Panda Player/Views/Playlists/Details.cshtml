@@ -1,4 +1,5 @@
 ﻿@model Panda_Player.Models.ViewModels.PlaylistDetailsViewModel
+@using Panda_Player.Models;
 
 @{
     ViewBag.Title = "Details";
@@ -62,15 +63,25 @@
             <ul>
                 @foreach (var song in Model.SongsInPlaylist)
                 {
-                    <li>@song.Artist - @song.Title (@Ajax.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { songId = song.Id, playlistId = Model.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }))</li>
+                    var db = new ApplicationDbContext();
+                    var currPlaylist = db.Playlists.Where(p => p.Id == Model.Id).FirstOrDefault();
+
+                    if (User.IsInRole("Admin") || currPlaylist.IsCreator(this.User.Identity.Name))
+                    {
+                        <li onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">@song.Artist - @song.Title (@Ajax.ActionLink("Delete from playlist", "DeleteFromPlaylist", new { songId = song.Id, playlistId = Model.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", InsertionMode = InsertionMode.Replace }))</li>
+                    }
+                    else
+                    {
+                        <li onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">@song.Artist - @song.Title</li>
+                    }
                 }
             </ul>
         </dd>
     </dl>
 </div>
 <p>
-    @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
-    @Ajax.ActionLink("Back My Playlists", "MyPlaylists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Ajax.ActionLink("Edit", "Edit", "Playlists", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
+    @Ajax.ActionLink("Back My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 
 <script>

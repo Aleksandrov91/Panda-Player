@@ -9,7 +9,6 @@
             plate: "action"
         }, null, `/${controller}/${action}`);
 
-        showUrl("action");
 
     }
     $(window).bind("popstate", function () {

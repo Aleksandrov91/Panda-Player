@@ -22,16 +22,16 @@
             <li id="profilePic">
                 <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; height:38px; margin-right:7px; margin-top:7px; margin-left:40px; margin-bottom: 10px" />
             </li>
-            <li>
-                @{
-                    var db = new ApplicationDbContext();
-                    var userEmail = User.Identity.GetUserName();
-                    var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
-                }
-                @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-                @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })
+            <li onclick="mapUrl('Manage', 'Index')">    
+                    @{ 
+                        var db = new ApplicationDbContext();
+                        var userEmail = User.Identity.GetUserName();
+                        var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
+                    }
+                    @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                    @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "Manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })           
             </li>
-            <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
+            <li onclick="mapUrl('Songs', 'Upload')">@Ajax.ActionLink("Upload Song", "Upload", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li onclick="mapUrl('Songs', 'MySongs')">@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li onclick="mapUrl('Playlists', 'MyPlaylists')">@Ajax.ActionLink("My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li onclick="mapUrl('Playlists', 'Create')">@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
@@ -53,5 +53,8 @@
                     }
 
 <script>
-    $('#player').hide();
+    $(document).ready(function () {
+        $('#player').hide();
+    })
+
 </script>

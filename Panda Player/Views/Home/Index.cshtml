@@ -1,7 +1,7 @@
 ﻿@model Panda_Player.Models.ViewModels.IndexViewModel
 @{
     ViewBag.Title = "Home Page";
-    var playlists = (List<Panda_Player.Models.PandaPlayer.Playlist>)ViewBag.Playlists ?? new List<Panda_Player.Models.PandaPlayer.Playlist>();
+
     if (Request.IsAjaxRequest())
     {
         Layout = null;
@@ -24,12 +24,12 @@
                 <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:150px; height:150px;" class="img-responsive">
                 <h4 class="media-title">@playlist.PlaylistName</h4>
             </a>
-            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", OnSuccess = "success" }, new { @class = "btn btn-default" })
+            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
         </div>
     }
 </div>
 <div class="pull-right">
-    @Ajax.ActionLink("View All", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+    @Ajax.ActionLink("View All", "List", "Home", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
 </div>
 <br />
 
@@ -45,7 +45,7 @@
                     <h4 class="media-title">@song.Artist - @song.Title</h4>
                 </a>
                 <div>
-                    <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+                    @Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
                     @if (User.Identity.IsAuthenticated)
                 {
                         <div class="dropdown">
@@ -56,7 +56,7 @@
                             <ul class="dropdown-menu">
                                 @foreach (var playlist in Model.UserPlaylists)
                                 {
-                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", OnSuccess = "success" })</li>
+                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" })</li>
                                 }
                                 <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
                             </ul>
@@ -78,7 +78,15 @@
         @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
     </div>
 </div>
+<<<<<<< .mine
 
+
+
+=======
+<div class="pull-right">
+    @Ajax.ActionLink("View All", "List", "Home", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
+</div>
+>>>>>>> .theirs
 <br />
 
 <script>
