@@ -71,29 +71,7 @@ body {
     color: white;
     padding-left: 15px;
     font: 15px rationale, helvetica, arial, freesans, clean, sans-serif;
-    /*margin: 20px auto;
-         position: relative;
-  margin: 0;
-  padding-bottom: 6rem;
-  min-height: 100%;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-    */
-    /*text-align: center;*/
 }
-
-/*
-#waveform {
-    background: rgba(0,0,0,0.8);
-    opacity: 0.9;
-    border: 1px, solid;
-    border-color: lightgreen;
-    border-radius: 5px;
-    min-width:  100%;
-    position: center;
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
-}
-*/
 
 .container, navbar navbar-default navbar-fixed-top {
     border: none;
@@ -114,6 +92,7 @@ body {
 
 h1 {
     margin: 5px;
+    text-align: center;
 }
 
 h2 {
@@ -124,14 +103,11 @@ h2 {
 h3 {
     font-size: 14px;
     font-weight: bold;
+    color: rgb(34, 139, 34);
     margin: 10px;
     margin: auto;
 }
 
-h4,
-.h4 {
-    font-size: 1em;
-}
 
 .menu-valenti-footer-menu li a {
     font-size: 0.5em;
@@ -179,9 +155,9 @@ li {
     margin: 5px 0px;
 }
 
-    li:hover, li.active {
-        font-weight: bold;
-    }
+li:hover, li.active {
+    font-weight: bold;
+}
 
 /*Playlist SIDEBAAAAR*/
 #sidebar-wrapper {
@@ -254,18 +230,41 @@ h6,
 }
 
 
+#loginButton {
+    margin: 0;
+    margin-left: 20px;
+    align-self: center;
+    position: relative;
+    color: rgb(64, 153, 64);
+    font-weight: bold;
+}
+
+#loginButton :hover {
+    background-color: rgb(64, 153, 64);
+    font-weight: bold;
+    color: white;
+}
+
 #regButton {
     margin: 0;
     margin-left: 20px;
     align-self: center;
     position: relative;
+    color: rgb(64, 153, 64);
+    font-weight: bold;
+}
+
+#regButton :hover {
+    background-color: rgb(64, 153, 64);
+    font-weight: bold;
+    color: white;
 }
 
 #menu-valenti-footer-menu {
     text-decoration: none;
 }
 
-a:link {
+}a:link {
     text-decoration: none;
     font-size: 0.8em;
 }
@@ -312,11 +311,6 @@ a:active {
     margin-left: -45px;
 }
 
-#regButton :hover {
-    background-color: greenyellow;
-    color: greenyellow;
-}
-
 .dropdown-menu li a:hover {
     background-color: darkgreen;
 }
@@ -345,10 +339,10 @@ a:active {
     display: inline-block;
 }
 
-    .container-fluid > * {
-        display: inline-block;
-        text-align: center;
-    }
+.container-fluid > * {
+    display: inline-block;
+    text-align: center;
+}
 
 .navbar-brand {
     display: inline-block;
@@ -393,17 +387,55 @@ footer {
 }
 
 .btn {
-    background: transparent;
-    padding: 10px;
+    background: transparent;            /*HERE*/
+    color: white;
+    padding: 5px;
 }
 
-    .btn:hover {
+.btn:hover {
+background-color: rgb(64, 153, 64);
+font-weight: bold;
+color: white;
+
+}
+
+.btn:current {
+background: transparent;
+}
+
+
+.btn btn-primary {
+background: transparent;
+color: white;
+padding: 5px;
+}
+
+.btn btn-primary:hover {
+    background-color: rgb(64, 153, 64);
+    font-weight: bold;
+    color: white;
+}
+
+.btn btn-primary:current {
+    background: transparent;
+}
+
+    .btn btn-default {
         background: transparent;
+        color: white;
+        padding: 5px;
     }
 
-    .btn:current {
-        background: transparent;
-    }
+        .btn btn-default:hover {
+            background-color: rgb(64, 153, 64);
+            font-weight: bold;
+            color: white;
+        }
+
+        .btn btn-default:current {
+            background: transparent;
+        }
+
 
 #playPause, #menu-toggle, #mute {
     background-color: black;
@@ -415,10 +447,12 @@ footer {
 }
 
 .media-title {
-    color: pink;
+    color: rgb(59, 132, 59);
 }
 
-.playlists-title, latest-songs-title {
+.playlists-title, .latest-songs-title, .media-title {
+    color: rgb(53, 122, 53);
+    font-weight: bold;
 }
 
 /*
@@ -458,9 +492,9 @@ body.loading {
 
     /* Anytime the body has the loading class, our
 modal element will be visible */
-    body.loading .dim {
-        display: block;
-    }
+body.loading .dim {
+    display: block;
+}
 
 .modal-open {
     overflow: scroll;
@@ -486,6 +520,21 @@ modal element will be visible */
 
 nav navbar-nav li {
     font-size: 1.2em;
+}
+
+.col-md-4{
+    margin: 0px;
+    padding: 0px;
+}
+
+.row img{
+  margin: auto;
+}
+
+.row{
+margin-top: 30px;
+margin-bottom: 50px;
+text-align:center;
 }
 
 /*style="width:910px;*/

@@ -21,7 +21,7 @@
     {
         <div class="col-md-4">
             <a>
-                <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:200px; height:200px;" class="img-responsive">
+                <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:150px; height:150px;" class="img-responsive">
                 <h4 class="media-title">@playlist.PlaylistName</h4>
             </a>
             @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body", OnSuccess = "success" }, new { @class = "btn btn-default" })
@@ -34,6 +34,7 @@
 <br />
 
 <h1 class="latest-songs-title">Last Added Songs</h1>
+
 <div class="row">
     <div class="row">
         @foreach (var song in Model.Songs)
