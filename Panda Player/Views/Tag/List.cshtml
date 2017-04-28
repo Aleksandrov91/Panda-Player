@@ -1,0 +1,33 @@
+﻿@model Panda_Player.Models.ViewModels.ListAllSongsViewModel
+@{
+    ViewBag.Title = "Tags";
+
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@Scripts.Render("~/bundles/paging")
+
+@Html.Partial("_Notifications")
+
+<h2>Tags</h2>
+
+<div id="SongDiv">
+    @Html.Partial("SongPartial")
+</div>
+
+
+<script>
+
+    if ($('#player').is(':hidden')) {
+        $('#player').show();
+        wavesurfer.load('@Model.Path');
+        setTimeout(play, delay);
+    }
+</script>
