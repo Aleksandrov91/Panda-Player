@@ -1,6 +1,8 @@
-﻿using Panda_Player.Extensions;
+﻿using Microsoft.AspNet.Identity;
+using Panda_Player.Extensions;
 using Panda_Player.Models;
 using Panda_Player.Models.PandaPlayer;
+using Panda_Player.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,6 +21,7 @@ namespace Panda_Player.Controllers
 
 
         // GET: Tag
+        [HttpGet]
         public ActionResult List(int? id)
         {
             if (id == null)
@@ -36,8 +39,18 @@ namespace Panda_Player.Controllers
                      .Songs
                      .ToList();
 
-                return View(songs);
+                var currentUser = this.User.Identity.GetUserId();
+                var userPlaylists = db.Playlists
+                .Where(a => a.Creator.Id == currentUser)
+                .ToList();
 
+                var model = new ListAllSongsViewModel
+                {
+                    Songs = songs,
+                    UserPlaylists = userPlaylists,
+                };
+
+                return View(model);
             }
         }
     }
