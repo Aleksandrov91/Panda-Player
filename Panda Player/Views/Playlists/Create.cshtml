@@ -13,6 +13,8 @@
     }
 }
 
+@Html.Partial("_Notifications")
+
 <h2>Create</h2>
 
 @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
@@ -50,7 +52,7 @@
 }
 
 <div>
-    @Ajax.ActionLink("Back to My Playlists", "MyPlaylists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Ajax.ActionLink("Back to My Playlists", "MyPlaylists", "Playlists", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </div>
 
 @section Scripts {
@@ -61,7 +63,7 @@
 
     if ($('#player').is(':hidden')) {
         $('#player').show();
-        @*wavesurfer.load('@Model.Path');*@
+        wavesurfer.load('@Model.Path');
         setTimeout(play, delay);
     }
 </script>

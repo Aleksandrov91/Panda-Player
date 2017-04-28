@@ -35,12 +35,12 @@
                     <ul class="nav navbar-nav" style="margin-top:20px; padding-left:300px; font-size:1.2em">
                         <li>
                             @using (Ajax.BeginForm("Search", null,
-new AjaxOptions
-{
-    HttpMethod = "POST",
-    UpdateTargetId = "body",
-    InsertionMode = InsertionMode.Replace,
-}, new { id = "searchForm", }))
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "body",
+                InsertionMode = InsertionMode.Replace,
+            }, new { id = "searchForm", }))
                             {
                                 <input type="text" id="searchBar" name="query" placeholder="Search" oninput="$('#searchForm').submit()" />
                                 <div id="searchOptions">
@@ -50,14 +50,14 @@ new AjaxOptions
                             }
                         </li>
                         <li>
-                            @Ajax.ActionLink("Genres", "Genres", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                            @Ajax.ActionLink("Genres", "Genres", "Home", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                         </li>
                         <li>
-                            @Ajax.ActionLink("Songs", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                            @Ajax.ActionLink("Songs", "List", "Home", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>
                         <li>
-                            @Ajax.ActionLink("Playlists", "List", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+                            @Ajax.ActionLink("Playlists", "List", "Home", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>
                         <li class="searchbar-container">
@@ -77,17 +77,6 @@ new AjaxOptions
     </div>
 
     <div class="container body-content">
-
-        @{
-            var controller = ViewContext.RouteData.Values["controller"].ToString();
-            var action = ViewContext.RouteData.Values["action"].ToString();
-
-            if (controller != "Account" && controller != "User" &&
-        controller != "Genre" && action != "Upload")
-            {
-
-            }
-        }
 
         <div id="player">
             @Html.Partial("Player")
@@ -111,7 +100,7 @@ new AjaxOptions
                                 <ul id="menu-valenti-footer-menu" class="menu">
                                     <h3>About</h3>
                                     <br />
-                                    <li id="menu-item-41550" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-41550">@Html.ActionLink("Home", "Index", "Home")
+                                    <li id="menu-item-41550" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-41550">@Ajax.ActionLink("Home", "Index", "Home", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                                     <li id="menu-item-41551" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-41551">@Html.ActionLink("Contact us", "", "")
                                     <li id="menu-item-41554" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-41554">@Html.ActionLink("Terms of Service", "", "")
                                     <li id="menu-item-41552" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-41552">@Html.ActionLink("Privacy Policy", "", "")

@@ -46,11 +46,6 @@ namespace Panda_Player.Controllers
                 LastPage = lastPage
             };
 
-            if (userSongs.Count == 0)
-            {
-                this.AddNotification($"You have not uploaded any songs yet.", NotificationType.INFO);
-            }
-
             return PartialView(model);
         }
 

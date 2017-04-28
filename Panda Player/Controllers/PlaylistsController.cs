@@ -23,7 +23,7 @@ namespace Panda_Player.Controllers
         public ActionResult MyPlaylists()
         {
             var currentUserId = this.User.Identity.GetUserId();
-            var userPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
+            var userPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).OrderByDescending(p => p.DateCreated).ToList();
             var playlistsPerPage = userPlaylists.Take(6).ToList();
 
             var lastPage = Math.Ceiling((decimal)userPlaylists.Count() / 6);
@@ -34,11 +34,6 @@ namespace Panda_Player.Controllers
                 LastPage = lastPage
             };
 
-            if (userPlaylists.Count == 0)
-            {
-                this.AddNotification($"You have not created any playlists yet.", NotificationType.INFO);
-            }
-
             return PartialView(playlistsModel);
         }
 
@@ -46,7 +41,7 @@ namespace Panda_Player.Controllers
         public ActionResult MyPlaylists(ListAllPlaylistsViewModel playlistsModel)
         {
             var currentUserId = this.User.Identity.GetUserId();
-            var userPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).ToList();
+            var userPlaylists = db.Playlists.Where(u => u.Creator.Id == currentUserId).OrderByDescending(p => p.DateCreated).ToList();
             var currentPagePlaylists = userPlaylists.Skip((playlistsModel.CurrentPage - 1) * 6).Take(6).ToList();
 
             playlistsModel.Playlists = currentPagePlaylists;
@@ -101,7 +96,9 @@ namespace Panda_Player.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            return View();
+            var model = new PlaylistViewModel();
+
+            return PartialView(model);
         }
 
         // POST: Playlists/Create
@@ -194,7 +191,7 @@ namespace Panda_Player.Controllers
                 db.Entry(playlistToEdit).State = EntityState.Modified;
                 db.SaveChanges();
 
-                this.AddNotification($"Succesfully edited {model.PlaylistName} playlist", NotificationType.SUCCESS);
+                this.AddNotification($"Succesfully edited {model.PlaylistName} playlist", NotificationType.INFO);
                 return RedirectToAction("MyPlaylists");
             }
 
@@ -288,11 +285,28 @@ namespace Panda_Player.Controllers
             var playlist = db.Playlists.Include(s => s.Songs).FirstOrDefault(p => p.Id == playlistId);
             var song = playlist.Songs.FirstOrDefault(s => s.Id == songId);
 
+            if (playlist == null)
+            {
+                this.AddNotification("Playlist not found!", NotificationType.ERROR);
+                return RedirectToAction("MyPlaylists");
+            }
+
+            if(song == null)
+            {
+                this.AddNotification("Song not found!", NotificationType.ERROR);
+                return RedirectToAction("MyPlaylists");
+            }
+
+            if (!IsAuthorizedToOperate(playlist))
+            {
+                this.AddNotification($"You have no permission to delete songs from {playlist.PlaylistName} playlist!", NotificationType.WARNING);
+                return RedirectToAction("MyPlaylists");
+            }
+
             playlist.Songs.Remove(song);
             db.SaveChanges();
 
-            this.AddNotification($"{song.Artist} - {song.Title} has been successfully removed from {playlist.PlaylistName}", NotificationType.WARNING);
-            //return Json(new { returnUrl = "Home/Index" });
+            this.AddNotification($"{song.Artist} - {song.Title} has been successfully removed from {playlist.PlaylistName} playlist!", NotificationType.WARNING);
 
             return RedirectToAction("MyPlaylists");
         }

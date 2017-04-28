@@ -10,18 +10,17 @@
     else
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
-        @*<script>
-            setTimeout(function () { wavesurfer.load('@Model.SongPath'); }, 1000);
-        </script>*@
     }
 
 }
 @Scripts.Render("~/bundles/paging")
+
 @Html.Partial("_Notifications")
+
 <h2>My Songs</h2>
 
 <p onclick="mapUrl('Songs', 'Upload')">
-    @Ajax.ActionLink("Upload New Song", "Upload", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Ajax.ActionLink("Upload New Song", "Upload", "Songs", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 
 

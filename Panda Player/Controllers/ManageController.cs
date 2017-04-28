@@ -398,7 +398,7 @@ namespace Panda_Player.Controllers
             }
 
             this.AddNotification("The file cannot be null", NotificationType.ERROR);
-            return View(image);
+            return RedirectToAction("Index", "Manage");
         }
 
         public ActionResult Show(IndexViewModel model)
