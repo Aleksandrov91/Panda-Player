@@ -1,9 +1,9 @@
-﻿using Panda_Player.Models.PandaPlayer;
-using System;
-using System.Collections.Generic;
-
-namespace Panda_Player.Models.ViewModels
+﻿namespace Panda_Player.Models.ViewModels
 {
+    using Panda_Player.Models.PandaPlayer;
+    using System;
+    using System.Collections.Generic;
+
     public class SongDetailsModel : BaseViewModel
     {
         public int Id { get; set; }

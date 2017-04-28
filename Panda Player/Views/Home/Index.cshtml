@@ -14,8 +14,7 @@
 }
 
 @Html.Partial("_Notifications")
-
-<h1 class="playlists">Playlists</h1>
+<h1 class="playlists-title">Latest Playlists</h1>
 
 <div class="row">
     @foreach (var playlist in Model.Playlists)
@@ -23,7 +22,7 @@
         <div class="col-md-4">
             <a>
                 <img src="/Content/Images/paw.png" alt="Playlist_Pic" style="width:200px; height:200px;" class="img-responsive">
-                <h4>@playlist.PlaylistName</h4>
+                <h4 class="media-title">@playlist.PlaylistName</h4>
             </a>
             @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
         </div>
@@ -31,11 +30,10 @@
 </div>
 <div class="pull-right">
     @Ajax.ActionLink("View All", "List", "Home", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
-
 </div>
 <br />
 
-<h1>Last Added Songs</h1>
+<h1 class="latest-songs-title">Last Added Songs</h1>
 <div class="row">
     <div class="row">
         @foreach (var song in Model.Songs)
@@ -43,7 +41,7 @@
             <div class="col-md-4">
                 <a href="#" onclick="wavesurfer.load('@song.SongPath'); setTimeout(play, delay)">
                     <img src="~/Content/Images/playlist.jpeg" alt="Playlist_Pic" style="width:304px;height:228px;" class="img-responsive">
-                    <h4>@song.Artist - @song.Title</h4>
+                    <h4 class="media-title">@song.Artist - @song.Title</h4>
                 </a>
                 <div>
                     <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>

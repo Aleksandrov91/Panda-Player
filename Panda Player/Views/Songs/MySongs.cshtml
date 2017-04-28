@@ -19,7 +19,7 @@
 
 <h2>My Songs</h2>
 
-<p>
+<p onclick="mapUrl('Songs', 'Upload')">
     @Ajax.ActionLink("Upload New Song", "Upload", "Songs", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 

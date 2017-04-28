@@ -226,6 +226,7 @@
     <Compile Include="Models\Identity\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Identity\SendCodeViewModel.cs" />
     <Compile Include="Models\PandaPlayer\Image.cs" />
+    <Compile Include="Models\PandaPlayer\LoadPlaylistSongsViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\UserBanViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\UserDetailsViewModel.cs" />
     <Compile Include="Models\Identity\VerifyCodeViewModel.cs" />

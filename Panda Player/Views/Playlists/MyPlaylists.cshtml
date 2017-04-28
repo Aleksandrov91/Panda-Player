@@ -17,7 +17,7 @@
 
 <h2>My Playlists</h2>
 
-<p>
+<p onclick="mapUrl('Playlists', 'Create')">
     @Ajax.ActionLink("Create New", "Create", "Playlists", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 
