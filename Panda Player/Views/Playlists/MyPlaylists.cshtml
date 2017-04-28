@@ -16,7 +16,7 @@
 @Html.Partial("_Notifications")
 <h2>My Playlists</h2>
 
-<p>
+<p onclick="mapUrl('Playlists', 'Create')">
     @Ajax.ActionLink("Create New", "Create", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 

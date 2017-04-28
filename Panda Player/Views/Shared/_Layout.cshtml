@@ -35,13 +35,13 @@
                     <ul class="nav navbar-nav" style="margin-top:20px;padding-left:300px">
                         <li>
                             @using (Ajax.BeginForm("Search", null,
-                            new AjaxOptions
+new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "body",
+    InsertionMode = InsertionMode.Replace,
+}, new { id = "searchForm", }))
                             {
-                                HttpMethod = "POST",
-                                UpdateTargetId = "body",
-                                InsertionMode = InsertionMode.Replace,
-                            }, new { id = "searchForm", }))
-                                                        {
                             <input type="text" id="searchBar" name="query" placeholder="Search" oninput="$('#searchForm').submit()" />
                             <div id="searchOptions">
                                 <span>@Html.RadioButton("type", "songs", true) Songs</span>
@@ -84,8 +84,9 @@
             if (controller != "Account" && controller != "User" &&
         controller != "Genre" && action != "Upload")
             {
-                
+
             }
+        }
         </div>
 
 
