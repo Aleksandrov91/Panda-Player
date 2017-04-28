@@ -13,8 +13,9 @@
     }
 }
 
-<h2>Edit</h2>
+@Html.Partial("_Notifications")
 
+<h2>Edit</h2>
 
 @using (Ajax.BeginForm( new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" }))
 {
@@ -50,7 +51,7 @@
 }
 
 <div>
-    @Ajax.ActionLink("Back to My Playlists", "MyPlaylists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Ajax.ActionLink("Back to My Playlists", "MyPlaylists", "Playlists", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </div>
 
 @section Scripts {

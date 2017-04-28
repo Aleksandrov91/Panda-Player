@@ -10,9 +10,6 @@
     else
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
-        @*<script>
-                setTimeout(function () { wavesurfer.load('@Model.SongPath'); }, 1000);
-            </script>*@
     }
 }
 
@@ -89,8 +86,8 @@
     </dl>
 </div>
 <p>
-    @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
-    @Ajax.ActionLink("Back to My Songs", "MySongs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    @Ajax.ActionLink("Edit", "Edit", "Songs", new { id = Model.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }) |
+    @Ajax.ActionLink("Back to My Songs", "MySongs", "Songs", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </p>
 
 <script>

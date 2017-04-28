@@ -14,11 +14,13 @@
 
 @Scripts.Render("~/bundles/paging")
 
+@Html.Partial("_Notifications")
+
 <h2>Genres</h2>
 
 @foreach (var genre in ViewBag.Genres)
 {
-    @Ajax.ActionLink($"{genre.Name}", "Genres", new { id = @genre.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SongDiv" })
+    @Ajax.ActionLink($"{genre.Name}", "Genres", "Home", new { id = @genre.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SongDiv" })
 }
 
 

@@ -101,7 +101,9 @@ namespace Panda_Player.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            return View();
+            var model = new PlaylistViewModel();
+
+            return PartialView(model);
         }
 
         // POST: Playlists/Create

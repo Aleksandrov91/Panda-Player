@@ -29,7 +29,7 @@
                         var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
                     }
                     @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-                    @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })           
+                    @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "Manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })           
             </li>
             <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>        
             <li onclick="mapUrl('Songs', 'MySongs')">@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
