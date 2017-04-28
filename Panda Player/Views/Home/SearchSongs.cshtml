@@ -28,3 +28,12 @@
     <input type="button" class="btn btn-primary" id="Next" value="Next" />
 
 </div>
+
+<script>
+
+    if ($('#player').is(':hidden')) {
+        $('#player').show();
+        wavesurfer.load('@Model.Path');
+        setTimeout(play, delay);
+    }
+</script>

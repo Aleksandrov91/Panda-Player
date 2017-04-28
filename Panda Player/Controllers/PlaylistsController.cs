@@ -9,10 +9,11 @@ using System.Text;
 using Panda_Player.Models.ViewModels;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Panda_Player.Controllers
 {
-    public class PlaylistsController : Controller
+    public class PlaylistsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -60,6 +61,7 @@ namespace Panda_Player.Controllers
 
             Playlist playlist = db.Playlists.Include(a => a.Songs).FirstOrDefault(a => a.Id == id);
 
+
             ConvertToM3u(playlist);
 
             if (playlist == null)
@@ -77,7 +79,17 @@ namespace Panda_Player.Controllers
                 }
             }
 
-            return View(playlist);
+            var model = new PlaylistDetailsViewModel
+            {
+                Id = playlist.Id,
+                Name = playlist.PlaylistName,
+                IsPublic = playlist.IsPublic,
+                CreatedDate = playlist.DateCreated,
+                Creator = playlist.Creator.FullName,
+                SongsInPlaylist = playlist.Songs
+            };
+
+            return View(model);
         }
 
         // GET: Playlists/Create
@@ -93,24 +105,30 @@ namespace Panda_Player.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PlaylistName,IsPublic")] Playlist playlist)
+        public ActionResult Create(PlaylistViewModel model)
         {
             if (ModelState.IsValid)
             {
                 string creatorId = this.User.Identity.GetUserId();
                 var creator = db.Users.Find(creatorId);
 
-                playlist.Creator = creator;
+                var playlist = new Playlist
+                {
+                    PlaylistName = model.PlaylistName,
+                    IsPublic = model.IsPublic,
+                    Creator = creator,
+                    DateCreated = DateTime.Now
+                };
 
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
 
-                this.AddNotification($"Successfully created {playlist.PlaylistName} playlist", NotificationType.SUCCESS);
+                this.AddNotification($"Successfully created {model.PlaylistName} playlist", NotificationType.SUCCESS);
                 return RedirectToAction("MyPlaylists");
             }
 
             this.AddNotification("Check your data and try again.", NotificationType.ERROR);
-            return View(playlist);
+            return View(model);
         }
 
         // GET: Playlists/Edit/5
@@ -210,9 +228,9 @@ namespace Panda_Player.Controllers
             db.SaveChanges();
 
             this.AddNotification("The Playlist has been deleted successfully.", NotificationType.SUCCESS);
-            return Json(new { Success = true, Url = "Playlists/MyPlaylists" });
+            return Json(new { Success = true, Url = "/Playlists/MyPlaylists" });
         }
-        
+
         public void ConvertToM3u(Playlist playlist)
         {
             var playlistSongs = playlist.Songs.ToList();

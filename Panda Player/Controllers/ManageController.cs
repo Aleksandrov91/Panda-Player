@@ -16,7 +16,7 @@ using System.IO;
 namespace Panda_Player.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private UserManager _userManager;

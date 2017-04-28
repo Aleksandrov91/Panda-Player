@@ -10,6 +10,9 @@
     else
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
+        @*<script>
+            setTimeout(function () { wavesurfer.load('@Model.SongPath'); }, 1000);
+        </script>*@
     }
 }
 
@@ -77,3 +80,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+
+    if ($('#player').is(':hidden')) {
+        $('#player').show();
+        wavesurfer.load('@Model.Path');
+        setTimeout(play, delay);
+    }
+</script>

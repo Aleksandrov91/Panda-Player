@@ -13,7 +13,7 @@
                 <h4>@playlist.PlaylistName</h4>
                 @Ajax.ActionLink(" ", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
             </a>
-            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })           
+            @Ajax.ActionLink("Details", "Details", "Playlists", new { @playlist.Id }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "body" }, new { @class = "btn btn-default" })           
             @if (User.Identity.IsAuthenticated && (playlist.IsCreator(User.Identity.Name) || this.User.IsInRole("Admin")))
             {                
                 @Ajax.ActionLink("Edit", "Edit", new { id = playlist.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })

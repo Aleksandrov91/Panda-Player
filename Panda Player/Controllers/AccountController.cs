@@ -9,9 +9,6 @@ using Panda_Player.Models;
 using Panda_Player.Models.Identity;
 using Panda_Player.Extensions;
 using System;
-using System.Configuration;
-using System.Web.Configuration;
-using System.Data.Entity;
 
 namespace Panda_Player.Controllers
 {

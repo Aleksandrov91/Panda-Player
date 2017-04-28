@@ -31,7 +31,7 @@
                     @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                     @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })           
             </li>
-            <li>@Html.ActionLink("Upload Song", "Upload", "Songs")</li>        
+            <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>        
             <li>@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
             <li>@Ajax.ActionLink("My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li>@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body"})</li>
@@ -51,3 +51,7 @@ else
         </li>
     </ul>
 }
+
+<script>
+    $('#player').hide();
+</script>

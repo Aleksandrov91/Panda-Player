@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Panda_Player.Models.ViewModels
 {
-    public class ListAllSongsViewModel
+    public class ListAllSongsViewModel : BaseViewModel
     {
         public ListAllSongsViewModel()
         {

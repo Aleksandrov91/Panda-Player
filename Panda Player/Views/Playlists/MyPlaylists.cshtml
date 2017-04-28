@@ -36,3 +36,11 @@
 <input type="hidden" id="playlistId" />
 @Html.Partial("_ModalPopup")
 
+<script>
+
+    if ($('#player').is(':hidden')) {
+        $('#player').show();
+        wavesurfer.load('@Model.Path');
+        setTimeout(play, delay);
+    }
+</script>

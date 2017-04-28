@@ -1,12 +1,10 @@
-﻿<body onload="setTimeout(play, delay)"></body>
-
-<div id="waveform">
+﻿<div id="waveform">
     <button class="btn btn-primary" onclick="wavesurfer.playPause()">
         <i class="fa fa-play-circle-o fa-lg" aria-hidden="true"></i>
-        
+
         /
         <i class="fa fa-pause-circle  fa-lg" aria-hidden="true"></i>
-       
+
     </button>
     <button id="menu-toggle" class="btn btn-primary">
         <i class="fa fa-bars  fa-lg" aria-hidden="true"></i>
@@ -16,10 +14,15 @@
 @Html.Partial("_Playlist")
 
 <script>
+    $(document).ready(function () {
+        wavesurfer.load('@ViewBag.LastSong')
+        setTimeout(play, delay)
+    });
+
     function play() {
         wavesurfer.play();
-    }
 
+    }
     var delay = 3000;
 
     setTimeout(play, delay)
