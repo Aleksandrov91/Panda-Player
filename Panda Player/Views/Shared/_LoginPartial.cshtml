@@ -3,8 +3,8 @@
 
 @if (Request.IsAuthenticated)
 {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-        {
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
@@ -22,35 +22,35 @@
             <li>
                 <img src='@Url.Action("Show", "Manage", new { id = ViewData["imageID"]})' class="img-circle" style="width:40px; height:38px; margin-right:7px; margin-top:7px" />
             </li>
-            <li onclick="mapUrl('Manage', 'Index')">    
-                    @{ 
-                        var db = new ApplicationDbContext();
-                        var userEmail = User.Identity.GetUserName();
-                        var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
-                    }
-                    @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-                    @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })           
+            <li>
+                @{
+                    var db = new ApplicationDbContext();
+                    var userEmail = User.Identity.GetUserName();
+                    var userName = db.Users.Where(u => u.Email == userEmail).Select(n => n.FullName).FirstOrDefault();
+                }
+                @*@Html.ActionLink("Hello, " + userName + "! ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                @Ajax.ActionLink("Hello, " + userName + "! ", "Index", "manage", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { TimeoutException = "Manage" })
             </li>
-            <li onclick="mapUrl('Songs', 'Upload')">@Ajax.ActionLink("Upload Song", "Upload", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>        
-            <li onclick="mapUrl('Songs', 'MySongs')">@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>          
+            <li>@Ajax.ActionLink("Upload Song", "Upload", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
+            <li onclick="mapUrl('Songs', 'MySongs')">@Ajax.ActionLink("My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li onclick="mapUrl('Playlists', 'MyPlaylists')">@Ajax.ActionLink("My Playlists", "MyPlaylists", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
-            <li onclick="mapUrl('Playlists', 'Create')">@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body"})</li>
+            <li onclick="mapUrl('Playlists', 'Create')">@Ajax.ActionLink("Create New Playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
         </ul>
-    }
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign in<span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-            </ul>
-        </li>
-    </ul>
-}
+                        }
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign in<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                                    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
 
 <script>
     $('#player').hide();
