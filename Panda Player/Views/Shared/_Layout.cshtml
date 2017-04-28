@@ -49,14 +49,14 @@
                                 </div>
                             }
                         </li>
-                        <li>
+                        <li onclick="mapUrl('Home', 'Genres')">
                             @Ajax.ActionLink("Genres", "Genres", "Home", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
                         </li>
-                        <li>
+                        <li onclick="mapUrl('Home', 'Songs')">
                             @Ajax.ActionLink("Songs", "List", "Home", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>
-                        <li>
+                        <li onclick="mapUrl('Home', 'Playlists')">
                             @Ajax.ActionLink("Playlists", "List", "Home", new { id = "Playlists" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 
                         </li>
@@ -137,7 +137,7 @@
                                     <h3>Who Are We?</h3>
                                     <br />
                                     <li id="menu-item-62861" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-62861">@Html.ActionLink("About Us", "", "")
-                                    <li id="menu-item-59976" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-59976"><a href="https://github.com/orgs/">Our GitHub</a></li>
+                                    <li id="menu-item-59976" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-59976"><a href="https://github.com/Aleksandrov91/PandaPlayer">Our GitHub</a></li>
                                     <li id="menu-item-59975" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-59975"><a href="https://softuni.bg/trainings/1511/software-technologies-february-2017">Our Course</a></li>
                                     <li id="menu-item-69402" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-69402"><a href="https://softuni.bg/">SoftUni</a></li>
                                 </ul>

@@ -186,7 +186,7 @@ li {
 /*Playlist SIDEBAAAAR*/
 #sidebar-wrapper {
     margin-left: -250px;
-    top: 135px;
+    top: 200px;
     width: 250px;
     left: 0;
     background: #000;
@@ -200,7 +200,7 @@ li {
 #wrapper.active #sidebar-wrapper {
     opacity: 0.9;
     margin-left: -250px;
-    top: 135px;
+    top: 200px;
     left: 250px;
     width: 250px;
     background: #0B0E09;
