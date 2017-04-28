@@ -14,11 +14,13 @@
 @Scripts.Render("~/bundles/paging")
 <br/>
 @Html.Partial("_Notifications")
-<h2>My Playlists</h2>
+<h2 class="myPlaylists-title">My Playlists</h2>
 
-<p onclick="mapUrl('Playlists', 'Create')">
-    @Ajax.ActionLink("Create New", "Create", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
-</p>
+<div class="addPlaylistButton">
+    <a onclick="mapUrl('Playlists', 'Create')">
+        @Ajax.ActionLink("Create New", "Create", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
+    </a>
+</div>
 
 <div id="PlaylistDiv">
     @Html.Partial("PlaylistPartial", Model)

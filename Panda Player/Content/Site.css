@@ -9,6 +9,7 @@ body {
     padding-bottom: 20px;
     color: rgb(12, 135, 77);
     background-image: url(http://www.androidguys.com/wp-content/uploads/2016/06/Black-Texture-Wallpaper-for-Desktop.jpg);
+    background-attachment: fixed;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -67,7 +68,6 @@ textarea {
 
 /*Set playlist media default css*/
 body {
-    background:;
     color: white;
     padding-left: 15px;
     font: 15px rationale, helvetica, arial, freesans, clean, sans-serif;
@@ -198,7 +198,7 @@ li:hover, li.active {
     margin-bottom: 0;
     padding-top: 9px;
     width: 16.66666667%;
-    float: left;
+    /*float: left;*/
     font-weight: bold;
     display: inline-block;
 }
@@ -262,9 +262,15 @@ h6,
 
 #menu-valenti-footer-menu {
     text-decoration: none;
+    text-align: left;
 }
 
-}a:link {
+.menu-our-team-2-container {
+    text-decoration: none;
+    text-align: right;
+}
+
+a:link {
     text-decoration: none;
     font-size: 0.8em;
 }
@@ -379,7 +385,7 @@ footer {
     left: 0;
     padding: 1em;
     background-color: #efefef;
-    width: 80%;
+    width: 1200px;
     text-align: justify;
     background: transparent;
     margin-left: auto;
@@ -450,11 +456,14 @@ padding: 5px;
     color: rgb(59, 132, 59);
 }
 
-.playlists-title, .latest-songs-title, .media-title {
+.playlists-title, .allPlaylists-title, .latest-songs-title, .media-title {
     color: rgb(53, 122, 53);
     font-weight: bold;
 }
 
+.myPlaylists-title, .mySongs-title{
+    text-align:center;
+}
 /*
     .dropdown-menu .li :hover {
         background-color: darkolivegreen;
@@ -503,6 +512,7 @@ body.loading .dim {
 .col-md-4, .col-md-4 h4 {
     width: 200px;
     text-align: center;
+    margin-right: 15px;
 }
 
 .navbar navbar-default navbar-fixed-top {
@@ -537,4 +547,12 @@ margin-bottom: 50px;
 text-align:center;
 }
 
-/*style="width:910px;*/
+#uploadASong {
+    margin-left: 0px;
+}
+
+#backButton, #addPlaylistButton, uploadASong{
+    font-size: 1.5em;
+    color: forestgreen;
+    font-weight: bold;
+}

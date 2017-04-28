@@ -72,12 +72,13 @@
                     }
                 </div>
             </div>
-        }
+        }        
+    </div>
+    <div class="pull-right">
+        @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
     </div>
 </div>
-<div class="pull-right">
-    @Ajax.ActionLink("View All", "List", new { id = "Songs" }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-primary" })
-</div>
+
 <br />
 
 <script>
