@@ -395,6 +395,7 @@
     <Content Include="Views\User\PlaylistsList.cshtml" />
     <Content Include="Views\User\PlaylistDetails.cshtml" />
     <Content Include="Views\User\BanUser.cshtml" />
+    <Content Include="Views\Tag\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -402,7 +403,6 @@
     <Folder Include="Uploads\Images\Profile Pictures\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Images\" />
-    <Folder Include="Views\Tag\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

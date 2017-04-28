@@ -78,7 +78,7 @@
         <dd>
             @foreach (var tag in Model.Tags)
             {
-                @Html.ActionLink(tag.Name, "Details", "Tag", new { @id = tag.id },
+                @Html.ActionLink(tag.Name, "List", "Tag", new { @id = tag.id },
                         new { @class = "btn btn-default btn--xs" })
             }
         </dd>

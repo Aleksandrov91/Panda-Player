@@ -44,7 +44,7 @@
                     <h4 class="media-title">@song.Artist - @song.Title</h4>
                 </a>
                 <div>
-                    <button class="btn btn-default" type="button">@Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</button>
+                    @Ajax.ActionLink("Details", "Details", "Songs", new { @song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-default" })
                     @if (User.Identity.IsAuthenticated)
                 {
                         <div class="dropdown">
@@ -55,7 +55,7 @@
                             <ul class="dropdown-menu">
                                 @foreach (var playlist in Model.UserPlaylists)
                                 {
-                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", OnSuccess = "success" })</li>
+                                    <li>@Ajax.ActionLink(playlist.PlaylistName, "AddSongToPlaylist", "Songs", new { songId = song.Id, playlistId = playlist.Id }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body" })</li>
                                 }
                                 <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
                             </ul>

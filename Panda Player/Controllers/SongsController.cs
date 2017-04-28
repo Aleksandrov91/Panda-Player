@@ -14,12 +14,12 @@ using Panda_Player.Models.ViewModels;
 
 namespace Panda_Player.Controllers
 {
-    [Authorize]
     public class SongsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpGet]
+        [Authorize]
         // GET: Songs
         public ActionResult MySongs()
         {
@@ -50,6 +50,7 @@ namespace Panda_Player.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult MySongs(ListAllSongsViewModel model)
         {
             var currentUser = this.User.Identity.GetUserId();
@@ -107,6 +108,7 @@ namespace Panda_Player.Controllers
         }
 
         // GET: Songs/Upload
+        [Authorize]
         public ActionResult Upload()
         {
             var model = new SongViewModel();
@@ -120,6 +122,7 @@ namespace Panda_Player.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         public ActionResult Upload(SongUploadViewModel song, HttpPostedFileBase file)
         {   
             if (file != null)
@@ -236,6 +239,7 @@ namespace Panda_Player.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(SongUploadEditViewModel song)
         {
@@ -268,6 +272,7 @@ namespace Panda_Player.Controllers
         }
 
         // GET: Songs/Delete/
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -301,6 +306,7 @@ namespace Panda_Player.Controllers
 
         // POST: Songs/Delete/
         [HttpPost]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             string uploadDir = Server.MapPath("~/");
@@ -331,6 +337,7 @@ namespace Panda_Player.Controllers
             return Json(new { Success = true, Url = "/Songs/MySongs" });
         }
 
+        [Authorize]
         public ActionResult AddSongToPlaylist(int songId, int playlistId)
         {
             var playlist = db.Playlists.Find(playlistId);
@@ -344,6 +351,7 @@ namespace Panda_Player.Controllers
             return Json(new { Success = true, Url = "/Songs/MySongs" });
         }
 
+        [Authorize]
         private void SetSongTagsOnUpload(Song currentSong, SongUploadEditViewModel song, ApplicationDbContext db)
         {
             if (song.Tags == null)
@@ -372,6 +380,7 @@ namespace Panda_Player.Controllers
             }
         }
 
+        [Authorize]
         private void SetSongTagsOnUpload(Song currentSong, SongUploadViewModel song, ApplicationDbContext db)
         {
             if (song.Tags == null)
@@ -408,6 +417,7 @@ namespace Panda_Player.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool IsAuthorizedToOperate(Song song)
         {
