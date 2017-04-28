@@ -22,13 +22,8 @@
     <h4>Playlist</h4>
     <hr />
 
-    @*This button Load M3u file with current playlist from player.js *@
-    <button class="btn btn-primary playlist">
-        <i class="fa fa-play-circle-o" aria-hidden="true"></i>
-        Load Playlist
-    </button>
-    <dl class="dl-horizontal">
 
+    <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -76,6 +71,18 @@
                     }
                 }
             </ul>
+            <div class="row">
+                <div class="col-md-4">
+                    @*This button Load M3u file with current playlist from player.js *@
+                    <button class="btn btn-primary playlist">
+                        <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                        Load Playlist
+                    </button>
+                </div>
+            </div>
+        </dd>
+        <dd>
+
         </dd>
     </dl>
 </div>

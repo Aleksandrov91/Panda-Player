@@ -501,16 +501,18 @@ body.loading {
 
     /* Anytime the body has the loading class, our
 modal element will be visible */
-body.loading .dim {
-    display: block;
-}
+    body.loading .dim {
+        display: block;
+    }
 
 .modal-open {
     overflow: scroll;
 }
 
+
+
 .col-md-4, .col-md-4 h4 {
-    width: 200px;
+    width: 180px;
     text-align: center;
     margin-right: 15px;
 }
@@ -532,26 +534,26 @@ nav navbar-nav li {
     font-size: 1.2em;
 }
 
-.col-md-4{
-    margin: 0px;
+.col-md-4 {
+    /*margin: 0px; от тук се чупят картинките*/
     padding: 0px;
 }
 
-.row img{
-  margin: auto;
+.row img {
+    margin: auto;
 }
 
-.row{
-margin-top: 30px;
-margin-bottom: 50px;
-text-align:center;
+.row {
+    /*margin-top: 30px; от тук чупи бутоните next/previ*/
+    margin-bottom: 50px;
+    text-align: center;
 }
 
 #uploadASong {
     margin-left: 0px;
 }
 
-#backButton, #addPlaylistButton, uploadASong{
+#backButton, #addPlaylistButton, uploadASong {
     font-size: 1.5em;
     color: forestgreen;
     font-weight: bold;
