@@ -150,10 +150,10 @@ namespace Panda_Player.Controllers
 
                     bool isGenreIdValid = ValidateGenre(song.Genre);
 
-                    if (!isGenreIdValid)
+                    if (!isGenreIdValid || song.Genre == 0)
                     {
                         this.AddNotification("Invalid genre selected.", NotificationType.ERROR);
-                        return View(song);
+                        return RedirectToAction("Upload");
                     }
 
                     var currentSong = new Song

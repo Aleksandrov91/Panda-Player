@@ -60,14 +60,6 @@
                                 <li>@Ajax.ActionLink("Create new playlist", "Create", "Playlists", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })</li>
                             </ul>
                         </div>
-                        if (song.IsUploader(User.Identity.Name) || this.User.IsInRole("Admin"))
-                        {
-                            @Ajax.ActionLink("Edit", "Edit", "Songs", new { id = song.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" }, new { @class = "btn btn-warning" })
-                            @Html.Hidden("item-to-delete", "", new { @id = song.Id })
-                            <a href="#" class="btn btn-danger" onclick="ConfirmDelete(@song.Id, '@($"{song.Artist} - {song.Title}")')" data-item-description="@song.Title">
-                                <i class="glyphicon glyphicon-trash"></i>
-                            </a>
-                        }
                     }
                 </div>
             </div>
@@ -84,9 +76,11 @@
         $('#body').load(data.Url);
     }
 
-    if ($('#player').is(':hidden')) {
+    $(document).ready(function () {
+            if ($('#player').is(':hidden')) {
         $('#player').show();
         wavesurfer.load('@Model.Path');
         setTimeout(play, delay);
     }
+    })
 </script>

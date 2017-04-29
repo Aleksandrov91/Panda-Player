@@ -19,77 +19,96 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
-    <div class="form-horizontal">
-        <h2>Upload a song</h2>
-        <hr />
-        <h1>@ViewBag.Error</h1>
+    <h2>Upload a song</h2>
+    <hr />
+    <h1>@ViewBag.Error</h1>
+    <dl class="dl-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Artist, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Artist, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Artist, "", new { @class = "text-danger" })
+        
+        <dt class="col-md-2">
+            Artist *
+        </dt>
+        <dd>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Artist, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Artist, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
+        </dd>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        <dt class="col-md-2">
+            Title *
+        </dt>
+        <dd>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+        </dd>
+        
+        <dt class="col-md-2">
+            Description 
+        </dt>
+        <dd>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Genre, new { @class = "control-label col-md-2" })
-            <div class="dropdown col-md-10">
-               @Html.DropDownListFor(m => m.Genre,
+        </dd>
+       
+        <dt class="col-md-2" >
+            Genre *
+        </dt>
+        <dd>
+            <div class="form-group">
+                <div class="dropdown col-md-10" id="dropdownId">
+                    @Html.DropDownListFor(m => m.Genre,
                         new SelectList(Model.Genre, "Id", "Name"),
                         "----- Please select genre from list! -----",
                         new { @class = "btn btn-info col-md-10" })
-                @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
+        </dd>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Tags, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Tags, new { @class = "form-control" })
+        
+        <dt class="col-md-2">
+            Tags
+        </dt>
+        <dd>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Tags, new { @class = "form-control" })
+                </div>
             </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.File, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.File, new { type = "file", name = "File", accept = ".mp3,.wav,.flac,.wv" })
-                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+        </dd>
+        
+        <dt class="col-md-2">
+            File *
+        </dt>
+        <dd>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.File, new { type = "file", name = "File", accept = ".mp3,.wav,.flac,.wv" })
+                    @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Upload" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-4" id="uploadButton">
+                    <input type="submit" value="Upload" class="btn btn-default" />
+                </div>
             </div>
-        </div>
-    </div>
+        </dd>
+    </dl>
 }
 
 <div>
     @Ajax.ActionLink("Back to My Songs", "MySongs", "Songs", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "body" })
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
 
 <script>
     $('#player').hide();

@@ -67,7 +67,6 @@ textarea {
 
 /*Set playlist media default css*/
 body {
-    background:;
     color: white;
     padding-left: 15px;
     font: 15px rationale, helvetica, arial, freesans, clean, sans-serif;
@@ -487,5 +486,25 @@ modal element will be visible */
 nav navbar-nav li {
     font-size: 1.2em;
 }
+
+#body-width {
+    width: 85%;
+}
+
+.img-circle {
+    margin-left: 30px;
+}
+
+#Genre {
+    color:black;
+    background-color: deepskyblue;
+}
+
+#uploadButton {
+    margin-left: -60px;
+}
+
+
+
 
 /*style="width:910px;*/

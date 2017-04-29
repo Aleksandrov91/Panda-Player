@@ -189,11 +189,12 @@ namespace Panda_Player.Controllers
         {
             var allSongs = db.Songs.ToList();
             var allGenres = db.Genres.ToList();
+            var currentPageSong = allSongs.Take(6).ToList();
             var songsTotalPages = Math.Ceiling((decimal)allSongs.Count() / 6);
 
             var songsModel = new ListAllSongsViewModel
             {
-                Songs = allSongs,
+                Songs = currentPageSong,
                 UserPlaylists = LoggedUser(),
                 LastPage = songsTotalPages
             };

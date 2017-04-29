@@ -34,13 +34,13 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav" style="margin-top:20px; padding-left:300px; font-size:1.2em">
                         <li>
-                            @using (Ajax.BeginForm("Search", null,
-            new AjaxOptions
-            {
-                HttpMethod = "POST",
-                UpdateTargetId = "body",
-                InsertionMode = InsertionMode.Replace,
-            }, new { id = "searchForm", }))
+                            @using (Ajax.BeginForm("Search", "Home", null,
+new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "body",
+    InsertionMode = InsertionMode.Replace,
+}, new { id = "searchForm", }))
                             {
                                 <input type="text" id="searchBar" name="query" placeholder="Search" oninput="$('#searchForm').submit()" />
                                 <div id="searchOptions">
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" id="body-width">
 
         <div id="player">
             @Html.Partial("Player")
@@ -85,11 +85,9 @@
         <div id="body" class="body">
             @RenderBody()
         </div>
+        <hr />
     </div>
-
-
-
-    <hr />
+    
     <footer>
         <div class="footer row">
             <div class="widget-panel left col-sm-4">
@@ -115,9 +113,8 @@
                     <div class="widgets widgets">
                         <div id="nav_menu-19" class="widget clearfix widget_nav_menu">
                             <div class="menu-advertise-container">
+                                <h3>Contact Us</h3>
                                 <ul id="menu-advertise" class="menu list-inline">
-                                    <h3>Contact Us</h3>
-                                    <br />
                                     <li><a class="social-icon" href="https://www.facebook.com/profile.php?id=100016119730958/"> <img class="social-icon" src="\Content\Images\Logos\facebook_icon.png" alt="Facebook"></a></li>
                                     <li><a class="social-icon" href="https://www.linkedin.com/in/coding-pandas-96a1bb139/?locale=en_US/"> <img class="social-icon" src="\Content\Images\Logos\linkedin_icon.png" alt="LinkedIn"></a></li>
                                     <li><a class="social-icon" href="http://instagram.com/"> <img class="social-icon" src="\Content\Images\Logos\instagram_icon.png" alt="Instagram"></a></li>
@@ -133,9 +130,8 @@
                     <div class="widgets widgets">
                         <div id="nav_menu-20" class="widget clearfix widget_nav_menu">
                             <div class="menu-our-team-2-container">
+                                <h3>Who Are We?</h3>
                                 <ul id="menu-our-team-2" class="menu">
-                                    <h3>Who Are We?</h3>
-                                    <br />
                                     <li id="menu-item-62861" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-62861">@Html.ActionLink("About Us", "", "")
                                     <li id="menu-item-59976" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-59976"><a href="https://github.com/Aleksandrov91/PandaPlayer">Our GitHub</a></li>
                                     <li id="menu-item-59975" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-59975"><a href="https://softuni.bg/trainings/1511/software-technologies-february-2017">Our Course</a></li>
@@ -148,7 +144,6 @@
             </div>
         </div>
     </footer>
-    </div>
     @Scripts.Render("~/bundles/player")
     @RenderSection("scripts", required: false)
 </body>

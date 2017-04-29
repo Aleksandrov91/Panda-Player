@@ -43,41 +43,42 @@
                 </div>
             </div>
     </dl>
+
+    <dl class="dl-horizontal">
+        <dt>Email Adress:</dt>
+        <dd>
+            <div class="row">
+                <div class="col-md-2">
+                    @User.Identity.GetUserName()
+                </div>
+            </div>
+
+        </dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+
+        <dt>Password:</dt>
+        <dd>
+            <div class="row">
+                <div class="col-md-4">
+                    [
+                    @if (Model.HasPassword)
+                {
+                        @Html.ActionLink("Change your password", "ChangePassword")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Create", "SetPassword")
+                    }
+                    ]
+                </div>
+
+            </div>
+        </dd>
+    </dl>
 }
-<br />
-<dl class="dl-horizontal">
-    <dt>Email Adress:</dt>
-    <dd>
-        <div class="row">
-            <div class="col-md-2">
-                @User.Identity.GetUserName()
-            </div>
-        </div>
 
-    </dd>
-</dl>
-
-<dl class="dl-horizontal">
-
-    <dt>Password:</dt>
-    <dd>
-        <div class="row">
-            <div class="col-md-4">
-                [
-                @if (Model.HasPassword)
-                {
-                    @Html.ActionLink("Change your password", "ChangePassword")
-                }
-                else
-                {
-                    @Html.ActionLink("Create", "SetPassword")
-                }
-                ]
-            </div>
-
-        </div>
-    </dd>
-</dl>
 <script>
     $(document).ready(function () {
         if ($('#player').is(':hidden')) {
